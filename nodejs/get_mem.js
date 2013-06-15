@@ -7,7 +7,7 @@ var exec 			= require('child_process').exec;
 
 function puts(error, stdout, stderr) { sys.puts(stdout) }
 
-app.get('/mem_free', function(req, res){
+app.get('/mem_usage', function(req, res){
 	
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
