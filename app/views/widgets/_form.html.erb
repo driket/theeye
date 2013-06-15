@@ -21,20 +21,14 @@
     <%= f.text_field :url %>
   </div>
 	
-	<hr />
-
-	<div class="field">
+	<div class="field subform">
 	<%= f.fields_for :data_sources do |f_data_source| %>
-	<h3><%= f_data_source.object.json_url %></h3>
 	<p>
 	    <%= render :partial => "data_sources/form", :locals => { :f => f_data_source } %>
 	</p>
 	<% end %>
+	<%= f.link_to_add "add data source", :data_sources, :class => 'button add-button' %>
 	</div>
-	
-	<%= f.link_to_add "add data source", :data_sources %>
-
-	<hr />
 
   <div class="actions">
     <%= f.submit %>
