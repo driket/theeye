@@ -1,4 +1,6 @@
 Dashboard::Application.routes.draw do
+  resources :templates
+
   resources :data_sources
 
   resources :widgets

@@ -29,6 +29,15 @@
 	<% end %>
 	<%= f.link_to_add "add data source", :data_sources, :class => 'button add-button' %>
 	</div>
+	
+	<div class="field subform">
+	<%= f.fields_for :template do |f_template| %>
+	<p>
+	    <%= render :partial => "templates/form", :locals => { :f => f_template } %>
+	</p>
+	<% end %>
+	<%= f.link_to_add "add template", :template, :class => 'button add-button' %>
+	</div>
 
   <div class="actions">
     <%= f.submit %>
