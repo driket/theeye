@@ -17,6 +17,9 @@
 	
 	<div id="page">
 		<%= yield %>
+		<ul id="widgets">				
+		
+		</ul>
 	</div>
 
 	<script>
@@ -30,9 +33,15 @@
 		
 	}
 	
+	function refreshWidgets () {
+		$content = $('#test_graph_template').tmpl({'name':'name', 'service':'service'});
+		$('#widgets').append($content);
+	}
+	
 	$(document).ready(function() {
 				
 		resize_page();
+		refreshWidgets();
 		$("#widgets").sortable();
 			
 	});
@@ -45,6 +54,11 @@
 	
 	</script>
 	
+	<!-- Templates -->
+	
+	<% for template in ::Template.all %>
+		<%= render :partial => template %>
+	<% end %>
 	
 </body>
 </html>
