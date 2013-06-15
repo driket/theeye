@@ -3,7 +3,6 @@
   <% if @widget.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@widget.errors.count, "error") %> prohibited this widget from being saved:</h2>
-
       <ul>
       <% @widget.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -16,18 +15,27 @@
     <%= f.label :title %><br />
     <%= f.text_field :title %>
   </div>
+	
   <div class="field">
     <%= f.label :url %><br />
     <%= f.text_field :url %>
   </div>
 	
+	<hr />
+
+	<div class="field">
 	<%= f.fields_for :data_sources do |f_data_source| %>
 	<h3><%= f_data_source.object.json_url %></h3>
+	<p>
 	    <%= render :partial => "data_sources/form", :locals => { :f => f_data_source } %>
-			<%= f_data_source.link_to_remove "del data source", :confirm => 'Êtes vous sûr de vouloir supprimer ce contenu ?' %>
+	</p>
 	<% end %>
+	</div>
+	
 	<%= f.link_to_add "add data source", :data_sources %>
-		
+
+	<hr />
+
   <div class="actions">
     <%= f.submit %>
   </div>

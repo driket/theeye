@@ -1,10 +1,7 @@
   <div class="field">
     <%= f.label :json_url %><br />
     <%= f.text_field :json_url %>
+		<%= f.link_to_remove "del data source", :confirm => 'Êtes vous sûr de vouloir supprimer ce contenu ?' %>
   </div>
-	
-  <div class="field">
-    <%= f.label :widget_id %><br />
-    <%= f.hidden_field :widget_id %>
-  </div>
+  <%= f.hidden_field :widget_id %>
 		
