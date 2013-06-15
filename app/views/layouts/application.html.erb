@@ -2,14 +2,49 @@
 <html>
 <head>
   <title>Dashboard</title>
-	<%= stylesheet_link_tag    "application", :media => "all" %>
+	<%= stylesheet_link_tag    "application" %>
 	<%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="size-medium">
 
-<%= yield %>
+  <div id="mv-topbar">
+    <ul style="display:inline;">
+      <h1 id="mv-logo"><span class="discreet">the</span>Eye</h1>
+    </ul>
+  </div>
+  <hr style="clear:both; border:none;" />
+	
+	<div id="page">
+		<%= yield %>
+	</div>
 
-
+	<script>
+	
+	function resize_page() {
+		
+		$width = $(window).width();
+		$new_width = Math.floor($width / 230) * 230;
+		$('#page').css('width',$new_width);		
+		$('#page').css('left', '5px');		
+		
+	}
+	
+	$(document).ready(function() {
+				
+		resize_page();
+		$("#widgets").sortable();
+			
+	});
+	
+	$(window).resize(function() {
+		
+		resize_page();
+		
+	});
+	
+	</script>
+	
+	
 </body>
 </html>
