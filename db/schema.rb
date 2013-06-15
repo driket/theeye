@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130615152527) do
+ActiveRecord::Schema.define(:version => 20130615153543) do
 
   create_table "data_sources", :force => true do |t|
     t.string   "json_url"
@@ -30,13 +30,14 @@ ActiveRecord::Schema.define(:version => 20130615152527) do
     t.datetime "updated_at", :null => false
   end
 
-  add_index "templates", ["widget_id"], :name => "index_templates_on_widget_id"
-
   create_table "widgets", :force => true do |t|
     t.string   "title"
     t.string   "url"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "template_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
+
+  add_index "widgets", ["template_id"], :name => "index_widgets_on_template_id"
 
 end

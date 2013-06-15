@@ -4,6 +4,7 @@
   <tr>
     <th>Title</th>
     <th>Url</th>
+    <th>Template</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,6 +14,7 @@
   <tr>
     <td><%= widget.title %></td>
     <td><%= widget.url %></td>
+    <td><%= widget.template.uid %></td>
     <td><%= link_to 'Show', widget %> | </td>
     <td><%= link_to 'Edit', edit_widget_path(widget) %> | </td>
     <td><%= link_to 'Destroy', widget, confirm: 'Are you sure?', method: :delete %></td>
@@ -22,4 +24,6 @@
 
 <br />
 
-<%= link_to 'New Widget', new_widget_path %>
+<%= link_to 'New Widget', new_widget_path %> | 
+
+<%= link_to 'Templates', templates_path %>
