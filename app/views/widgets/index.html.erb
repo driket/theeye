@@ -13,8 +13,8 @@
   <tr>
     <td><%= widget.title %></td>
     <td><%= widget.url %></td>
-    <td><%= link_to 'Show', widget %></td>
-    <td><%= link_to 'Edit', edit_widget_path(widget) %></td>
+    <td><%= link_to 'Show', widget %> | </td>
+    <td><%= link_to 'Edit', edit_widget_path(widget) %> | </td>
     <td><%= link_to 'Destroy', widget, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
