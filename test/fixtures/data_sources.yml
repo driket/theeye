@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  json_url: MyString
+  widget: 
+
+two:
+  json_url: MyString
+  widget: 

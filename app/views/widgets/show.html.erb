@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @widget.title %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%= @widget.url %>
+</p>
+
+<% for data_source in @widget.data_sources %>
+<%="#{data_source.json_url}" %><br />
+<% end %>
+
+<%= link_to 'Edit', edit_widget_path(@widget) %> |
+<%= link_to 'Back', widgets_path %>

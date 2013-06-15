@@ -1,0 +1,23 @@
+/* widget borders color */
+.service-status-fail { border-top-color:#ff4433; }
+
+.status-ok {
+	color:#00cc00;
+}
+.status-warning {
+	color:#3399ff;
+}
+.status-alert {
+	color:#ff4433;
+}
+
+
+.status-unchanged {
+	color:#66ff66;
+}
+.status-failed {
+	color:#ff4433;
+}
+.status-changed {
+	color:#3399ff; 
+}
