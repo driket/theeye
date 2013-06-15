@@ -1,0 +1,505 @@
+<html>
+	<head>
+		<script src="/assets/jquery.1.10.1.min.js"></script>
+		<script src="/assets/jquery.ui.js"></script>
+		<script src="/assets/jquery.tmpl.min.js"></script>
+		<script src="/assets/spin.js"></script>
+		<script src="/assets/jquery.spin.js"></script>
+		<script src="/assets/jquery.flot.js"></script>
+		<script src="/assets/jquery.flot.multiple.threshold.js"></script>
+		<script src="/assets/service.cpu.tmpl.js" id="empty_template" type="text/x-jquery-tmpl"></script>
+		<script>
+			$services = { 
+				
+				'puppetdashboard':
+					{'name'    	:'Puppet Nodes',
+					 'template' :'puppetdashboard_template',
+					 'json_url'	:'http://puppetdashboard.myvitrine.com/nodes.json',
+					 'url'			:'http://puppetdashboard.myvitrine.com'
+				 },
+ 				'test-graph':
+ 					{'name'    	:'Test Graph',
+ 					 'template' :'test_graph_template',
+ 					 'json_url'	:'http://localhost:1337',
+ 					 'url'			:''
+ 				 },
+				 'mv1_mem':
+ 					{'name'    	:'MV1 Memory Usage',
+				 	 'template' :'memory_usage_template', 
+ 					 'json_url'	:'http://probe.myvitrine.com/check_top_mem',
+ 					 'url'			:'#'
+ 				 },
+				 'mv1_cpu':
+ 					{'name'    	:'MV1 CPU Usage',
+				 	 'template' :'cpu_usage_template', 
+ 					 'json_url'	:'http://probe.myvitrine.com/check_top_cpu',
+ 					 'url'			:'http://probe.myvitrine.com'
+ 				 }
+				
+			};
+		</script>
+		<link rel="stylesheet" type="text/css" href="dashboard.css">
+		<link rel="stylesheet" type="text/css" href="thm-dark.css"> 
+	</head>
+	<body class="size-medium">
+		<iframe src="http://dashboard.myvitrine.com/mv_menubar.html" width="100%" height="30px" style="margin:0; padding:0; border:none;" style="background:#222;"></iframe>
+		<div id="page">
+			<h1>Tableau de bord</h1>
+			<!-- ><p>This is the default web page for this server.</p>
+			<p>The web server software is running but no content has been added, yet.</p>
+				-->
+			<ul id="widgets">				
+				
+				<li class="widget">
+					<div class="card">
+						<div class="face face-simple-view">
+							<div class="widget-content">
+								<h1 class="status-ok"><span>76</span><span class="discreet">%</span></h1>
+								<h2>Widget Title</h2>
+							</div> <!-- end content -->
+						</div> <!-- end face simple view -->
+						<div class="face face-detail-view">
+							<div class="widget-content">
+								<h2><a href="">Widget Title</a></h2>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+							</div> <!-- end content -->
+						</div>  <!-- end face detail view -->
+					</div> <!-- end card -->
+				</li> <!-- end widget -->
+				
+				<!-- 
+				<li class="widget inactive">
+					<h2><a href="">Widget Title</a></h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</li>
+				<li class="widget inactive">
+					<h2><a href="">Widget Title</a></h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</li>
+				<li class="widget inactive">
+					<h2><a href="">Widget Title</a></h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</li>
+				<li class="widget inactive">
+					<h2><a href="">Widget Title</a></h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</li>
+					-->
+			</ul>
+		</div>
+		
+		<script id="empty_template" type="text/x-jquery-tmpl">
+		<li id="${ name }_widget" class="widget">
+			<div class="card">
+				<div class="face face-simple-view">
+					<div class="widget-content">
+						<h1 class="status-ok"><span>--</span></h1>
+						<h2><a href="${ service.url }">${ service.name }</a></h2>
+					</div> <!-- end content -->
+				</div> <!-- end face simple view -->
+				<div class="face face-detail-view">
+					<div class="widget-content">
+						<h2><a href="${ service.url }">${ service.name }</a></h2>
+					</div> <!-- end content -->
+				</div>  <!-- end face detail view -->
+			</div> <!-- end card -->
+		</li> <!-- end widget -->
+		</script>
+		
+		<script>
+			function test_graph_template_did_appear(data) {
+
+				$service_warning			= false;
+				$service_alert				= false;
+				
+				$value = parseInt(Math.random() * 30 - 10);
+				
+				if ($value > 15)
+						$service_alert = true;
+				else if ($value > 10)
+						$service_warning = true;
+				
+				if (window['graph1_data'] == null)
+					window['graph1_data'] = [];
+
+				if (window['graph1_data'].length > 10) {
+					window['graph1_data'].shift();
+				}
+
+				$now = new Date();
+		    window['graph1_data'].push([$now, 
+															 			$value]);
+										
+				$.plot($(".plot-chart"), [ {
+		      data: window['graph1_data'],
+		      color: "#ffffff",
+		      constraints: [
+						{
+							threshold: 15,
+						  color: "#ff4433",
+							evaluate : function(y,threshold){ return y > threshold; }
+						},
+						{ 
+							threshold: 10,
+							color: "#888888",
+							evaluate : function(y,threshold){ return y < threshold; }
+						}
+					]
+				} ]);
+				
+				if ($service_alert)
+					return 'alert'
+				else if ($service_warning)
+					return 'warning'
+				else
+					return 'ok'
+			}
+		</script>
+		<script id="test_graph_template" type="text/x-jquery-tmpl">
+		<li class="widget">
+			<div class="card">
+				<div class="face face-simple-view">
+					<div class="widget-content">
+						<h1 class="status-ok"><span>76</span><span class="discreet">%</span></h1>
+						<h2>Widget Title</h2>
+						<div class="plot-chart" style="width:140px; height:50px; margin-left:auto;margin-right:auto; margin-top:5px; position:relative; left:-10px;"></div>
+					</div> <!-- end content -->
+				</div> <!-- end face simple view -->
+				<div class="face face-detail-view">
+					<div class="widget-content">
+						<h2><a href="">Widget Title</a></h2>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+					</div> <!-- end content -->
+				</div>  <!-- end face detail view -->
+			</div> <!-- end card -->
+		</li> <!-- end widget -->
+		</script>
+		
+		<script>
+			function puppetdashboard_template_function(data) {
+				
+				$service_warning			= false;
+				$service_alert				= false;
+				
+				$.each(data, function(name,service) {
+					if (service.status == 'failed')
+						$service_alert = true;
+					else if (service.status == 'changed')
+						$service_warning = true;
+				});
+				
+				if ($service_alert)
+					return 'alert'
+				else if ($service_warning)
+					return 'warning'
+				else
+					return 'ok'
+			}
+		</script>
+		<script id="puppetdashboard_template" type="text/x-jquery-tmpl">		
+		<li id="${ name }_widget" class="widget detail">
+			<div class="card">
+				<div class="face face-simple-view">
+					<div class="widget-content">
+						<h1 class="status-ok"><span>14</span><span class="discreet"></span></h1>
+						<h2>Puppet reports</h2>
+					</div> <!-- end content -->
+				</div> <!-- end face simple view -->
+				<div class="face face-detail-view">
+					<div class="widget-content">
+					  <ul>
+						<table>
+						<thead><td>Host</td><td>status</td></thead>
+							{{if data.length==0}}
+							  <p>Aucun rapport</p>
+							{{else}}
+								{{each(i,service) data}}
+								<tr><td>${service.name}</td><td class="value status-${ service.status }">${service.status}</td></tr>
+								{{/each}}
+							{{/if}}
+						</table>
+						</ul>
+					</div> <!-- end content -->
+				</div>  <!-- end face detail view -->
+			</div> <!-- end card -->				
+		</li> <!-- end widget -->
+	</script>
+	
+	<script>
+		function memory_usage_template_will_appear(data) {
+
+			$warning_threshold 		= 90;
+			$alert_threshold 			= 91;
+			$service_warning			= false;
+			$service_alert				= false;
+			
+			// format mem usage in percent
+			data.mem.used 		= parseFloat(data.mem.used.replace('k', ''))
+			data.mem.total		= parseFloat(data.mem.total.replace('k', ''))
+			data.mem.percent 	= Math.round((data.mem.used / data.mem.total)*100)
+
+			data.mem.buffers 		= Math.round(data.mem.buffers.replace('k', '') / 1000)
+			data.swap.cached 		= Math.round(data.swap.cached.replace('k', '') / 1000)
+
+			// add mem usage alert if above threshold
+			if (data.mem.percent >= $warning_threshold) {
+				data.mem.status 	= 'status-warning'
+				$service_warning	= true;
+			}
+			if (data.mem.percent >= $alert_threshold) {
+				data.mem.status 	= 'status-alert'
+				$service_alert 		= true
+			}
+		
+			// format swap usage in percent
+			$swap_used = parseFloat(data.swap.used.replace('k', ''))
+			$swap_total = parseFloat(data.swap.total.replace('k', ''))
+			data.swap.percent = Math.round(($swap_used / $swap_total)*100)
+
+			if ($service_alert)
+				return 'alert'
+			else if ($service_warning)
+				return 'warning'
+			else
+				return 'ok'
+		}
+	</script>
+	<script id="memory_usage_template" type="text/x-jquery-tmpl">
+	<li id="${ name }_widget" class="widget">
+		<div class="card">
+			<div class="face face-simple-view">
+				<div class="widget-content">
+					<h1 class="${ data.mem.status }"><span >${ data.mem.percent }</span><span class="discreet">%</span></h1>
+					<h2><a href="${ service.url }">${ service.name }</a></h2>
+				</div> <!-- end content -->
+			</div> <!-- end face simple view -->			
+			<div class="face face-detail-view">
+				<div class="widget-content">
+				<h2><a href="${ service.url }">${ service.name }</a></h2>
+				  <ul>
+						<li>Mem usage
+							<span class="value ${ data.mem.status }">${ data.mem.percent } %</span>
+						</li>
+						<li>Swap usage
+							<span class="value">${ data.swap.percent } %</span>
+						</li>
+						<li>Mem buffers  		
+							<span class="value">${ data.mem.buffers } Mo</span>
+						</li>
+						<li>Swap cached  		
+							<span class="value">${ data.swap.cached } Mo</span>
+						</li>
+				  </ul>
+					<br />
+					<table>
+					<thead><td>Command</td><td>time</td><td>mem</td></thead>
+						{{if data.procs.length==0}}
+						  <p>Aucun process</p>
+						{{else}}
+							{{each(i,proc) data.procs}}
+							<tr><td>${proc.command}</td><td>${proc.time}</td><td>${proc.mem}%</td></tr>
+							{{/each}}
+						{{/if}}
+					</table>
+					</div> <!-- end content -->
+				</div>  <!-- end face detail view -->
+			</div> <!-- end card -->
+		</li> <!-- end widget -->	
+	</li>
+	</script>
+		
+	<script>
+		function cpu_usage_template_will_appear(data) {
+
+			$warning_threshold 		= 80;
+			$alert_threshold 			= 90;
+			$service_warning			= false;
+			$service_alert				= false;
+			
+			data.cpu.us = data.cpu.us.replace('%us,','')
+			data.cpu.sy = data.cpu.sy.replace('%sy,','') 
+			data.cpu.ni = data.cpu.ni.replace('%ni,','')
+			data.cpu.us = data.cpu.us.replace('%us,','')
+			data.cpu.id = data.cpu.id.replace('%id,','')
+			data.cpu.wa = data.cpu.wa.replace('%wa,','')
+			data.cpu.hi = data.cpu.hi.replace('%hi,','')
+			data.cpu.si = data.cpu.si.replace('%si,','')
+			data.cpu.st = data.cpu.st.replace('%st,','')
+			
+			data.cpu.total = parseFloat(data.cpu.us) + parseFloat(data.cpu.sy)
+			data.cpu.total = Math.round(data.cpu.total*100) / 100
+
+			// add mem usage alert if above threshold
+			if (data.cpu.total >= $warning_threshold) {
+				data.cpu.status 	= 'status-warning'
+				$service_warning	= true;
+			}
+			if (data.cpu.total >= $alert_threshold) {
+				data.cpu.status 	= 'status-alert'
+				$service_alert 		= true
+			}
+			
+			if ($service_alert)
+				return 'alert'
+			else if ($service_warning)
+				return 'warning'
+			else
+				return 'ok'
+			
+		}
+	</script>
+	<script id="cpu_usage_template" type="text/x-jquery-tmpl">
+	<li id="${ name }_widget" class="widget">
+		<div class="card">
+			<div class="face face-simple-view">
+				<div class="widget-content">
+					<h1 class="${ data.cpu.status }"><span >${ data.cpu.total }</span></h1>
+					<h2><a href="${ service.url }">${ service.name }</a></h2>
+				</div> <!-- end content -->
+			</div> <!-- end face simple view -->			
+			<div class="face face-detail-view">
+				<div class="widget-content">
+					<h2><a href="${ service.url }">${ service.name }</a></h2>
+				  <ul>
+						<li>Cpu usage (us + sy)
+							<span class="value ${ data.cpu.status }">${ data.cpu.total } %</span>
+						</li>
+						<li>Cpu idle
+							<span class="value">${ data.cpu.id } %</span>
+						</li>
+						<li>Cpu user nice
+							<span class="value">${ data.cpu.ni } %</span>
+						</li>
+						<li>Cpu io wait
+							<span class="value">${ data.cpu.wa } %</span>
+						</li>
+				  </ul>
+					<br />
+					<table>
+					<thead><td>Command</td><td>time</td><td>cpu</td></thead>
+						{{if data.procs.length==0}}
+						  <p>Aucun process</p>
+						{{else}}
+							{{each(i,proc) data.procs}}
+							<tr><td>${proc.command}</td><td>${proc.time}</td><td>${proc.cpu}%</td></tr>
+							{{/each}}
+						{{/if}}
+					</table>
+					</div> <!-- end content -->
+				</div>  <!-- end face detail view -->
+			</div> <!-- end card -->
+		</li> <!-- end widget -->	
+	</script>
+	
+	</body>
+	
+	<script>
+	
+	function fetchServices () {
+		
+		// list all service 
+		$.each($services, function(name,service) {
+			
+			// if widget doesn't exist, create an empty one
+			if ($('#'+name+'_widget').length == 0) {
+				$content = $('#empty_template').tmpl({'name':name, 'service':service});
+				$('#widgets').append($content);
+			}
+
+			// display activity indicator while loading
+			$('#'+name+'_widget').spin('large','#888');
+			
+			// fetch ajax data
+			$.getJSON(service['json_url'])
+			.done(function(json) {
+				
+				$status = '';
+				
+				// call template function
+				$function_name = service["template"]+'_will_appear'
+				if(typeof $function_name == 'function')
+				$status = window[$function_name](json);
+				
+				// prepare variable
+				var liste = {'name':name, 'service':service, 'data': json};
+				
+				// get template rendering with variable
+				$content = $('#' + service["template"]).tmpl(liste);
+				
+				// stop spinning
+				$('#'+name+'_widget').spin(false);
+				
+				// update content
+				$('#'+name+'_widget').replaceWith($content);
+				
+				// call template function
+				$function_name = service["template"]+'_did_appear'
+				if(typeof $function_name == 'function')
+				$status = window[$function_name](json);
+
+				// update js bind (flip effect)
+				refresh_widget_js_bind()
+				
+				// add alert/warning status
+				if ($status == 'alert')
+					$('#'+name+'_widget').addClass('service-status-alert');
+				else if ($status == 'warning')
+					$('#'+name+'_widget').addClass('service-status-warning');				
+			})
+			.fail(function( ) {
+				$error_content = "<p>impossible de se connecter au service.</p>";
+				$('#'+name+'_widget').find('.widget-content').html($error_content);
+				$('#'+name+'_widget').addClass('service-status-fail');
+				$('#'+name+'_widget').spin(false);
+				
+			});
+			
+		});
+	}
+	
+	function resize_page() {
+		$width = $(window).width();
+		$new_width = Math.floor($width / 230) * 230;
+		$('#page').css('width',$new_width);		
+		$('#page').css('left', '5px');		
+	}
+	
+	function refresh_widget_js_bind() {
+		$(".widget").unbind();
+		
+		$('.widget').on('click', function(event,value) {
+			//$('.widget').removeClass('flipped');
+			//$(this).find('.card').addClass('flipped').on('mouseleave', function(event,value) {
+			//	$(this).removeClass('flipped');
+			//});
+			$card = $(this).find('.card');
+			if ($($card).hasClass('flipped'))
+				$($card).removeClass('flipped');
+			else
+				$($card).addClass('flipped');
+				
+			return false;
+		});
+	}
+		
+	$(document).ready(function() {
+				
+		fetchServices();
+		resize_page();
+		$("#widgets").sortable();
+		refresh_widget_js_bind();
+		
+		setInterval(function(){fetchServices()}, 5000);
+		
+	
+	});
+	
+	$(window).resize(function() {
+		
+		resize_page();
+	});
+	
+
+	</script>
+	
+</html>

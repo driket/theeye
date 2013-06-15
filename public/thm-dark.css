@@ -1,0 +1,64 @@
+body {
+	background: #333;
+	color: #888;
+}
+
+h1 { color: #bbb; }
+
+.card {
+	background: #444;
+	border-top:6px solid #ccc;
+	box-shadow: 0px 3px 8px rgba(0,0,0, 0.4);
+	
+}	
+.widget.inactive .card {
+	border-top:6px solid #666;	
+}
+
+.face-simple-view h2 a{
+	color: #888;
+}
+
+.face-detail-view h2 a{
+	color: #aaa;	
+}
+
+.widget.inactive h2 a {
+	color: #888;
+}
+
+/* widget borders color */
+.service-status-fail .card			{ border-top-color: #ff4433; }
+.service-status-warning .card		{ border-top-color: #ffffff; }
+.service-status-alert .card 		{ border-top-color: #ff4433; }
+
+/*
+.status-ok {
+	color:#00cc00;
+}
+
+.status-unchanged {
+	color:#66ff66;
+}
+*/
+
+.status-warning {
+	color:#ccc;
+}
+
+.status-alert {
+	color:#ff5544;
+}
+
+.status-changed {
+	color:#aaa;
+}
+
+.status-failed {
+	color:#ff5544;
+}
+/*
+.status-changed {
+	color:#3399ff; 
+}
+*/
