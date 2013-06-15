@@ -46,6 +46,9 @@ GEM
     jquery-rails (3.0.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    jquery-ui-rails (4.0.3)
+      jquery-rails
+      railties (>= 3.1.0)
     json (1.8.0)
     mail (2.4.4)
       i18n (>= 0.4.0)
@@ -107,6 +110,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
   jquery-rails
+  jquery-ui-rails
   nested_form
   pg (= 0.12.2)
   rails (= 3.2.1)

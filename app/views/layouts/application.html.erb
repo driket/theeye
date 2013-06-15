@@ -17,12 +17,60 @@
 	
 	<div id="page">
 		<%= yield %>
-		<ul id="widgets">				
-		
-		</ul>
 	</div>
 
 	<script>
+	
+	$widgets = {
+		<% for widget in ::Widget.all %>
+		'widget-<%= widget.id %>'	: {
+			'title' 		: '<%= widget.title %>',
+			'url'				: 'http://google.com',
+			'template' 	: '<%= widget.template.uid %>'
+		},
+		<% end %>
+	}
+	
+	function refreshWidgets () {
+		$.each($widgets, function(name, widget) {
+		
+			$template = $('#'+widget.template);
+			$template_variables = {	
+															'name'		: name,
+															'widget'	: widget
+														}
+			$content = $($template).tmpl($template_variables);
+			$('#widgets').append($content);
+			
+		});
+	}
+	
+	function refresh_widget_js_bind() {
+		$(".widget").unbind();
+		
+		$('.widget').on('click', function(event,value) {
+			//$('.widget').removeClass('flipped');
+			//$(this).find('.card').addClass('flipped').on('mouseleave', function(event,value) {
+			//	$(this).removeClass('flipped');
+			//});
+			$card = $(this).find('.card');
+			if ($($card).hasClass('flipped'))
+				$($card).removeClass('flipped');
+			else
+				$($card).addClass('flipped');
+				
+			return false;
+		});
+	}
+	
+	$(document).ready(function() {
+				
+		resize_page();
+		refreshWidgets();
+		refresh_widget_js_bind();
+		$("#widgets").sortable();
+			
+	});
 	
 	function resize_page() {
 		
@@ -32,19 +80,6 @@
 		$('#page').css('left', '5px');		
 		
 	}
-	
-	function refreshWidgets () {
-		$content = $('#test_graph_template').tmpl({'name':'name', 'service':'service'});
-		$('#widgets').append($content);
-	}
-	
-	$(document).ready(function() {
-				
-		resize_page();
-		refreshWidgets();
-		$("#widgets").sortable();
-			
-	});
 	
 	$(window).resize(function() {
 		

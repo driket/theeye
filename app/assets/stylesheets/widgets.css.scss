@@ -9,9 +9,11 @@
 	width:100%;
 	margin-left:auto;
 	margin-right:auto;
+	float:left; clear:both;
 }
 
 .widget {
+	list-style:none;
 	font-family:Arial, Sans serif;
 	font-size: 12px;
 	float: left;
@@ -26,10 +28,6 @@
 	width: 220px;
 	min-height:186px;
 	padding:20px;
-	background-color:#eee;
-	border-top:6px solid #333;
-	box-shadow: 0px 3px 8px rgba(0,0,0, 0.4),
-				inset	0px 3px 2px rgba(255,255,255, 1);
 	border-radius: 3px;
 }
 
@@ -79,20 +77,20 @@
 
 
 /* minimal view  */
-.face-simple-view h1 {
+.face-simple-view h3 {
 	margin-top:40px;
 	text-align:center;
 }
-.face-simple-view h1 span {
+.face-simple-view h3 span {
 	font-family:Helvetica Neue, Arial Sans serif;
 	font-weight:200;
 	font-size: 55px;
 	letter-spacing: 6px;
 }
-.face-simple-view h1 span.discreet {
+.face-simple-view h3 span.discreet {
 	opacity: 0.5;
 }
-.face-simple-view h2 {
+.face-simple-view h4 {
 	font-family:Helvetica Neue, Arial Sans serif;
 	font-weight:200;
 	letter-spacing:2px;
@@ -117,16 +115,8 @@
 
 }
 
-.widget.inactive {
-	border-top:6px solid #aaa;	
-}
-
-.widget.inactive h2 a {
-	color:#888;
-}
 .widget h2 a {
 	text-decoration:none;
-	color:#333;
 }
 
 .widget .value {
