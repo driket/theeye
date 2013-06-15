@@ -1,4 +1,6 @@
 Dashboard::Application.routes.draw do
+  resources :data_sources
+
   resources :widgets
 
   # The priority is based upon order of creation:
