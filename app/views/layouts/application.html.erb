@@ -90,15 +90,18 @@
 	
 	</script>
 	
-	<!-- code highlight 
-	http://softwaremaniacs.org/soft/highlight/en/
+	<!-- codemirror 
+		http://codemirror.net
 	-->
 	
 	<script>
-		hljs.initHighlightingOnLoad();
-		$('pre code').each(function(i, e){
-			hljs.highlightBlock(e)
-		});	
+	
+		var editor = CodeMirror.fromTextArea(document.getElementById("template_body"), {
+			mode: 'xml', 
+			tabMode: "indent"
+		});
+		editor.setOption("theme", 'ambiance');
+	
 	</script>
 	
 	<!-- Templates -->

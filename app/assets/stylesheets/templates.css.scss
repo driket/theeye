@@ -3,6 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .plot-chart {
+	
 	width:140px; 
 	height:50px; 
 	margin-left:auto;
@@ -10,4 +11,11 @@
 	margin-top:5px; 
 	position:relative; 
 	left:-10px;
+}
+
+.html5-textarea {
+	
+	background:#222; 
+	overflow:scroll; 
+	outline:0px solid transparent;
 }

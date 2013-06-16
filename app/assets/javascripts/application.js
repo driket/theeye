@@ -15,4 +15,9 @@
 //= require jquery.ui.all
 //= require jquery_ujs
 //= require jquery_nested_form
+//= require codemirror
+//= require codemirror/modes/htmlmixed
+//= require codemirror/modes/htmlembedded
+//= require codemirror/modes/xml
+//= require codemirror/modes/javascript
 //= require_tree .
