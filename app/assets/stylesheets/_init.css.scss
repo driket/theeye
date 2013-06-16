@@ -1,2 +1,13 @@
-$background-color: 	white;
-$font-color: 				black;
+$main-color: 						white;
+$inverted-color: 				invert($main-color);
+$shadow-color:					rgba(black, 0.4);
+
+$card-background-color:	lighten($inverted-color, 30);
+$card-status-size:			6px;
+$card-status-color:			rgba($main-color, 0.70);
+
+$card-width:						160px;
+
+$status-fail-color: 		hsl(5, 100%, 60%);
+$status-warning-color: 	#ffffff; 
+$status-alert-color:	 	#ff4433; 

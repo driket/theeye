@@ -2,7 +2,7 @@
 
 #mv-topbar {
 	
-  background:#202020;
+  background:rgba($inverted-color, 1);
   color:white;
   font-family:Arial, Sans serif;
   font-weight: bold;
@@ -35,17 +35,17 @@
 		padding-right: 30px;
 		padding-top: 12px;
 	  font-size: 16px;
-		text-shadow: 0px 0px 0px rgba(255,255,255,0.6),
-								 0px 1px 1px rgba(0,0,0,0.9);
+		text-shadow: 0px 0px 0px rgba($main-color,0.6),
+								 0px 1px 1px rgba($inverted-color,0.9);
 		letter-spacing:2px;
 	}
 
 	h1#mv-logo a { 
 
-		color: lighten($background-color, 40%);
+		color: rgba($main-color, 0.6);
 	
 		&:hover { 
-			color:#eee;
+			color: rgba($main-color, 0.8);
 		}
 	}
 

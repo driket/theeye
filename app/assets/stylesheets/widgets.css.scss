@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-/* widgets */
+@import "_init.css.scss";
 
 #widgets {
 	margin-top: 10px;
@@ -17,7 +17,7 @@
 	font-family:Arial, Sans serif;
 	font-size: 12px;
 	float: left;
-	width: 220px;
+	width: $card-width;
 	min-height:226px;
 	margin-right:10px;
 	margin-bottom:10px;
@@ -25,11 +25,18 @@
 
 .card {
 	float: left;
-	width: 220px;
+	width: $card-width;
 	min-height:186px;
 	padding:20px;
 	border-radius: 3px;
+	border-top:$card-status-size solid $card-status-color;
+	box-shadow: 0px 3px 8px $shadow-color;
+	background: $card-background-color;
 }
+.service-status-fail .card			{ border-top-color: $status-fail-color; }
+.service-status-warning .card		{ border-top-color: $status-warning-color; }
+.service-status-alert .card 		{ border-top-color: $status-alert-color; }
+
 
 .widget {
 	-webkit-perspective: 800;
@@ -39,13 +46,13 @@
 	-webkit-transform: rotateY(180deg);
 }
 .widget .card {
-	width: 180px;
+	width: $card-width - 40;
 	height: 186px;
   -webkit-transform-style: preserve-3d;
   -webkit-transition: 0.3s;	
 }
 .widget .card .face {
-	width: 180px;
+	width: $card-width - 40;
 	height: 186px;
 	position: absolute;
 	-webkit-backface-visibility: hidden ; 
