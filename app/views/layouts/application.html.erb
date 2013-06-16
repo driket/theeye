@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Dashboard</title>
 	<%= stylesheet_link_tag    "application" %>
 	<%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
+
 <body class="size-medium">
 
   <div id="mv-topbar">
@@ -22,6 +24,7 @@
 	<script>
 	
 	$widgets = {
+		
 		<% for widget in ::Widget.all %>
 		'widget-<%= widget.id %>'	: {
 			'title' 		: '<%= widget.title %>',
@@ -32,6 +35,7 @@
 	}
 	
 	function refreshWidgets () {
+		
 		$.each($widgets, function(name, widget) {
 		
 			$template = $('#'+widget.template);
@@ -46,13 +50,11 @@
 	}
 	
 	function refresh_widget_js_bind() {
+		
 		$(".widget").unbind();
 		
 		$('.widget').on('click', function(event,value) {
-			//$('.widget').removeClass('flipped');
-			//$(this).find('.card').addClass('flipped').on('mouseleave', function(event,value) {
-			//	$(this).removeClass('flipped');
-			//});
+
 			$card = $(this).find('.card');
 			if ($($card).hasClass('flipped'))
 				$($card).removeClass('flipped');
@@ -76,10 +78,10 @@
 	function resize_page() {
 		
 		$width = $(window).width();
-		$new_width = Math.floor($width / 230) * 230;
+		$new_width = Math.floor($width / 200) * 200;
 		$('#page').css('width',$new_width);		
 		$('#page').css('left', '5px');		
-		
+		$('body').css('height',$(window).height());
 	}
 	
 	$(window).resize(function() {

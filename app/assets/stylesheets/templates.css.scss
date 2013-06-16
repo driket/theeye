@@ -2,9 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+@import "_init.css.scss";
+
 .plot-chart {
 	
-	width:140px; 
+	width:$card-width - 40; 
 	height:50px; 
 	margin-left:auto;
 	margin-right:auto; 

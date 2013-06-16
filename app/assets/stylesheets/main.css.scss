@@ -4,7 +4,7 @@
 	
 	margin:0; 
 	padding:0;
-  font-family:Arial, Sans serif;
+  font-family:Helvetica Neue, Arial, Sans serif;
 	letter-spacing:1px;
 }
 
@@ -17,7 +17,7 @@ body {
 	
 	background: rgba($main-color, 0.2);
 	color: 			rgba($main-color, 0.7);
-	height:100%;
+	height:			100%;
 	box-shadow: 0px 1px 3px rgba(0,0,0,0.4);
 }
 
@@ -40,12 +40,16 @@ h2 {
 	margin-top: 30px;
 	margin-bottom: 20px;
 	color: rgba($main-color, 0.7);
+	font-weight: 100;
+	letter-spacing:3px;
 }
 
 a {
 	
 	color:						rgba($main-color, 0.40);
 	text-decoration: 	none;
+	font-weight:100;
+	letter-spacing:2px;
 }
 
 a:hover {
@@ -56,12 +60,15 @@ a:hover {
 table {
 	
 	width: 100%;
+	font-weight:100;
+	letter-spacing:3px;
 	
 	th {
 		text-align:left;
 	}
 	td {
 		color: rgba($main-color, 0.5);
+		letter-spacing:2px;
 	}
 }
 
@@ -82,8 +89,9 @@ hr {
 	border-left: 3px solid rgba($main-color, 0.1);
 }
 
-.button { 
-	
+.remove_nested_fields,
+.add_nested_fields { 
+	font-weight: 100;
 	/* border: 1px solid #555; 
 	padding: 5px;*/
 }
@@ -91,6 +99,19 @@ hr {
 .field {
 	
 	margin: 5px 0px 15px 0px;
+	label {
+		letter-spacing:3px;
+		font-weight: 100;
+		margin: 0px 0px 5px 0px;
+	}
+}
+
+input, select {
+	background-color: rgba($inverted-color, 0.5);
+	color:						rgba($main-color, 0.8);
+	padding:					5px;
+	border:						rgba($inverted-color, 0.2);
+	margin-top:				5px;
 }
 
 input[type=submit] {
@@ -105,4 +126,5 @@ input[type=submit] {
 
 .CodeMirror {
   font-size: 12px;
+	box-shadow: inset 0px 0px 3px rgba(0,0,0,0.9);
 }
