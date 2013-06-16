@@ -29,7 +29,8 @@
 		'widget-<%= widget.id %>'	: {
 			'title' 		: '<%= widget.title %>',
 			'url'				: 'http://google.com',
-			'template' 	: '<%= widget.template.uid %>'
+			'template' 	: '<%= widget.template.uid %>',
+			'monitored_value' : 0
 		},
 		<% end %>
 	}
@@ -39,14 +40,45 @@
 		$.each($widgets, function(name, widget) {
 		
 			$template = $('#'+widget.template);
+			$widget 	= $('#'+name);
 			$template_variables = {	
 															'name'		: name,
 															'widget'	: widget
 														}
-			$content = $($template).tmpl($template_variables);
-			$('#widgets').append($content);
+														
+			if ($($widget).length == 0) {
+
+				$content = $('#empty_template').tmpl($template_variables);
+				$('#widgets').append($content);
+
+			}
+			else {
+				$widget_name = '#'+name;
+
+				widget.monitored_value = parseInt(Math.random() * 100);
+				
+				$content = $($template).tmpl($template_variables);
+				$($widget_name).replaceWith($content);
+
+				$status = test_graph_template_did_appear(name, widget);		
+
+				//$widget.hide();
+				//$($widget).spin(false);
+				if ($status == 'alert')
+					$($widget_name).addClass('service-status-alert');
+				else if ($status == 'warning')
+					$($widget_name).addClass('service-status-warning');			
+				
+			}
+			
+			// display activity indicator while loading
+			//$($widget).spin('large','#888');
+
+			//alert('yo');
+			
 			
 		});
+		
 	}
 	
 	function refresh_widget_js_bind() {
@@ -69,10 +101,9 @@
 				
 		resize_page();
 		refreshWidgets();
-		refresh_widget_js_bind();
 		$("#widgets").sortable();
-		$(".widget").last().addClass('service-status-fail');
-			
+
+		setInterval(function(){refreshWidgets()}, 2000);			
 	});
 	
 	function resize_page() {
@@ -111,6 +142,90 @@
 	<% for template in ::Template.all %>
 		<%= render :partial => template %>
 	<% end %>
+	
+	<script>
+	
+	function test_graph_template_did_appear(name, widget) {
+
+		$service_warning			= false;
+		$service_alert				= false;
+		
+		$threshold_warning 		= 80;
+		$threshold_alert			= 90;
+		
+		$value = widget.monitored_value
+		
+		if ($value > $threshold_alert) {
+				$service_alert = true;
+		}
+		else if ($value > $threshold_warning ) {
+				$service_warning = true;
+		}
+		
+		if (window[name+'_graph_data'] == null) {
+			window[name+'_graph_data'] = [];
+			for (i = 0; i < 10; i++) {
+				$now = new Date();
+				window[name+'_graph_data'].push([$now, 
+													 					     0])
+			}
+		}
+
+		if (window[name+'_graph_data'].length > 10) {
+			window[name+'_graph_data'].shift();
+		}
+
+		$now = new Date();
+    window[name+'_graph_data'].push([$now, 
+													 					 $value]);
+								
+		$.plot($('#'+ name + ' .plot-chart'), [ {
+			legend: {
+			    show: false,
+					labelFormatter: null
+			},
+			xaxis: {
+			    show: false,
+					mode: null
+			},
+			yaxis: {
+			    show: false
+			},
+			grid: {
+				hoverable: true
+			},
+      data: window[name+'_graph_data'],
+      color: "#ffffff",
+			bars: {
+			      show: true,
+			      lineWidth: 3,
+			      fill: true,
+			      fillColor: { colors: [ { opacity: 0.8 }, { opacity: 0.1 } ] }
+			  },
+      constraints: [
+				{
+					threshold: $threshold_alert,
+				  color: "#ff4433",
+					evaluate : function(y,threshold){ return y > threshold; }
+				},
+				{ 
+					threshold: $threshold_warning,
+					color: "#888888",
+					evaluate : function(y,threshold){ return y < threshold; }
+				}
+			]
+		} ]);
+		
+		if ($service_alert) {
+			return 'alert'
+		}
+		else if ($service_warning) {
+			return 'warning'			
+		}
+		else
+			return 'ok'
+	}
+</script>
 	
 </body>
 </html>
