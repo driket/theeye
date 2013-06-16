@@ -1,0 +1,27 @@
+<%= form_for(@template) do |f| %>
+  <% if @template.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@template.errors.count, "error") %> prohibited this template from being saved:</h2>
+      <ul>
+      <% @template.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :uid %><br />
+    <%= f.text_field :uid %>
+  </div>
+  <div class="field">
+    <%= f.label :body %><br />
+    <%= f.text_area :body %>
+	  <pre style="width:800px; font-size:12px; ">
+		  <code class="xml" style="background:#222; overflow:scroll; outline:0px solid transparent;" contenteditable='true' class="mv-textedit-color"><%= f.object.body %></code>
+		</pre>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

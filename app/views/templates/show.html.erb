@@ -1,0 +1,21 @@
+<h2>Template</h2>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Uid:</b>
+  <%= @template.uid %>
+</p>
+
+<p>
+  <b>Body:</b>
+  <%= @template.body %>
+</p>
+
+<p>
+  <b>Widgets:</b>
+  <%= @template.widgets.collect { |w| w.title} %>
+</p>
+
+
+<%= link_to 'Edit', edit_template_path(@template) %> |
+<%= link_to 'Back', templates_path %>
