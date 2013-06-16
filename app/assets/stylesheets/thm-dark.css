@@ -1,5 +1,6 @@
+/*
 body {
-	background: #333;
+	background: #fff;
 	color: #888;
 }
 
@@ -26,21 +27,14 @@ h1 { color: #bbb; }
 .widget.inactive h2 a {
 	color: #888;
 }
+*/
 
 /* widget borders color */
+/*
 .service-status-fail .card			{ border-top-color: #ff4433; }
 .service-status-warning .card		{ border-top-color: #ffffff; }
 .service-status-alert .card 		{ border-top-color: #ff4433; }
 
-/*
-.status-ok {
-	color:#00cc00;
-}
-
-.status-unchanged {
-	color:#66ff66;
-}
-*/
 
 .status-warning {
 	color:#ccc;
@@ -57,7 +51,6 @@ h1 { color: #bbb; }
 .status-failed {
 	color:#ff5544;
 }
-/*
 .status-changed {
 	color:#3399ff; 
 }
