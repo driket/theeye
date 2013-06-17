@@ -12,5 +12,5 @@ $card-width:						140px;
 $card-height:						100px;
 
 $status-fail-color: 		hsl(5, 100%, 60%);
-$status-warning-color: 	#ffffff; 
-$status-alert-color:	 	#ff4433; 
+$status-warning-color: 	$main-color; 
+$status-alert-color:	 	hsl(5, 100%, 60%); //#ff4433; 
