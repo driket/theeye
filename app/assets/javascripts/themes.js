@@ -9,3 +9,8 @@ function active_theme() {
 		return 'black';
 	}
 }
+
+function theme_color_for_class(class_name) {
+	
+	return $('#colors .'+class_name).find('h3').css('color');	
+}		

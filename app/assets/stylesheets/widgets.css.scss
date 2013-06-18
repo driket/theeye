@@ -22,6 +22,9 @@
 	min-height:$card-height;
 	margin-right:10px;
 	margin-bottom:10px;
+	transition:  all 3s linear; 
+	-webkit-transition:  all 3s linear; 
+	
 }
 
 .card {
@@ -34,7 +37,6 @@
 	border-top:$card-status-size solid $card-status-color;
 	box-shadow: 0px 3px 8px $shadow-color;
 	background: $card-background-color;
-	
 	&.flipped {
 		background-color: darken($card-background-color, 20);
 	}
@@ -43,21 +45,40 @@
 
 .service-status-fail {
 
-	.card			{ border-top-color: $status-fail-color; }
-	h3				{ color: $status-fail-color; }
+	.card			{ border-top-color: $status-fail-color;  }
+	h3,h4			{ color: $status-fail-color; }
 }
 
 .service-status-warning {
 	
-	.card			{ border-top-color: $status-warning-color; }
-	h3				{ color: $status-warning-color; }
+	.card			{ border-top-color: $status-warning-color;  }
+	h3,h4				{ color: $status-warning-color; }
+}
+
+.service-status-ok 		{ 
+	
+	.card 		{border-top-color: $status-ok-color; }
+	h3,h4			{ color: $status-ok-color; }
 }
 
 .service-status-alert 		{ 
 	
 	.card 		{border-top-color: $status-alert-color; }
-	h3				{ color: $status-alert-color; }
+	h3,h4			{ color: $status-alert-color; }
 }
+
+.service-status-disabled		{ 
+	
+	.card 		{border-top-color: $status-disabled-color; }
+	h3,h4			{ color: $status-disabled-color; }
+}
+
+.very-light-color	{ 
+	
+	.card 		{border-top-color: $very-light-color; }
+	h3,h4			{ color: $very-light-color; }
+}
+
 
 
 .widget {
@@ -124,7 +145,7 @@
 
 .face-simple-view h3 {
 	
-	text-align:right;
+	text-align:left;
 }
 
 .face-simple-view h3 span {
@@ -149,7 +170,9 @@
 	font-size: 12px;
 	font-weight:400;
 	letter-spacing:2px;
-	text-align:center;
+	text-align:right;
+	position:relative;
+	top: -14px;
 }
 
 

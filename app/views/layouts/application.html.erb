@@ -21,6 +21,14 @@
 		<%= yield %>
 	</div>
 
+	<ul id="colors" style="display:none;">
+		<li class="service-status-disabled"><h3>disabled</h3></li>
+		<li class="service-status-ok"><h3>ok</h3></li>
+		<li class="service-status-alert"><h3>alert</h3></li>
+		<li class="service-status-warning"><h3>warning</h3></li>
+		<li class="service-status-failed"><h3>failed</h3></li>
+		<li class="very-light-color"><h3>verylight</h3></li>
+	</ul>
 	<script>
 	
 	$widgets = {
@@ -49,7 +57,7 @@
 		widget.monitored_value = parseInt(Math.random() * 100);
 		
 		$content = $($template).tmpl($template_variables);
-		$($widget_name).replaceWith($content);
+		$($widget_name + ' .face-simple-view').html($content);
 		
 		// hide activity indicator (loaded)
 		$($widget_name).spin(false);
@@ -57,10 +65,18 @@
 
 		$status = test_graph_template_did_appear(name, widget);		
 
+		$($widget_name).removeClass('service-status-ok');
+		$($widget_name).removeClass('service-status-disabled');
+		$($widget_name).removeClass('service-status-alert');
+		$($widget_name).removeClass('service-status-warning');
+	
 		if ($status == 'alert')
 			$($widget_name).addClass('service-status-alert');
 		else if ($status == 'warning')
 			$($widget_name).addClass('service-status-warning');		
+		else
+			$($widget_name).addClass('service-status-ok');		
+			
 			
 	}
 	
@@ -152,9 +168,10 @@
 		<%= render :partial => template %>
 	<% end %>
 	
-	<script>
+	<script>		
+
 	//$now = new Date();
-	//alert(Date.parse($now));				
+	alert(color_for_status('ok'));
 	
 	
 	function test_graph_template_did_appear(name, widget) {
@@ -162,24 +179,19 @@
 		$service_warning			= false;
 		$service_alert				= false;
 		
-		$threshold_warning 		= 80;
-		$threshold_alert			= 90;
+		$threshold_warning 		= 90;
+		$threshold_alert			= 97;
 		
 		$time_scale 					= 60; //(in second)
 
-		$sample_count					= $time_scale / (widget.refresh_delay / 1000);
+		$sample_count					= $time_scale / (widget.refresh_delay / 1000) + 1;
 		
-		//alert(active_theme());
-		if (active_theme() == 'black') {
-			$color_ok 					= '#888888';
-			$color_warning 			= '#ffffff';
-			$color_alert	 			= '#ff4433';
-		}
-		else {
-			$color_ok 					= '#888888';
-			$color_warning 			= '#000000';
-			$color_alert	 			= '#ff4433';
-		}
+		$color_ok 			= theme_color_for_class('service-status-ok');
+		$color_warning 	= theme_color_for_class('service-status-warning');
+		$color_alert		= theme_color_for_class('service-status-alert');
+		$fill_color			= theme_color_for_class('very-light-color');
+		$grid_color			= theme_color_for_class('service-status-disabled');
+		
 		$value = widget.monitored_value
 		
 		if ($value > $threshold_alert) {
@@ -210,7 +222,8 @@
 		$.plot($('#'+ name + ' .plot-chart'), 
 			[ { 
 			data: window[name+'_graph_data'],
-      color: $color_warning,
+      color: $color_ok,
+			shadowSize: 0,
       constraints: [
 				{
 					threshold: $threshold_alert,
@@ -220,15 +233,15 @@
 				{ 
 					threshold: $threshold_warning,
 					color: $color_ok,
-					evaluate : function(y,threshold){ return y < threshold; }
+					evaluate : function(y,threshold){ return y > threshold; }
 				}
 			]
 		} ], {
 		  series: { 
-			  lines: { show: true },
+			  lines: { lineWidth: 1, show: true, fill: true, fillColor: $fill_color },
 			  points: { show: false }
 		  },
-		  grid: { hoverable: true, clickable: true },
+		  grid: { hoverable: true, clickable: true, color: $grid_color },
 	  	yaxis: {min: 0, max: 100},
 			xaxis: {min: $now-($time_scale*1000), max: $now}
 	  });
@@ -237,45 +250,6 @@
 			//alert('plothover');
 		});
 					
-					/*			
-		$.plot($('#'+ name + ' .plot-chart'), 
-			[{data: window[name+'_graph_data'],
-	      color: $color_warning,
-				//bars: {
-				//      show: true,
-				//      lineWidth: 1,
-				//      fill: true,
-				//      fillColor: { colors: [ { opacity: 0.8 }, { opacity: 0.1 } ] }
-				//  },
-	      constraints: [
-					{
-						threshold: $threshold_alert,
-					  color: $color_alert,
-						evaluate : function(y,threshold){ return y > threshold; }
-					},
-					{ 
-						threshold: $threshold_warning,
-						color: $color_ok,
-						evaluate : function(y,threshold){ return y < threshold; }
-					}
-				]},
-				{
-					legend: {
-					    show: false,
-							labelFormatter: null
-					},
-					xaxis: {
-		 				tickLength: 0
-					},
-					yaxis: {
-				    tickLength: 0
-					},
-					grid: {
-						borderWitdh: 0,
-					}
-				}
-		 ]);
-					*/
 		
 		if ($service_alert) {
 			return 'alert'

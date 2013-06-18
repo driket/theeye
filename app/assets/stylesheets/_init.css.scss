@@ -1,6 +1,7 @@
 $main-color: 						white;
 $inverted-color: 				invert($main-color);
 $shadow-color:					rgba(black, 0.4);
+$very-light-color:			rgba($main-color, 0.04);
 
 $card-background-color:	lighten($inverted-color, 30);
 $card-status-size:			6px;
@@ -9,8 +10,10 @@ $card-title-size:				20px;
 $card-padding:					10px;
 
 $card-width:						180px;
-$card-height:						140px;
+$card-height:						100px;
 
 $status-fail-color: 		hsl(5, 100%, 60%);
 $status-warning-color: 	$main-color; 
+$status-ok-color: 			rgba($main-color, 0.40); 
 $status-alert-color:	 	hsl(5, 100%, 60%); //#ff4433; 
+$status-disabled-color: rgba($main-color, 0.10); 
