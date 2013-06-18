@@ -8,25 +8,24 @@
 
 <table>
   <tr>
-    <th>Title</th>
-    <th>Url</th>
-    <th>Template</th>
+    <th>Template ID</th>
+    <th>Widget</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
 
-<% @widgets.each do |widget| %>
+<% for template in ::Template.all %>
   <tr>
-    <td><%= widget.title %></td>
-    <td><%= widget.url %></td>
-    <td><%= widget.template.uid %></td>
-    <td><%= link_to 'Show', widget %></td>
-    <td><%= link_to 'Edit', edit_widget_path(widget) %></td>
-    <td><%= link_to 'Destroy', widget, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= template.uid %></td>
+    <td><%= template.widgets.size %></td>
+    <td><%= link_to 'Show', template %></td>
+    <td><%= link_to 'Edit', edit_template_path(template) %></td>
+    <td><%= link_to 'Destroy', template, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
 </table>
+
 
 <br />
 

@@ -124,15 +124,18 @@
 
 .face-simple-view h3 {
 	
-	text-align:center;
+	text-align:right;
 }
 
 .face-simple-view h3 span {
 	
 	font-family:Helvetica Neue, Arial Sans serif;
-	font-weight:200;
+	font-weight:500;
 	font-size: $card-title-size;
-	letter-spacing: 6px;
+	letter-spacing: 2px;
+	position:relative;
+	//left:32px;
+	top:5px;
 }
 
 .face-simple-view h3 span.discreet {
@@ -143,8 +146,8 @@
 .face-simple-view h4 {
 	
 	font-family:Helvetica Neue, Arial Sans serif;
-	font-size: 11px;
-	font-weight:200;
+	font-size: 12px;
+	font-weight:400;
 	letter-spacing:2px;
 	text-align:center;
 }

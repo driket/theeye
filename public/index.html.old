@@ -130,8 +130,38 @@
 		    window['graph1_data'].push([$now, 
 															 			$value]);
 										
-				$.plot($(".plot-chart"), [ {
-		      data: window['graph1_data'],
+				$.plot($(".plot-chart"), 
+					[ { 
+					data: window['graph1_data'],
+		      color: "#ffffff",
+		      constraints: [
+						{
+							threshold: 15,
+						  color: "#ff4433",
+							evaluate : function(y,threshold){ return y > threshold; }
+						},
+						{ 
+							threshold: 10,
+							color: "#888888",
+							evaluate : function(y,threshold){ return y < threshold; }
+						}
+					]
+				} ], {
+				  series: { 
+					  lines: { show: true },
+					  points: { show: true }
+				  },
+				  grid: { hoverable: true, clickable: true },
+			  	yaxis: {min: -1.2, max: 1.2}
+			  });
+				
+				$(".plot-chart").bind("plothover", function (event, pos, item) {
+					alert('plothover');
+				});
+				/*						
+				$.plot($(".plot-chart"), 
+					[ { 
+					data: window['graph1_data'],
 		      color: "#ffffff",
 		      constraints: [
 						{
@@ -146,7 +176,7 @@
 						}
 					]
 				} ]);
-				
+				*/
 				if ($service_alert)
 					return 'alert'
 				else if ($service_warning)

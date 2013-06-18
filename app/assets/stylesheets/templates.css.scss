@@ -6,13 +6,14 @@
 
 .plot-chart {
 	
-	width:$card-width - $card-padding; 
-	height:45px; 
+	width:$card-width - $card-padding - 80; 
+	height:95px; 
 	margin-left:auto;
 	margin-right:auto; 
 	margin-top:2px; 
 	position:relative; 
-	left:-10px;
+	left:-30px;
+	top:-25px;
 }
 
 .html5-textarea {

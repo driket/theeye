@@ -10,16 +10,16 @@
 
 html {
 	
-	background:rgba($inverted-color, 1);
+	background:rgba($inverted-color, 0.80);
 }
 
 body {
 	
-	background: rgba($main-color, 0.16);
+	//background: rgba($main-color, 0.16);
 	color: 			rgba($main-color, 0.7);
-	text-shadow:0px 1px 1px rgba(black,0.9);
+	//text-shadow:0px 1px 1px rgba(black,0.9);
 	height:			100%;
-	box-shadow: 0px 1px 3px rgba(0,0,0,0.4);
+	//box-shadow: 0px 1px 3px rgba(0,0,0,0.4);
 }
 
 #page {
