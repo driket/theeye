@@ -34,77 +34,21 @@
 	$widgets = {
 		
 		<% for widget in ::Widget.all %>
-		'widget-<%= widget.id %>'	: {
-			'title' 					: '<%= widget.title %>',
-			'url'							: 'http://google.com',
-			'template' 				: '<%= widget.template.uid %>',
-			'monitored_value' : 0,
-			'refresh_delay'		: parseInt(Math.random() * 8) * 1000 + 1000,
+		'widget-<%= widget.id %>'	: 
+		{
+			'title' 				: '<%= widget.title %>',
+			'url'						: 'http://google.com',
+			'template' 			: '<%= widget.template.uid %>',
+			'data'					:
+			{
+				'monitored_value' : 0,
+				'details'					: '',
+			},
+			'refresh_delay'	: 1000, //parseInt(Math.random() * 8) * 1000 + 1000,
 		},
 		<% end %>
 	}
 	
-	function refreshWidget(name, widget) {
-		
-		$template = $('#'+widget.template);
-		$widget_name = '#'+name;
-		$template_variables = {	
-														'name'		: name,
-														'widget'	: widget
-													}
-													
-	
-		widget.monitored_value = parseInt(Math.random() * 100);
-		
-		$content = $($template).tmpl($template_variables);
-		$($widget_name + ' .face-simple-view').html($content);
-		
-		// hide activity indicator (loaded)
-		$($widget_name).spin(false);
-		
-
-		$status = test_graph_template_did_appear(name, widget);		
-
-		$($widget_name).removeClass('service-status-ok');
-		$($widget_name).removeClass('service-status-disabled');
-		$($widget_name).removeClass('service-status-alert');
-		$($widget_name).removeClass('service-status-warning');
-	
-		if ($status == 'alert')
-			$($widget_name).addClass('service-status-alert');
-		else if ($status == 'warning')
-			$($widget_name).addClass('service-status-warning');		
-		else
-			$($widget_name).addClass('service-status-ok');		
-			
-			
-	}
-	
-	function refreshWidgets () {
-		
-		$.each($widgets, function(name, widget) {
-
-			$widget_name = '#'+name;
-			$template_variables = {	
-															'name'		: name,
-															'widget'	: widget
-														}													
-				
-			if ($($widget_name).length == 0) {
-
-				$content = $('#empty_template').tmpl($template_variables);
-				$('#widgets').append($content);
-
-			}
-		
-			// display activity indicator while loading
-			$($widget_name).spin('large','#888');
-			//refreshWidget(name, widget);
-			setInterval(function(){refreshWidget(name, widget)}, widget.refresh_delay);
-			
-		});
-		
-	}
 	
 	function refresh_widget_js_bind() {
 		
@@ -125,10 +69,10 @@
 	$(document).ready(function() {
 				
 		resize_page();
-		refreshWidgets();
+		refreshWidgets($widgets);
 		$("#widgets").sortable();
 		//refreshWidgets();
-		//setInterval(function(){refreshWidgets()}, 1000);			
+		setInterval(function(){refreshWidgets($widgets)}, 1000);			
 	});
 	
 	function resize_page() {
@@ -192,7 +136,7 @@
 		$fill_color			= theme_color_for_class('very-light-color');
 		$grid_color			= theme_color_for_class('service-status-disabled');
 		
-		$value = widget.monitored_value
+		$value = widget.data.monitored_value
 		
 		if ($value > $threshold_alert) {
 				$service_alert = true;

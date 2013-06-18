@@ -22,8 +22,8 @@
 	min-height:$card-height;
 	margin-right:10px;
 	margin-bottom:10px;
-	transition:  all 3s linear; 
-	-webkit-transition:  all 3s linear; 
+	transition:  border-top-color 1s linear; 
+	-webkit-transition:  border-top-color 1s linear; 
 	
 }
 
@@ -34,14 +34,20 @@
 	min-height:$card-height;
 	padding:$card-padding;
 	border-radius: 3px;
-	border-top:$card-status-size solid $card-status-color;
+	border-top-width: $card-status-size;
+	border-top-style: solid;
+	border-top-color: $card-status-color;
 	box-shadow: 0px 3px 8px $shadow-color;
 	background: $card-background-color;
 	&.flipped {
 		background-color: darken($card-background-color, 20);
 	}
 }
-
+	
+.card h3, 
+.card h4 {
+	
+}
 
 .service-status-fail {
 
@@ -57,14 +63,24 @@
 
 .service-status-ok 		{ 
 	
-	.card 		{border-top-color: $status-ok-color; }
-	h3,h4			{ color: $status-ok-color; }
+	.card 		{ border-top-color: $status-ok-color; 
+		-webkit-transition: border-top-color 1s ease-in; //transition webkit
+		-moz-transition: border-top-color 1s ease-in; //transition mozilla
+		-o-transition: border-top-color 1s ease-in; //transition opera
+		transition: border-top-color 1s ease-in; //syntaxe d'avenir
+	}
+	h3,h4			{ color: $status-ok-color; 
+		-webkit-transition: color 1s ease-in; //transition webkit
+		-moz-transition: color 1s ease-in; //transition mozilla
+		-o-transition: color 1s ease-in; //transition opera
+		transition: color 1s ease-in; //syntaxe d'avenir
+	}
 }
 
 .service-status-alert 		{ 
 	
 	.card 		{border-top-color: $status-alert-color; }
-	h3,h4			{ color: $status-alert-color; }
+	h3,h4			{ color: $status-alert-color;  }
 }
 
 .service-status-disabled		{ 
@@ -97,7 +113,7 @@
 	width: $card-width - $card-padding * 2;
 	height: $card-height - $card-padding * 2;
   -webkit-transform-style: preserve-3d;
-  -webkit-transition: 0.3s;	
+  //-webkit-transition: 0.3s;	
 }
 
 .widget .card .face {
