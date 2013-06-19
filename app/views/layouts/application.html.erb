@@ -49,6 +49,10 @@
 			'title' 				: '<%= widget.title %>',
 			'url'						: 'http://google.com',
 			'template' 			: '<%= widget.template.uid %>',
+			'thresholds'		: [
+				{ 'operator':'>=', 'value': 90, 'alert':'alert' },
+				{ 'operator':'>=', 'value': 80, 'alert':'warning' }
+			],
 			'data'					:
 			{
 				'monitored_value' : 0,
@@ -99,16 +103,7 @@
 	});
 	
 	</script>
-	
-	<!-- codemirror 
-		http://codemirror.net
-	-->
-	
-	<script>
-	
 
-	
-	</script>
 	
 	<!-- Templates -->
 	
@@ -116,96 +111,7 @@
 		<%= render :partial => template %>
 	<% end %>
 	
-	<script>		
-	/*
-	function test_graph_template_did_appear(name, widget) {
 
-		$service_warning			= false;
-		$service_alert				= false;
-		
-		$threshold_warning 		= 90;
-		$threshold_alert			= 97;
-		
-		$time_scale 					= 60; //(in second)
-
-		$sample_count					= $time_scale / (widget.refresh_delay / 1000) + 1;
-		
-		$color_ok 			= theme_color_for_class('service-status-ok');
-		$color_warning 	= theme_color_for_class('service-status-warning');
-		$color_alert		= theme_color_for_class('service-status-alert');
-		$fill_color			= theme_color_for_class('very-light-color');
-		$grid_color			= theme_color_for_class('service-status-disabled');
-		
-		$value = widget.data.monitored_value
-		
-		if ($value > $threshold_alert) {
-				$service_alert = true;
-		}
-		else if ($value > $threshold_warning ) {
-				$service_warning = true;
-		}
-				
-		if (window[name+'_graph_data'] == null) {
-			
-			window[name+'_graph_data'] = [];
-				
-				$now = Date.parse(new Date());
-				window[name+'_graph_data'].push([$now, 
-													 					     0])
-		}
-
-		if (window[name+'_graph_data'].length > $sample_count) {
-			window[name+'_graph_data'].shift();
-		}
-
-		$now = Date.parse(new Date());
-		
-    window[name+'_graph_data'].push([$now, 
-													 					 $value]);
-		
-		$.plot($('#'+ name + ' .plot-chart'), 
-			[ { 
-			data: window[name+'_graph_data'],
-      color: $color_ok,
-			shadowSize: 0,
-      constraints: [
-				{
-					threshold: $threshold_alert,
-				  color: $color_alert,
-					evaluate : function(y,threshold){ return y > threshold; }
-				},
-				{ 
-					threshold: $threshold_warning,
-					color: $color_ok,
-					evaluate : function(y,threshold){ return y > threshold; }
-				}
-			]
-		} ], {
-		  series: { 
-			  lines: { lineWidth: 1, show: true, fill: true, fillColor: $fill_color },
-			  points: { show: false }
-		  },
-		  grid: { hoverable: true, clickable: true, color: $grid_color },
-	  	yaxis: {min: 0, max: 100},
-			xaxis: {min: $now-($time_scale*1000), max: $now}
-	  });
-
-		$('#'+ name + ' .plot-chart').bind("plothover", function (event, pos, item) {
-			//alert('plothover');
-		});
-					
-		
-		if ($service_alert) {
-			return 'alert'
-		}
-		else if ($service_warning) {
-			return 'warning'			
-		}
-		else
-			return 'ok'
-	}
-	*/
-</script>
 	
 </body>
 </html>

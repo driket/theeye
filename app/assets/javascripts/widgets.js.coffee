@@ -7,7 +7,7 @@ class Dashboard
 	constructor: (@element, @widgets) ->
 
 		# init & first display 
-		
+		graph = null
 		$(@element).sortable()
 		this.refresh()
 
@@ -86,19 +86,32 @@ class Dashboard
 
 			this.refresh_widget name, widget
 	
+	alertLevelForValue: (value, widget) ->
+		
+		#console.log widget.thresholds
+		
+		for threshold in widget.thresholds
+
+			if value >= threshold.value
+				
+				return threshold.alert
 	
-	showTooltip: (x, y, date, value) =>
+	showTooltip: (x, y, date, value, is_alert) =>
 
 		h 	= ("0" + date.getHours()).slice -2
 		m 	= ("0" + date.getMinutes()).slice -2
 		s 	= ("0" + date.getSeconds()).slice -2
 		formated_date = h + ':' + m + ':' + s
 
-		contents =  '<span class="hours">' 		+ h + '</span>:'
-		contents += '<span class="minutes">' 	+ m + '</span>:'
-		contents += '<span class="seconds">' 	+ s + '</span>'
-		contents += '<span class="value">' 		+ value + '</span>%'
+		contents		=  '<span class="hours">' 			+ h + '</span>:'
+		contents 		+= '<span class="minutes">' 		+ m + '</span>:'
+		contents 		+= '<span class="seconds">' 		+ s + '</span>'
 
+		if is_alert
+			contents 	+= '<span class="value alert">'	+ value + '</span>%'
+		else
+			contents 	+= '<span class="value">' 			+ value + '</span>%'
+			
 		$('<div class="tooltip">' + contents + '</div>')
 		.css
 	    display: 'none'
@@ -111,7 +124,7 @@ class Dashboard
 			
 	# draw graph for a given widget
 
-	render_graph: (name, widget) =>
+	render_graph: (name, widget) ->
 
 		service_warning			= false
 		service_alert				= false
@@ -137,11 +150,13 @@ class Dashboard
 
 		# set alert if out of thresholds
 
-		if data_value > threshold_alert
+		alert_level = this.alertLevelForValue data_value, widget
+		
+		if alert_level == 'alert'
 			
 			service_alert = true
 
-		else if data_value > threshold_warning
+		else if alert_level == 'warning'
 			
 			service_warning = true
 		
@@ -181,7 +196,7 @@ class Dashboard
 
 		# draw graph
 
-		$.plot $('#'+ name + ' .plot-chart')
+		graph = $.plot $('#'+ name + ' .plot-chart')
 		,	[ 
 			data: widget.graph_data 
 			color: color_ok
@@ -217,11 +232,23 @@ class Dashboard
 					date = new Date(item.datapoint[0])
 					value = item.datapoint[1].toFixed(0)
 
-					this.showTooltip(item.pageX, item.pageY, date, value)
+					target = $(event.currentTarget).closest(".widget")
+					bound_widget_id = target.attr 'id'
+					bound_widget = @widgets[bound_widget_id]
+					alert_level = this.alertLevelForValue value, bound_widget
+					if alert_level == 'alert'
+						is_alert = true
+					else
+						is_alert = false
+
+					this.showTooltip(item.pageX, item.pageY, date, value, is_alert)
 			else
 				$(@element + ' .tooltip').remove()
 				previousPoint = null
 
+		$('#'+ name + ' .plot-chart').bind plotclick: (event, pos, item) =>
+			if item
+				graph.highlight item.series, item.datapoint
 
 		# return alert code
 		
@@ -231,7 +258,7 @@ class Dashboard
 			return 'warning'			
 		else
 			return 'ok'
-
+						 
 $ ->
 	
 	dashboard = new Dashboard '#widgets', $widgets 
