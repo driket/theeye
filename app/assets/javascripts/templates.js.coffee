@@ -4,9 +4,9 @@
 
 $ ->
 	
-	editor = CodeMirror.fromTextArea document.getElementById("template_body")
-	, =>
-		mode: 'xml'
-		tabMode: "indent"
+	#code_editor = CodeMirror.fromTextArea document.getElementById("template_body")
+	#, =>
+	#	mode: 'xml'
+	#	tabMode: "indent"
 		
-	editor.setOption "theme", 'ambiance' if active_theme() isnt 'white'
+	#code_editor.setOption "theme", 'ambiance' if active_theme() isnt 'white'

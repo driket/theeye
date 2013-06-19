@@ -18,8 +18,8 @@
 		
 		<span id="clock">
 			<ul id="time-controls">
-				<li class="play"><a href="#non">Play</a></li>
-				<li class="pause"><a href="#non">Pause</a></li>
+				<li class="play"><a href="#non">resume</a></li>
+				<li class="pause"><a href="#non">pause</a></li>
 			</ul>
 			<span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span><!--:<span class="milliseconds">120--></span>
 		</span>
@@ -54,6 +54,7 @@
 				'monitored_value' : 0,
 				'details'					: '',
 			},
+			'graph_data'		: [],
 			'refresh_delay'	: 1000, //parseInt(Math.random() * 8) * 1000 + 1000,
 		},
 		<% end %>
@@ -115,7 +116,7 @@
 	<% end %>
 	
 	<script>		
-	
+	/*
 	function test_graph_template_did_appear(name, widget) {
 
 		$service_warning			= false;
@@ -202,6 +203,7 @@
 		else
 			return 'ok'
 	}
+	*/
 </script>
 	
 </body>
