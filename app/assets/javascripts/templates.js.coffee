@@ -2,3 +2,11 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+$ ->
+	
+	editor = CodeMirror.fromTextArea document.getElementById("template_body")
+	, =>
+		mode: 'xml'
+		tabMode: "indent"
+		
+	editor.setOption "theme", 'ambiance' if active_theme() isnt 'white'
