@@ -10,6 +10,33 @@
 	width:100%;
 	float:left; clear:both;
 	text-shadow:0px 0px 0px rgba(black,0);
+	
+	.tooltip {
+    border: 1px solid rgba($main-color, 1);
+    padding: 2px;
+		font-size : 12px;
+		border-radius: 3px;
+    background-color: rgba($main-color, 0.8);
+    opacity: 0.80;
+		font-weight:200;
+		color: rgba($inverted-color, 0.6);
+		
+		.hours {
+			color: rgba($inverted-color,1.0);
+		}		
+		.minutes {
+			color: rgba($inverted-color,1.0);
+		}		
+		.seconds {
+			color: rgba($inverted-color,0.60);
+		}
+		.value {
+			color: rgba($inverted-color,1);
+			font-weight: 600;
+			margin-left: 10px;
+		}
+				
+	}
 }
 
 .widget {

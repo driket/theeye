@@ -85,7 +85,29 @@ class Dashboard
 		for name, widget of @widgets
 
 			this.refresh_widget name, widget
-			
+	
+	
+	showTooltip: (x, y, date, value) =>
+
+		h 	= ("0" + date.getHours()).slice -2
+		m 	= ("0" + date.getMinutes()).slice -2
+		s 	= ("0" + date.getSeconds()).slice -2
+		formated_date = h + ':' + m + ':' + s
+
+		contents =  '<span class="hours">' 		+ h + '</span>:'
+		contents += '<span class="minutes">' 	+ m + '</span>:'
+		contents += '<span class="seconds">' 	+ s + '</span>'
+		contents += '<span class="value">' 		+ value + '</span>%'
+
+		$('<div class="tooltip">' + contents + '</div>')
+		.css
+	    display: 'none'
+	    position: 'absolute'
+	    top: y + 5
+	    left: x + 5
+		.appendTo(@element)
+		.fadeIn(200)
+				
 			
 	# draw graph for a given widget
 
@@ -184,12 +206,21 @@ class Dashboard
 		,xaxis: 
 			min: now-(time_scale*1000)
 			max: now
-
 		
 		# on plot hover
-		
+		previousPoint = null
 		$('#'+ name + ' .plot-chart').bind plothover: (event, pos, item) =>
-			#alert 'plothover'
+			if item
+				if previousoint != item.dataIndex
+					previousoint = item.dataIndex
+					$(@element + ' .tooltip').remove()
+					date = new Date(item.datapoint[0])
+					value = item.datapoint[1].toFixed(0)
+
+					this.showTooltip(item.pageX, item.pageY, date, value)
+			else
+				$(@element + ' .tooltip').remove()
+				previousPoint = null
 
 
 		# return alert code
