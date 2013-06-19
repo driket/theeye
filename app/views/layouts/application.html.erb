@@ -11,11 +11,20 @@
 <body class="size-medium">
 
   <div id="mv-topbar">
+		
     <ul style="display:inline;">
       <h1 id="mv-logo"><a href="/widgets"><span class="discreet">the</span>Eye</a></h1>
     </ul>
-		<span id="clock">18:32<span class="seconds">:23</span><span class="milliseconds">:120</span></span>
+		
+		<span id="clock">
+			<ul id="time-controls">
+				<li class="play"><a href="#non">Play</a></li>
+				<li class="pause"><a href="#non">Pause</a></li>
+			</ul>
+			<span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span><!--:<span class="milliseconds">120--></span>
+		</span>
   </div>
+	
   <hr style="clear:both; border:none;" />
 	
 	<div id="page">
@@ -72,8 +81,7 @@
 		resize_page();
 		refreshWidgets($widgets);
 		$("#widgets").sortable();
-		//refreshWidgets();
-		setInterval(function(){refreshWidgets($widgets)}, 1000);			
+		setInterval(function(){refreshWidgets($widgets)}, 1000);	
 	});
 	
 	function resize_page() {
@@ -114,10 +122,6 @@
 	<% end %>
 	
 	<script>		
-
-	//$now = new Date();
-	alert(color_for_status('ok'));
-	
 	
 	function test_graph_template_did_appear(name, widget) {
 

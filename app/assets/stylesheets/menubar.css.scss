@@ -86,15 +86,28 @@
 		font-family: Helvetica Neue;
 		font-weight: 100;
 		font-size: 30px;
-		color: $main-color;
+		color: rgba($main-color,0.30);
+
+		.hours {
+			color: rgba($main-color,1.0);
+		}		
+		.minutes {
+			color: rgba($main-color,1.0);
+		}		
 		.seconds {
-			color: rgba($main-color,0.5);
-			//text-shadow: 0px 1px 3px #555;
+			color: rgba($main-color,0.30);
 		}
 		.milliseconds {
 			color: rgba($main-color,0.25);
-			//text-shadow: 0px 1px 3px #333;
 		}
+	}
+	
+	#time-controls {
+	 float:left;
+	 margin: -13px 20px 0px 0px;	
+	}
+	#time-controls .disabled{
+		display:none;
 	}
 }
 
