@@ -97,15 +97,17 @@ class Dashboard
 			if threshold.operator == '>='
 				if value >= threshold.value				
 					return threshold.alert
-			if threshold.operator == '>'
+			else if threshold.operator == '>'
 				if value > threshold.value				
 					return threshold.alert
-			if threshold.operator == '<'
+			else if threshold.operator == '<'
 				if value < threshold.value				
 					return threshold.alert
-			if threshold.operator == '<='
+			else if threshold.operator == '<='
 				if value <= threshold.value				
 					return threshold.alert
+			else
+				console.log 'invalid comparison operator - alertLevelForValue'
 				
 	
 	showTooltip: (x, y, date, value, widget) =>
@@ -142,9 +144,6 @@ class Dashboard
 
 		service_warning			= false
 		service_alert				= false
-
-		threshold_warning 	= 80
-		threshold_alert			= 90
 
 		time_scale 					= 60 #(in second)
 
@@ -196,17 +195,35 @@ class Dashboard
 			
 		# setup thresholds for graph
 		
-		thresholds_constraints = [
-			{ threshold: threshold_alert
-			, color: color_alert
-			, evaluate : (y, threshold) =>
-				return y >= threshold }
-			{ threshold: threshold_warning
-			, color: color_ok
-			, evaluate : (y, threshold) =>
-				return y >= threshold }
-		]
+		thresholds_constraints = []
 
+		for a_threshold in widget.thresholds 
+			if a_threshold.operator == '>='
+				color = theme_color_for_class 'service-status-' + a_threshold.alert
+				constraint = { threshold: a_threshold.value
+				, color: color
+				, evaluate : (y, threshold) =>
+					return y >= threshold }
+			else if a_threshold.operator == '>='
+				color = theme_color_for_class 'service-status-' + a_threshold.alert
+				constraint = { threshold: a_threshold.value
+				, color: color
+				, evaluate: (y, threshold) =>
+					return y >= threshold }
+			else if a_threshold.operator == '<'
+				color = theme_color_for_class 'service-status-' + a_threshold.alert
+				constraint = { threshold: a_threshold.value
+				, color: color
+				, evaluate: (y, threshold) =>
+					return y < threshold }
+			else if a_threshold.operator == '<='
+				color = theme_color_for_class 'service-status-' + a_threshold.alert
+				constraint = { threshold: a_threshold.value
+				, color: color
+				, evaluate: (y, threshold) =>
+					return y <= threshold }
+					
+			thresholds_constraints.push constraint
 
 		# draw graph
 
