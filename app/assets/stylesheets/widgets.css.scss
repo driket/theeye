@@ -71,7 +71,7 @@
 	box-shadow: 0px 3px 8px $shadow-color;
 	background: $card-background-color;
 	&.flipped {
-		background-color: darken($card-background-color, 20);
+		background-color: darken($card-background-color, 5);
 	}
 }
 	
@@ -96,9 +96,6 @@
 	
 	.card 		{ border-top-color: $status-ok-color; 
 		-webkit-transition: border-top-color 1s ease-in; //transition webkit
-		-moz-transition: border-top-color 1s ease-in; //transition mozilla
-		-o-transition: border-top-color 1s ease-in; //transition opera
-		transition: border-top-color 1s ease-in; //syntaxe d'avenir
 	}
 	h3,h4			{ color: $status-ok-color; 
 		-webkit-transition: color 1s ease-in; //transition webkit
@@ -145,6 +142,7 @@
 	height: $card-height - $card-padding * 2;
   -webkit-transform-style: preserve-3d;
   //-webkit-transition: 0.3s;	
+	//-webkit-transition: -webkit-transform 0.3s;
 }
 
 .widget .card .face {
