@@ -39,7 +39,9 @@ class Dashboard
 	
 		# if refresh delay is up
 	
-		if new Date().getTime() - widget.data.date > widget.refresh_delay
+		elapased_time = new Date().getTime() - widget.data.date
+		
+		if  elapased_time > widget.refresh_delay
 
 	    #display activity indicator while loading
 		
@@ -92,11 +94,21 @@ class Dashboard
 		
 		for threshold in widget.thresholds
 
-			if value >= threshold.value
+			if threshold.operator == '>='
+				if value >= threshold.value				
+					return threshold.alert
+			if threshold.operator == '>'
+				if value > threshold.value				
+					return threshold.alert
+			if threshold.operator == '<'
+				if value < threshold.value				
+					return threshold.alert
+			if threshold.operator == '<='
+				if value <= threshold.value				
+					return threshold.alert
 				
-				return threshold.alert
 	
-	showTooltip: (x, y, date, value, is_alert) =>
+	showTooltip: (x, y, date, value, widget) =>
 
 		h 	= ("0" + date.getHours()).slice -2
 		m 	= ("0" + date.getMinutes()).slice -2
@@ -107,10 +119,12 @@ class Dashboard
 		contents 		+= '<span class="minutes">' 		+ m + '</span>:'
 		contents 		+= '<span class="seconds">' 		+ s + '</span>'
 
-		if is_alert
-			contents 	+= '<span class="value alert">'	+ value + '</span>%'
+		alert_level = this.alertLevelForValue value, widget
+		
+		if alert_level == 'alert'
+			contents 	+= '<span class="value alert">'	+ value + '</span>' + widget.unit
 		else
-			contents 	+= '<span class="value">' 			+ value + '</span>%'
+			contents 	+= '<span class="value">' 			+ value + '</span>' + widget.unit
 			
 		$('<div class="tooltip">' + contents + '</div>')
 		.css
@@ -129,8 +143,8 @@ class Dashboard
 		service_warning			= false
 		service_alert				= false
 
-		threshold_warning 	= 90
-		threshold_alert			= 97
+		threshold_warning 	= 80
+		threshold_alert			= 90
 
 		time_scale 					= 60 #(in second)
 
@@ -186,11 +200,11 @@ class Dashboard
 			{ threshold: threshold_alert
 			, color: color_alert
 			, evaluate : (y, threshold) =>
-				return y > threshold }
+				return y >= threshold }
 			{ threshold: threshold_warning
 			, color: color_ok
 			, evaluate : (y, threshold) =>
-				return y > threshold }
+				return y >= threshold }
 		]
 
 
@@ -235,13 +249,8 @@ class Dashboard
 					target = $(event.currentTarget).closest(".widget")
 					bound_widget_id = target.attr 'id'
 					bound_widget = @widgets[bound_widget_id]
-					alert_level = this.alertLevelForValue value, bound_widget
-					if alert_level == 'alert'
-						is_alert = true
-					else
-						is_alert = false
 
-					this.showTooltip(item.pageX, item.pageY, date, value, is_alert)
+					this.showTooltip item.pageX, item.pageY, date, value, bound_widget
 			else
 				$(@element + ' .tooltip').remove()
 				previousPoint = null
