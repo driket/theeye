@@ -53,7 +53,7 @@ class Dashboard
 		
 			# simulate monitored value
 		
-			widget.data.monitored_value = parseInt Math.random() * 100;
+			widget.data.value = parseInt Math.random() * 100;
 			widget.data.date = new Date().getTime()
 	
 			content = $(template).tmpl template_variables;
@@ -156,7 +156,7 @@ class Dashboard
 			
 		# date set
 		
-		data_value 	= widget.data.monitored_value
+		data_value 	= widget.data.value
 		data_time 	= widget.data.date
 		now = Date.parse new Date()
 
