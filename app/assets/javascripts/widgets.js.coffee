@@ -52,7 +52,7 @@ class Dashboard
 			#
 		
 			# simulate monitored value
-		
+			console.log widget.data_source
 			widget.data.value = parseInt Math.random() * 100;
 			widget.data.date = new Date().getTime()
 	

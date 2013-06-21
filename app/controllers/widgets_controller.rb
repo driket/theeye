@@ -35,6 +35,7 @@ class WidgetsController < ApplicationController
   # GET /widgets/1/edit
   def edit
     @widget = Widget.find(params[:id])
+    @widget.build_data_source()
   end
 
   # POST /widgets

@@ -1,7 +1,7 @@
 class Widget < ActiveRecord::Base
-  has_many    :data_sources
+  has_one     :data_source
   belongs_to  :template
   
-  accepts_nested_attributes_for :data_sources
+  accepts_nested_attributes_for :data_source
   accepts_nested_attributes_for :template
 end

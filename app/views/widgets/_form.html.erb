@@ -22,13 +22,12 @@
   </div>
 	
 	<div class="field subform">
-	<%= f.fields_for :data_sources do |f_data_source| %>
+	<%= f.fields_for :data_source do |f_data_source| %>
 	<p>
 	    <%= render :partial => "data_sources/form", :locals => { :f => f_data_source } %>
 	</p>
 	<% end %>
-	<%= f.link_to_add "add data source", :data_sources, :class => 'button add-button' %>
-	</div>
+</div>
 	
   <div class="field">
     <%= f.label :template %><br />

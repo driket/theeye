@@ -49,6 +49,9 @@
 			'title' 				: '<%= widget.title %>',
 			'url'						: '',
 			'template' 			: '<%= widget.template.uid %>',
+			<% if widget.data_source %>
+			'data_source'		: '<%= widget.data_source.json_url %>',
+			<% end %>
 			'thresholds'		: [
 				{ 'operator':'>=', 'value': 97, 'alert':'alert' },
 				{ 'operator':'>=', 'value': 90, 'alert':'warning' }

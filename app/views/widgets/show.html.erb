@@ -7,11 +7,9 @@
 </p>
 
 <p>
-  <b>Data sources</b>
-	<% if @widget.data_sources %>
-		<% for data_source in @widget.data_sources %>
-			<%="#{data_source.json_url}" %><br />
-		<% end %>
+  <b>Data source</b>
+	<% if @widget.data_source %>
+		<%="#{@widget.data_source.json_url}" %><br />
 	<% else %>
 	No datasources for this widget.
 	<% end %>
