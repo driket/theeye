@@ -25,7 +25,7 @@ class WidgetsController < ApplicationController
   # GET /widgets/new.json
   def new
     @widget = Widget.new
-
+    @widget.build_data_source()
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @widget }
@@ -35,7 +35,7 @@ class WidgetsController < ApplicationController
   # GET /widgets/1/edit
   def edit
     @widget = Widget.find(params[:id])
-    @widget.build_data_source()
+    @widget.build_data_source() if !@widget.data_source
   end
 
   # POST /widgets

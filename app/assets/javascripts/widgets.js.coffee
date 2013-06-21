@@ -44,26 +44,38 @@ class Dashboard
 		if  elapased_time > widget.refresh_delay
 
 	    #display activity indicator while loading
-		
-			$(widget_name).spin 'large', '#888'
+			status = 'ok'
+			#$(widget_name).spin 'large', '#eee'
 
 			#
 			# fetch data remotely (async)
 			#
-		
-			# simulate monitored value
+			
 			console.log widget.data_source
-			widget.data.value = parseInt Math.random() * 100;
-			widget.data.date = new Date().getTime()
-	
-			content = $(template).tmpl template_variables;
-			$(widget_name + ' .face-simple-view').html content;
+
+			$.getJSON(widget.data_source)
+			
+			.fail () =>
+				content = '<h1>Error</h1>'
+				$(widget_name + ' .face-simple-view').html content;
+				$(widget_name).spin false
+				$(widget_name).addClass 'service-status-alert'	
+				status = 'alert'
+
+			.done (json) => 
+				widget.data.value 	= json.value
+				widget.data.date  	= Date.parse(json.date)
+				widget.data.details = json.details
+				console.log [widget, json, new Date().getTime() - widget.data.date]
+				$(widget_name).spin false
+				
+				content = $(template).tmpl template_variables;
+				$(widget_name + ' .face-simple-view').html content;
 	
 			# hide activity indicator (loaded)
 		
-			$(widget_name).spin false
 	
-			status = this.render_graph name, widget		
+				status = this.render_graph name, widget		
 
 			$(widget_name).removeClass 'service-status-ok'
 			$(widget_name).removeClass 'service-status-disabled'
