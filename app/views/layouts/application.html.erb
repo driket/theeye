@@ -52,10 +52,13 @@
 			<% if widget.data_source %>
 			'data_source'		: '<%= widget.data_source.json_url %>',
 			<% end %>
+			<% if widget.thresholds.size > 0 %>
 			'thresholds'		: [
-				{ 'operator':'>=', 'value': 97, 'alert':'alert' },
-				{ 'operator':'>=', 'value': 90, 'alert':'warning' }
+			<% for threshold in widget.thresholds %>
+				{ 'operator':'<%= threshold.operator %>', 'value': <%= threshold.value %>, 'alert':'<%= threshold.alert %>' },
+			<% end %>
 			],
+			<% end %>
 			'data'					:
 			{
 				'value' 			: 0,

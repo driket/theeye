@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130615153543) do
+ActiveRecord::Schema.define(:version => 20130622125709) do
 
   create_table "data_sources", :force => true do |t|
     t.string   "json_url"
@@ -29,6 +29,17 @@ ActiveRecord::Schema.define(:version => 20130615153543) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "thresholds", :force => true do |t|
+    t.string   "operator"
+    t.float    "value"
+    t.string   "alert"
+    t.integer  "widget_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "thresholds", ["widget_id"], :name => "index_thresholds_on_widget_id"
 
   create_table "widgets", :force => true do |t|
     t.string   "title"

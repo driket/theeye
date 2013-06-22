@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  operator: MyString
+  value: 
+  alert: MyString
+  widget: 
+
+two:
+  operator: MyString
+  value: 
+  alert: MyString
+  widget: 
