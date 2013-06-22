@@ -51,13 +51,11 @@ class Dashboard
 			# fetch data remotely (async)
 			#
 			
-			console.log widget.data_source
-
 			$.getJSON(widget.data_source)
 			
 			.fail () =>
-				content = '<h1>Error</h1>'
-				$(widget_name + ' .face-simple-view').html content;
+				content = '<h3>Error</h3>'
+				$(widget_name + ' .widget-content').html content;
 				$(widget_name).spin false
 				$(widget_name).addClass 'service-status-alert'	
 				status = 'alert'
@@ -66,7 +64,6 @@ class Dashboard
 				widget.data.value 	= json.value
 				widget.data.date  	= Date.parse(json.date)
 				widget.data.details = json.details
-				console.log [widget, json, new Date().getTime() - widget.data.date]
 				$(widget_name).spin false
 				
 				content = $(template).tmpl template_variables;
