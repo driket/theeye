@@ -256,8 +256,8 @@ class Dashboard
 			clickable: true
 			color: grid_color
 		,yaxis: 
-			min: 0, 
-			max: 100
+			min: widget.min, 
+			max: widget.max
 		,xaxis: 
 			min: now-(time_scale*1000)
 			max: now
