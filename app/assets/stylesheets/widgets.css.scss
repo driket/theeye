@@ -16,11 +16,18 @@
     padding: 2px;
 		font-size : 12px;
 		border-radius: 3px;
-    background-color: rgba($main-color, 0.8);
-    opacity: 0.80;
+    background-color: rgba($main-color, 0.9);
+//    opacity: 0.80;
 		font-weight:200;
 		color: rgba($inverted-color, 0.6);
-		
+		td {
+			color: rgba($inverted-color, 0.6);
+			font-weight:300;
+			opacity: 1;
+		}
+		td:last-child {
+			text-align:right;
+		}
 		.hours {
 			color: rgba($inverted-color,1.0);
 		}		

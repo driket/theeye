@@ -120,7 +120,7 @@ class Dashboard
 				console.log '(alertLevelForValue) invalid comparison operator: ' + threshold.operator
 				
 	
-	showTooltip: (x, y, date, value, widget) =>
+	showTooltip: (x, y, date, value, widget, details) =>
 
 		h 	= ("0" + date.getHours()).slice -2
 		m 	= ("0" + date.getMinutes()).slice -2
@@ -134,7 +134,7 @@ class Dashboard
 			'value'				: value
 			'unit'				: widget.unit
 			'alert_level'	: alert_level
-			'details'			: widget.details
+			'details'			: details
 					
 		content = $('#widget-details').tmpl data
 		$(content)
@@ -145,8 +145,16 @@ class Dashboard
 	    left: x + 5
 		.appendTo(@element)
 		.fadeIn(200)
+	
+	
+	getDetailsForWidgetAtDatetime: (widget, date) =>
 				
-			
+		for data in widget.details_data
+			if data[0] >= Date.parse date
+				console.log 'found: ', data
+				return data[1]
+				
+				
 	# draw graph for a given widget
 
 	render_graph: (name, widget) ->
@@ -186,7 +194,7 @@ class Dashboard
 		# add current value to graph data
 
 		widget.graph_data.push [data_time, data_value]
-		widget.details_data.push [data_time, widget.data.value]
+		widget.details_data.push [data_time, widget.data.details]
 
 
 		# delete old value from temp array
@@ -270,8 +278,8 @@ class Dashboard
 					target = $(event.currentTarget).closest(".widget")
 					bound_widget_id = target.attr 'id'
 					bound_widget = @widgets[bound_widget_id]
-
-					this.showTooltip item.pageX, item.pageY, date, value, bound_widget
+					details = this.getDetailsForWidgetAtDatetime(bound_widget, date)
+					this.showTooltip item.pageX, item.pageY, date, value, bound_widget, details
 			else
 				$(@element + ' .tooltip').remove()
 				previousPoint = null
