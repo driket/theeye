@@ -125,20 +125,19 @@ class Dashboard
 		h 	= ("0" + date.getHours()).slice -2
 		m 	= ("0" + date.getMinutes()).slice -2
 		s 	= ("0" + date.getSeconds()).slice -2
-		formated_date = h + ':' + m + ':' + s
-
-		contents		=  '<span class="hours">' 			+ h + '</span>:'
-		contents 		+= '<span class="minutes">' 		+ m + '</span>:'
-		contents 		+= '<span class="seconds">' 		+ s + '</span>'
-
 		alert_level = this.alertLevelForValue value, widget
-		
-		if alert_level == 'alert'
-			contents 	+= '<span class="value alert">'	+ value + '</span>' + widget.unit
-		else
-			contents 	+= '<span class="value">' 			+ value + '</span>' + widget.unit
-			
-		$('<div class="tooltip">' + contents + '</div>')
+
+		data = 
+			'hours'				: h
+			'minutes'			: m
+			'seconds'			: s
+			'value'				: value
+			'unit'				: widget.unit
+			'alert_level'	: alert_level
+			'details'			: widget.details
+					
+		content = $('#widget-details').tmpl data
+		$(content)
 		.css
 	    display: 'none'
 	    position: 'absolute'
@@ -184,24 +183,18 @@ class Dashboard
 			service_warning = true
 		
 		
-		# init graph data if needed
-		
-		if widget.graph_data == null
-	
-			widget.graph_data  = []
-
-		
 		# add current value to graph data
 
 		widget.graph_data.push [data_time, data_value]
+		widget.details_data.push [data_time, widget.data.value]
 
 
 		# delete old value from temp array
-	
 		for data in widget.graph_data
 			
-			widget.graph_data.shift if data[0] < now - (time_scale*1000)
-			
+			if data[0] < now - (time_scale*1000)
+				widget.graph_data.shift 
+				widget.details_data.shift
 			
 		# setup thresholds for graph
 		
