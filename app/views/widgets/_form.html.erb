@@ -15,6 +15,17 @@
     <%= f.label :title %><br />
     <%= f.text_field :title %>
   </div>
+	
+  <div class="field">
+    <%= f.label :min %> : <%= f.text_field :min %>
+    <%= f.label :max %> : <%= f.text_field :max %>
+  </div>
+	<div class="field">
+    <%= f.label :unit %> : <%= f.text_field :unit %>
+  </div>
+	<div class="field">
+	   <%= f.label :refresh_delay %> : <%= f.text_field :refresh_delay %>ms
+	</div>
 	<!--
   <div class="field">
     <%= f.label :url %><br />
