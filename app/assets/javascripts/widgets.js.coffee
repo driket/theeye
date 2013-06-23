@@ -195,7 +195,8 @@ class Dashboard
 			if data[0] < now - (time_scale*1000)
 				widget.graph_data.shift 
 				widget.details_data.shift
-			
+				break
+				
 		# setup thresholds for graph
 		
 		thresholds_constraints = []
