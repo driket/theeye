@@ -116,6 +116,8 @@
 
 	
 	<!-- Templates -->
+
+	<%= render :partial => 'templates/base_templates' %>
 	
 	<% for template in ::Template.all %>
 		<%= render :partial => template %>

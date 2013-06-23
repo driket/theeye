@@ -48,7 +48,7 @@ class Dashboard
 		
 		if $(widget_name).length == 0
 			
-			content = $('#empty_template').tmpl template_variables
+			content = $('#widget-empty-template').tmpl template_variables
 			$('#widgets').append content
 	
 	
@@ -60,7 +60,7 @@ class Dashboard
 
 	    #display activity indicator while loading
 			status = 'ok'
-			#$(widget_name).spin 'large', '#eee'
+			$(widget_name).spin 'small', '#eee'
 
 			#
 			# fetch data remotely (async)
