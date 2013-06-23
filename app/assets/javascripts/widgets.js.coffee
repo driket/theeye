@@ -12,7 +12,22 @@ class Dashboard
 		this.refresh()
 
 
-	# refresh a given widget
+	set_status_for_widget: (name, widget, status) =>
+		
+		widget_name = '#' + name
+		
+		$(widget_name).removeClass 'service-status-ok'
+		$(widget_name).removeClass 'service-status-disabled'
+		$(widget_name).removeClass 'service-status-alert'
+		$(widget_name).removeClass 'service-status-warning'
+
+		if status 			== 'alert'
+			$(widget_name).addClass 'service-status-alert'	
+		else if status 	== 'warning'
+			$(widget_name).addClass 'service-status-warning'	
+		else
+			$(widget_name).addClass 'service-status-ok'
+	
 	
 	refresh_widget: (name, widget) =>
 		
@@ -57,9 +72,8 @@ class Dashboard
 				content = '<h3>Error</h3>'
 				$(widget_name + ' .widget-content').html content;
 				$(widget_name).spin false
-				$(widget_name).addClass 'service-status-alert'	
 				status = 'alert'
-
+				this.set_status_for_widget(name, widget, status)
 			.done (json) => 
 				widget.data.value 	= json.value
 				widget.data.date  	= Date.parse(json.date)
@@ -68,23 +82,10 @@ class Dashboard
 				
 				content = $(template).tmpl template_variables;
 				$(widget_name + ' .face-simple-view').html content;
-	
-			# hide activity indicator (loaded)
-		
-	
-				status = this.render_graph name, widget		
+				
+				status = this.render_graph name, widget
+				this.set_status_for_widget(name, widget, status)
 
-			$(widget_name).removeClass 'service-status-ok'
-			$(widget_name).removeClass 'service-status-disabled'
-			$(widget_name).removeClass 'service-status-alert'
-			$(widget_name).removeClass 'service-status-warning'
-
-			if status 			== 'alert'
-				$(widget_name).addClass 'service-status-alert'	
-			else if status 	== 'warning'
-				$(widget_name).addClass 'service-status-warning'	
-			else
-				$(widget_name).addClass 'service-status-ok'	
 		
 
 	# refresh all dashboard's widgets
@@ -99,24 +100,24 @@ class Dashboard
 	
 	alertLevelForValue: (value, widget) ->
 		
-		#console.log widget.thresholds
+		return 'ok' if !widget.thresholds 
 		
 		for threshold in widget.thresholds
 
-			if threshold.operator == '>='
-				if value >= threshold.value				
+			if threshold.operator == '&gt;='
+				if value >= threshold.value			
 					return threshold.alert
-			else if threshold.operator == '>'
+			else if threshold.operator == '&gt;'
 				if value > threshold.value				
 					return threshold.alert
-			else if threshold.operator == '<'
+			else if threshold.operator == '&lt;'
 				if value < threshold.value				
 					return threshold.alert
-			else if threshold.operator == '<='
+			else if threshold.operator == '&lt;='
 				if value <= threshold.value				
 					return threshold.alert
 			else
-				console.log 'invalid comparison operator - alertLevelForValue'
+				console.log '(alertLevelForValue) invalid comparison operator: ' + threshold.operator
 				
 	
 	showTooltip: (x, y, date, value, widget) =>
@@ -207,25 +208,25 @@ class Dashboard
 		thresholds_constraints = []
 
 		for a_threshold in widget.thresholds 
-			if a_threshold.operator == '>='
+			if a_threshold.operator == '&gt;='
 				color = theme_color_for_class 'service-status-' + a_threshold.alert
 				constraint = { threshold: a_threshold.value
 				, color: color
 				, evaluate : (y, threshold) =>
 					return y >= threshold }
-			else if a_threshold.operator == '>='
+			else if a_threshold.operator == '&gt;'
 				color = theme_color_for_class 'service-status-' + a_threshold.alert
 				constraint = { threshold: a_threshold.value
 				, color: color
 				, evaluate: (y, threshold) =>
-					return y >= threshold }
-			else if a_threshold.operator == '<'
+					return y > threshold }
+			else if a_threshold.operator == '&lt;'
 				color = theme_color_for_class 'service-status-' + a_threshold.alert
 				constraint = { threshold: a_threshold.value
 				, color: color
 				, evaluate: (y, threshold) =>
 					return y < threshold }
-			else if a_threshold.operator == '<='
+			else if a_threshold.operator == '&lt;='
 				color = theme_color_for_class 'service-status-' + a_threshold.alert
 				constraint = { threshold: a_threshold.value
 				, color: color
