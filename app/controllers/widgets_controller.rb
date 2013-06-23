@@ -61,7 +61,7 @@ class WidgetsController < ApplicationController
 
     respond_to do |format|
       if @widget.update_attributes(params[:widget])
-        format.html { redirect_to @widget, notice: 'Widget was successfully updated.' }
+        format.html { redirect_to widgets_path, notice: 'Widget was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
