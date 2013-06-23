@@ -1,14 +1,9 @@
   <div class="field">
-    <%= f.label :operator %><br />
-    <%= f.text_field :operator %>
-  </div>
-  <div class="field">
-    <%= f.label :value %><br />
-    <%= f.text_field :value %>
-  </div>
-  <div class="field">
-    <%= f.label :alert %><br />
-    <%= f.text_field :alert %>
+    <%= f.label :value %> : <%= f.text_field :value %>
+    <%= f.label :operator %> : <%= f.select :operator, ['>', '>=', '==', '<', '<='] %>
+		
+    <%= f.label :alert %> : <%= f.text_field :alert %>
+		<%= f.link_to_remove "Remove" %>
   </div>
   <%= f.hidden_field :widget_id %>
 

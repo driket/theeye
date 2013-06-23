@@ -15,12 +15,12 @@
     <%= f.label :title %><br />
     <%= f.text_field :title %>
   </div>
-	
+	<!--
   <div class="field">
     <%= f.label :url %><br />
     <%= f.text_field :url %>
   </div>
-	
+	-->
 	<div class="field subform">
 	<%= f.fields_for :data_source do |f_data_source| %>
 	<p>
@@ -33,7 +33,6 @@
 	<%= f.fields_for :thresholds do |f_threshold| %>
 	<p>
 	    <%= render :partial => "thresholds/form", :locals => { :f => f_threshold } %>
-			<%= f_threshold.link_to_remove "Remove" %>
 	</p>
 	<% end %>
 	<%= f.link_to_add "Add a threshold", :thresholds %></p>
