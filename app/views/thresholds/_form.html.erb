@@ -1,8 +1,8 @@
   <div class="field">
-    <%= f.label :value %> : <%= f.text_field :value %>
+    <%= f.label :value %> : <%= f.text_field :value, :size => '10' %>
     <%= f.label :operator %> : <%= f.select :operator, ['>', '>=', '==', '<', '<='] %>
 		
-    <%= f.label :alert %> : <%= f.text_field :alert %>
+    <%= f.label :alert %> : <%= f.select :alert, ['alert','warning'] %>
 		<%= f.link_to_remove "Remove" %>
   </div>
   <%= f.hidden_field :widget_id %>

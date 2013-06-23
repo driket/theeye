@@ -1,8 +1,7 @@
 <% if f.object %>
   <div class="field">
-    <%= f.label :json_url %><br />
-    <%= f.text_field :json_url %>
-		<%= f.link_to_remove "del data source", :confirm => 'Êtes vous sûr de vouloir supprimer ce contenu ?' %>
+    <%= f.label :json_url, 'Probe url' %> : 
+    <%= f.text_field :json_url, :size => 50 %>
   </div>
   <%= f.hidden_field :widget_id %>
 <% end %>
