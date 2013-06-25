@@ -60,7 +60,7 @@ class Dashboard
 
 	    #display activity indicator while loading
 			status = 'ok'
-			$(widget_name).spin 'small', '#eee'
+			$(widget_name).spin 'small', theme_color_for_class 'service-status-disabled'
 
 			#
 			# fetch data remotely (async)
@@ -273,7 +273,7 @@ class Dashboard
 					previousoint = item.dataIndex
 					$(@element + ' .tooltip').remove()
 					date = new Date(item.datapoint[0])
-					value = item.datapoint[1].toFixed(0)
+					value = item.datapoint[1]
 
 					target = $(event.currentTarget).closest(".widget")
 					bound_widget_id = target.attr 'id'

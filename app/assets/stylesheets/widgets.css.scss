@@ -101,7 +101,7 @@
 
 .service-status-ok 		{ 
 	
-	.card 		{ border-top-color: $status-ok-color; 
+	.card 		{ border-top-color: rgba($status-ok-color,0.2); 
 		-webkit-transition: border-top-color 1s ease-in; //transition webkit
 	}
 	h3,h4			{ color: $status-ok-color; 
