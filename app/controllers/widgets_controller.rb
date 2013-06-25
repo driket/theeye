@@ -81,4 +81,12 @@ class WidgetsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def sort
+    Widget.sort! params[:widget_id_array]
+    respond_to do |format|
+      format.html { redirect_to widgets_path }
+      format.json { head :no_content }
+    end
+  end
 end

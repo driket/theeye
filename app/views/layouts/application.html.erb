@@ -43,7 +43,7 @@
 	
 	$widgets = {
 		
-		<% for widget in ::Widget.all %>
+		<% for widget in ::Widget.sorted %>
 		'widget-<%= widget.id %>'	: 
 		{
 			'title' 				: '<%= widget.title %>',

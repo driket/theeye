@@ -8,7 +8,18 @@ class Dashboard
 
 		# init & first display 
 		graph = null
-		$(@element).sortable()
+		#$(@element).sortable()
+		$(@element).sortable({
+
+			stop: (event, ui) =>
+				widget_id_array = $(@element).sortable('toArray')
+
+				$.getJSON("/widgets/sort", { widget_id_array : widget_id_array  })
+				.done( (json) =>
+					console.log "getJSON /widgets/sort ok", json
+				)
+				
+		})
 		this.refresh()
 
 
