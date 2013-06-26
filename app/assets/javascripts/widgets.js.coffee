@@ -152,17 +152,22 @@ class Dashboard
 		.css
 	    display: 'none'
 	    position: 'absolute'
-	    top: y + 5
+	    top: y + 5 
 	    left: x + 5
 		.appendTo(@element)
 		.fadeIn(200)
+		
+		# if mouse cursor is on the second half of the screen width, 
+		# display popup on the left of the mouse cursor
+		mouseX = window.event.clientX
+		if mouseX > $(window).width() / 2
+			$(content).css('left', x - $(content).width() )
 	
 	
 	getDetailsForWidgetAtDatetime: (widget, date) =>
 				
 		for data in widget.details_data
 			if data[0] >= Date.parse date
-				console.log 'found: ', data
 				return data[1]
 				
 				
