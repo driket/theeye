@@ -5,7 +5,11 @@ Dashboard::Application.routes.draw do
 
   resources :data_sources
 
-  resources :widgets
+  resources :widgets do
+    collection do
+      get 'sort'
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
