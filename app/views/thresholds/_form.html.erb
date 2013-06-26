@@ -1,7 +1,6 @@
   <div class="field">
-    <%= f.label :value %> : <%= f.text_field :value, :size => '10' %>
     <%= f.label :operator %> : <%= f.select :operator, ['>', '>=', '==', '<', '<='] %>
-		
+    <%= f.label :value %> : <%= f.text_field :value, :size => '10' %>		
     <%= f.label :alert %> : <%= f.select :alert, ['alert','warning'] %>
 		<%= f.link_to_remove "Remove" %>
   </div>
