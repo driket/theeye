@@ -49,6 +49,9 @@
 			'title' 				: '<%= widget.title %>',
 			'url'						: '',
 			'template' 			: '<%= widget.template %>',
+			<% if widget.probe %>
+			'probe_id' 			: '<%= widget.probe_id %>',
+			<% end %>
 			<% if widget.url %>
 			'data_source'		: '<%= widget.url %>',
 			<% end %>

@@ -20,7 +20,7 @@ class Dashboard
 				)
 				
 		})
-		this.refresh()
+		this.refresh_all()
 
 
 	set_status_for_widget: (name, widget, status) =>
@@ -46,7 +46,7 @@ class Dashboard
 		
 		widget_name = '#' + name
 		template 		= '#' + widget.template
-
+		container		= '#probe-' + widget.probe_id + '-widgets'
 
 		# prepare data for template
 		
@@ -60,7 +60,7 @@ class Dashboard
 		if $(widget_name).length == 0
 			
 			content = $('#widget-empty-template').tmpl template_variables
-			$('#widgets').append content
+			$(container).append content
 	
 	
 		# if refresh delay is up
@@ -101,7 +101,7 @@ class Dashboard
 
 	# refresh all dashboard's widgets
 	
-	refresh: => 
+	refresh_all: => 
 	
 		# for each widget
 		
@@ -315,11 +315,11 @@ class Dashboard
 						 
 $ ->
 	
-	dashboard = new Dashboard '#widgets', $widgets 
+	dashboard = new Dashboard '.widgets', $widgets 
 
 	# each time clock 'ticks'
 	
 	$("#clock").bind tick: ->
 		
-		dashboard.refresh()
+		dashboard.refresh_all()
 	
