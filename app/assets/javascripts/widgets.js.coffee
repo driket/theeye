@@ -148,13 +148,14 @@ class Dashboard
 			'details'			: details
 					
 		content = $('#widget-details').tmpl data
+		target	=	$(@element).last()
 		$(content)
 		.css
 	    display: 'none'
 	    position: 'absolute'
 	    top: y + 5 
 	    left: x + 5
-		.appendTo(@element)
+		.appendTo(target)
 		.fadeIn(200)
 		
 		# if mouse cursor is on the second half of the screen width, 
