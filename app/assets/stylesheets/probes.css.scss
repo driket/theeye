@@ -19,17 +19,16 @@
 
 .probe-title span{
 	padding-left:10px;
-	visibility: hidden;
+	color:rgba($main-color, 0);
 }
 
 .probe-title:hover span{
 	padding-left:10px;
 	color:rgba($main-color, 0.2);
-	visibility: visible;
 }
 
 .probe-title span.edit-probe a {
-	color:rgba($main-color, 0);
+	color:rgba($main-color, 0.1);
 	float:right;
 }
 
