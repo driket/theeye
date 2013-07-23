@@ -1,21 +1,53 @@
 <h2>Dashboard</h2>
 
-<% @probes.each do |probe| %>
-<table>
-  <tr>
-    <td><%= probe.title %></td>
-    <td><%= probe.url %></td>
-    <td><%= probe.position %></td>
-    <td><%= link_to 'Show', probe %></td>
-    <td><%= link_to 'Edit', edit_probe_path(probe) %></td>
-    <td><%= link_to 'Destroy', probe, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-</table>
+<% for probe in @probes %>
+<h3 class="probe-title"><%= probe.title%><span><%= probe.url %></span><span class="edit-probe"><%= link_to 'Edit', edit_probe_path(probe) %></span></h3>
 <ul id="probe-<%= probe.id %>-widgets" class="widgets">				
 
 </ul>
 <% end %>
 
 <br />
+
+<script>
+
+$widgets = {
+	
+	<% for widget in ::Widget.sorted %>
+	'widget-<%= widget.id %>'	: 
+	{
+		'title' 				: '<%= widget.title %>',
+		'url'						: '',
+		'template' 			: '<%= widget.template %>',
+		<% if widget.probe %>
+		'probe_id' 			: '<%= widget.probe_id %>',
+		<% end %>
+		<% if widget.url %>
+		'data_source'		: '<%= widget.url %>',
+		<% end %>
+		<% if widget.thresholds.size > 0 %>
+		'thresholds'		: [
+		<% for threshold in widget.thresholds %>
+			{ 'operator':'<%= threshold.operator %>', 'value': <%= threshold.value %>, 'alert':'<%= threshold.alert %>' },
+		<% end %>
+		],
+		<% end %>
+		'data'					:
+		{
+			'value' 			: 0,
+			'date'				: 0,
+			'details'			: '',
+		},
+		'min'						: <%= widget.min %>,
+		'max'						: <%= widget.max %>,
+		'unit'					: '<%= widget.unit %>',
+		'graph_data'		: [],
+		'details_data'	: [],
+		'refresh_delay'	: <%= widget.refresh_delay %>,
+	},
+	<% end %>
+}
+
+</script>
 
 <%= link_to 'New Probe', new_probe_path %> | <%= link_to 'Widgets', widgets_path %>
