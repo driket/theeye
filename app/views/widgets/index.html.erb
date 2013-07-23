@@ -9,7 +9,8 @@
 <table>
   <tr>
     <th>Widget</th>
-    <th></th>
+    <th>url</th>
+    <th>probe</th>
     <th></th>
     <th></th>
     <th></th>
@@ -18,7 +19,8 @@
 <% for widget in ::Widget.all %>
   <tr>
     <td><%= widget.title %></td>
-    <td><%= widget.data_source.json_url if widget.data_source %></td>
+    <td><%= widget.url %></td>
+    <td><%= widget.probe.title if widget.probe %></td>
     <td><%= link_to 'Edit', edit_widget_path(widget) %></td>
     <td><%= link_to 'Destroy', widget, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
@@ -27,4 +29,4 @@
 
 <br />
 
-<%= link_to 'New Widget', new_widget_path %>
+<%= link_to 'New Widget', new_widget_path %> | <%= link_to 'Probes', probes_path %>

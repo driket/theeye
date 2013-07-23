@@ -14,4 +14,12 @@ class Widget < ActiveRecord::Base
     end
     puts 'yeah'
   end
+  
+  def url
+    if probe
+      probe.url + '/' + uri
+    else
+      uri
+    end
+  end
 end

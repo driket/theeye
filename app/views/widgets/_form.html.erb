@@ -29,12 +29,8 @@
   </div>
 	-->
 	<div class="field">
-	<%= f.fields_for :data_source do |f_data_source| %>
-	<p>
-	    <%= render :partial => "data_sources/form", :locals => { :f => f_data_source } %>
-	</p>
-	<% end %>
-</div>
+  	<%= f.label :uri %> : <%= f.text_field :uri, :size => 10 %>
+	</div>
 
 	<div class="field">
   <%= f.label :thresholds %> : 
@@ -47,12 +43,10 @@
 	<%= f.link_to_add "Add a threshold", :thresholds %></p>
 	</div>
 	</div>
-	<!-- 
   <div class="field">
-    <%= f.label :template %><br />
-    <%= f.select :template_id, ::Template.all.collect {|t| [ t.uid, t.id]} %>
+    <%= f.label :probe %><br />
+    <%= f.select :probe_id, ::Probe.all.collect {|p| [ p.title, p.id]} %>
   </div>
-	-->	
   <div class="actions">
     <%= f.submit %>
   </div>
