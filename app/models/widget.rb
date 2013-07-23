@@ -4,7 +4,6 @@ class Widget < ActiveRecord::Base
   
   accepts_nested_attributes_for :data_source
   accepts_nested_attributes_for :thresholds
-  accepts_nested_attributes_for :template
   
   scope :sorted, Widget.order('position ASC')
   
