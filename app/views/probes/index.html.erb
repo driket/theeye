@@ -1,0 +1,29 @@
+<h2>Listing probes</h2>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Widget</th>
+    <th>Url</th>
+    <th>Position</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @probes.each do |probe| %>
+  <tr>
+    <td><%= probe.title %></td>
+    <td><%= probe.widget %></td>
+    <td><%= probe.url %></td>
+    <td><%= probe.position %></td>
+    <td><%= link_to 'Show', probe %></td>
+    <td><%= link_to 'Edit', edit_probe_path(probe) %></td>
+    <td><%= link_to 'Destroy', probe, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Probe', new_probe_path %>

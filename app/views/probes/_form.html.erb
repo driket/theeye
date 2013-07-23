@@ -1,0 +1,33 @@
+<%= form_for(@probe) do |f| %>
+  <% if @probe.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@probe.errors.count, "error") %> prohibited this probe from being saved:</h2>
+
+      <ul>
+      <% @probe.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :widget %><br />
+    <%= f.text_field :widget %>
+  </div>
+  <div class="field">
+    <%= f.label :url %><br />
+    <%= f.text_field :url %>
+  </div>
+  <div class="field">
+    <%= f.label :position %><br />
+    <%= f.number_field :position %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
