@@ -4,27 +4,6 @@
 
 </ul>
 
-<hr />
-
-<table>
-  <tr>
-    <th>Template ID</th>
-    <th>Widget</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% for template in ::Template.all %>
-  <tr>
-    <td><%= template.uid %></td>
-    <td><%= template.widgets.size %></td>
-    <td><%= link_to 'Edit', edit_template_path(template) %></td>
-    <td><%= link_to 'Destroy', template, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
 <br />
 
 <table>
@@ -48,6 +27,4 @@
 
 <br />
 
-<%= link_to 'New Widget', new_widget_path %> | 
-
-<%= link_to 'Templates', templates_path %>
+<%= link_to 'New Widget', new_widget_path %>
