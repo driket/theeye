@@ -1,4 +1,4 @@
-<%= form_for(@probe) do |f| %>
+<%= nested_form_for(@probe) do |f| %>
   <% if @probe.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@probe.errors.count, "error") %> prohibited this probe from being saved:</h2>
@@ -12,17 +12,29 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br />
+    <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :url %><br />
+    <%= f.label :url %>
     <%= f.text_field :url %>
   </div>
+
+	<% if !f.object.new_record? %>
+	  <%= f.label :widgets %><br />	
+		<%= f.fields_for :widgets do |f_widget| %>
+			<p>
+		    <%= render :partial => "widgets/form_oneline", :locals => { :f => f_widget, :available_uris => @probe.available_uris } %>
+			</p>
+		<% end %>
+		<%= f.link_to_add "Add a widget", :widgets %>
+	<% end %>
+	<!--
   <div class="field">
     <%= f.label :position %><br />
     <%= f.number_field :position %>
   </div>
+	-->
   <div class="actions">
     <%= f.submit %>
   </div>
