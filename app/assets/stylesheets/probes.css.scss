@@ -1,3 +1,40 @@
 // Place all the styles related to the Probes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "_init.css.scss";
+
+.probe-title {
+	border-bottom: 1px solid rgba($main-color, 0.05);
+	// background: #f8f8f8;
+	clear:both;
+	font-weight: 200;
+	font-size: 12px;
+	padding: 3px 0px;
+	color:rgba($main-color, 0.2);
+}
+.probe-title:hover {
+	color:rgba($main-color, 0.8);
+}
+
+.probe-title span{
+	padding-left:10px;
+	visibility: hidden;
+}
+
+.probe-title:hover span{
+	padding-left:10px;
+	color:rgba($main-color, 0.2);
+	visibility: visible;
+}
+
+.probe-title span.edit-probe a {
+	color:rgba($main-color, 0);
+	float:right;
+}
+
+.probe-title:hover span.edit-probe a {
+	color:rgba($main-color, 0.8);
+	font-weight: 200;
+	float:right;
+}
