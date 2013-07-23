@@ -1,4 +1,5 @@
 class Widget < ActiveRecord::Base
+  
   has_many    :thresholds
   belongs_to  :probe
   
