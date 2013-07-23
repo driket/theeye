@@ -13,7 +13,7 @@
   <div id="mv-topbar">
 		
     <ul style="display:inline;">
-      <h1 id="mv-logo"><a href="/widgets"><span class="discreet">the</span>Eye</a></h1>
+      <h1 id="mv-logo"><a href="/"><span class="discreet">the</span>Eye</a></h1>
     </ul>
 		
 		<span id="clock">
@@ -40,44 +40,6 @@
 		<li class="very-light-color"><h3>verylight</h3></li>
 	</ul>
 	<script>
-	
-	$widgets = {
-		
-		<% for widget in ::Widget.sorted %>
-		'widget-<%= widget.id %>'	: 
-		{
-			'title' 				: '<%= widget.title %>',
-			'url'						: '',
-			'template' 			: '<%= widget.template %>',
-			<% if widget.probe %>
-			'probe_id' 			: '<%= widget.probe_id %>',
-			<% end %>
-			<% if widget.url %>
-			'data_source'		: '<%= widget.url %>',
-			<% end %>
-			<% if widget.thresholds.size > 0 %>
-			'thresholds'		: [
-			<% for threshold in widget.thresholds %>
-				{ 'operator':'<%= threshold.operator %>', 'value': <%= threshold.value %>, 'alert':'<%= threshold.alert %>' },
-			<% end %>
-			],
-			<% end %>
-			'data'					:
-			{
-				'value' 			: 0,
-				'date'				: 0,
-				'details'			: '',
-			},
-			'min'						: <%= widget.min %>,
-			'max'						: <%= widget.max %>,
-			'unit'					: '<%= widget.unit %>',
-			'graph_data'		: [],
-			'details_data'	: [],
-			'refresh_delay'	: <%= widget.refresh_delay %>,
-		},
-		<% end %>
-	}
-	
 	
 	function refresh_widget_js_bind() {
 		
