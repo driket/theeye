@@ -1,7 +1,7 @@
 Dashboard::Application.routes.draw do
-  resources :thresholds
+  resources :probes
 
-  resources :data_sources
+  resources :thresholds
 
   resources :widgets do
     collection do

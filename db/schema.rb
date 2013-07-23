@@ -11,16 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130723093822) do
+ActiveRecord::Schema.define(:version => 20130723113511) do
 
-  create_table "data_sources", :force => true do |t|
-    t.string   "json_url"
-    t.integer  "widget_id"
+  create_table "probes", :force => true do |t|
+    t.string   "title"
+    t.string   "url"
+    t.integer  "position"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-
-  add_index "data_sources", ["widget_id"], :name => "index_data_sources_on_widget_id"
 
   create_table "templates", :force => true do |t|
     t.string   "uid"
@@ -43,7 +42,7 @@ ActiveRecord::Schema.define(:version => 20130723093822) do
 
   create_table "widgets", :force => true do |t|
     t.string   "title"
-    t.string   "url"
+    t.string   "uri"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
     t.float    "min",           :default => 0.0
@@ -52,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20130723093822) do
     t.string   "refresh_delay", :default => "1000"
     t.integer  "position",      :default => 0
     t.string   "template",      :default => "widget-graph"
+    t.integer  "probe_id"
   end
 
 end
