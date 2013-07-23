@@ -60,7 +60,7 @@ class ProbesController < ApplicationController
 
     respond_to do |format|
       if @probe.update_attributes(params[:probe])
-        format.html { redirect_to @probe, notice: 'Probe was successfully updated.' }
+        format.html { redirect_to '/', notice: 'Probe was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
