@@ -1,18 +1,7 @@
 <div class="field">
 	<%= f.label :title %> : <%= f.text_field :title, :size => 10 %>
-    <%= f.label :uri %> :  <%= f.select :uri, available_uris.collect {|uri| [ uri[:title], uri[:path]]} %>
-<!--	<%= f.label :uri %> : <%= f.text_field :uri, :size => 20 %>	-->
+  <%= f.label :uri %> :  <%= f.select :uri, available_uris.collect {|uri| [ uri[:title], uri[:path]]} %>
 	<%= f.link_to_remove "Remove" %>
 </div>
-<!--
-<div class="field subform">
-<%= f.fields_for :thresholds do |f_threshold| %>
-<p>
-    <%= render :partial => "thresholds/form", :locals => { :f => f_threshold } %>
-</p>
-<% end %>
-<%= f.link_to_add "Add a threshold", :thresholds %></p>
-</div>
--->
 <%= f.hidden_field :probe_id %>
 
