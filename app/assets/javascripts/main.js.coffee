@@ -3,7 +3,6 @@
 
 $ ->
 		
-	alert 'yo'
 	dashboard = new Dashboard '.widgets', $widgets 
 
 	probe = new Probe '.probes', $probes
