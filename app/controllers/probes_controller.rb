@@ -1,4 +1,5 @@
 class ProbesController < ApplicationController
+  
   # GET /probes
   # GET /probes.json
   def index
