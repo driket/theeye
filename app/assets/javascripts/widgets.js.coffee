@@ -325,6 +325,9 @@ class @Widget
 				return widget
 
 	@count: ->
-		
 		Widget._widgets.length
 	
+	@refresh: ->
+		for widget in Widget._widgets
+			widget.refresh()
+		
