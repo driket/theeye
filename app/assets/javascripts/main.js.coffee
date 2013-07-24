@@ -8,12 +8,17 @@ $ ->
 	clock = new Clock '#clock'
 			
 	# create widgets
-	dashboard = new Dashboard '.widgets', $widgets 
+	#dashboard = new Dashboard '.widgets', $widgets 
 
 	# create probes
-	probe = new Probe '.probes', $probes
+	
+	for name, probe of $probes
+		new Probe '.probes', probe
+		
+	console.log "count : ", Probe.count()
+	console.log "first : ", Probe.find_by_id(1)
 	
 	# refresh widgets each time clock 'ticks'
-	$("#clock").bind tick: ->
-		dashboard.refresh_all()
+	#$("#clock").bind tick: ->
+	#	dashboard.refresh_all()
 	
