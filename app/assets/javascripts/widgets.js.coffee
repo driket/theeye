@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
-class Dashboard
+class @Dashboard
 	
 	constructor: (@element, @widgets) ->
 
@@ -314,14 +314,5 @@ class Dashboard
 			return 'warning'			
 		else
 			return 'ok'
-						 
-$ ->
-	
-	dashboard = new Dashboard '.widgets', $widgets 
 
-	# each time clock 'ticks'
-	
-	$("#clock").bind tick: ->
-		
-		dashboard.refresh_all()
 	
