@@ -16,7 +16,7 @@ $ ->
 		new Probe '.probes', probe
 		
 	console.log "count : ", Probe.count()
-	console.log "first : ", Probe.find_by_id(1)
+	console.log "first : ", Probe.find_by_id('1')
 	
 	# refresh widgets each time clock 'ticks'
 	#$("#clock").bind tick: ->
