@@ -7,18 +7,15 @@ $ ->
 	# create and start clock
 	clock = new Clock '#clock'
 			
-	# create widgets
-	#dashboard = new Dashboard '.widgets', $widgets 
-
-	# create probes
-	
+	# create probes from generated json data
 	for name, probe of $probes
 		new Probe '.probes', probe
-		
-	console.log "count : ", Probe.count()
-	console.log "first : ", Probe.find_by_id('1')
-	
+
+	# create widgets from generated json data
+	for name, widget of $widgets
+		new Widget widget
+				
 	# refresh widgets each time clock 'ticks'
-	#$("#clock").bind tick: ->
-	#	dashboard.refresh_all()
+	$("#clock").bind tick: ->
+		Widget.refresh()
 	
