@@ -4,36 +4,53 @@
 
 @import "_init.css.scss";
 
-.probe-title {
+.probe-header {
 	border-bottom: 1px solid rgba($main-color, 0.05);
 	// background: #f8f8f8;
 	clear:both;
 	font-weight: 200;
 	font-size: 12px;
 	padding: 3px 0px;
-	color:rgba($main-color, 0.2);
-}
-.probe-title:hover {
-	color:rgba($main-color, 0.8);
-}
-
-.probe-title span{
-	padding-left:10px;
-	color:rgba($main-color, 0);
-}
-
-.probe-title:hover span{
-	padding-left:10px;
-	color:rgba($main-color, 0.2);
-}
-
-.probe-title span.edit-probe a {
+	list-style-position:inside;
 	color:rgba($main-color, 0.1);
-	float:right;
+	
+	span.probe-title {
+		padding-left:0px;
+		color:rgba($main-color, 0.2);
+	}
+	span.probe-url {
+		padding-left:10px;
+		color:rgba($main-color, 0);
+	}
+	span.probe-config a {
+		color:rgba($main-color, 0.1);
+		float:right;
+	}
+	span.probe-config a.probe-edit { display:block; }
+	span.probe-config a.probe-ok { display:none; }
+	span.probe-config a.probe-cancel { display:none; }
 }
 
-.probe-title:hover span.edit-probe a {
-	color:rgba($main-color, 0.8);
-	font-weight: 200;
-	float:right;
+.probe-header:hover,
+.probe-header.editing {
+
+	span.probe-title{
+		padding-left:0;
+		color:rgba($main-color, 0.8);
+	}
+	span.probe-url {
+		padding-left:10px;
+		color:rgba($main-color, 0.2);
+	}
+	span.probe-config a {
+		color:rgba($main-color, 0.8);
+		font-weight: 200;
+		float:right;
+	}
+} 
+
+.probe-header.editing {
+	span.probe-config a.probe-edit { display:none; }
+	span.probe-config a.probe-ok { display:block; }
+	span.probe-config a.probe-cancel { display:block; }
 }
