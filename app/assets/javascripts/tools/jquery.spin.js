@@ -1,3 +1,5 @@
+#= require tools/spin
+
 /**
  * Copyright (c) 2011-2013 Felix Gnass
  * Licensed under the MIT license
