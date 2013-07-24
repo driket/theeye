@@ -1,4 +1,4 @@
-class Clock
+class @Clock
 
 	constructor: (@element) ->
 		
@@ -6,6 +6,7 @@ class Clock
 		
 		this.display()
 		this.resume()
+		this.jquery_handle()
 		
 
 	# display clock with current time at element
@@ -41,20 +42,15 @@ class Clock
 		, 1000
 		$('#time-controls' + ' .pause').removeClass 'disabled'
 		$('#time-controls' + ' .play' ).addClass 		'disabled'
+
 		
-	
-$ ->
-
-	# create and start clock
-
-	clock = new Clock '#clock'
-
-	# if buttons are clicked 
-
-	$('#time-controls' + ' .pause').on click: ->
-		clock.pause()
+	jquery_handle: ->
 		
-	$('#time-controls' + ' .play').on click: ->
-		clock.resume()
+		this_class = this
+		# if buttons are clicked 
+		$('#time-controls' + ' .pause').on click: ->
+			this_class.pause()
 		
+		$('#time-controls' + ' .play').on click: ->
+			this_class.resume()
 		
