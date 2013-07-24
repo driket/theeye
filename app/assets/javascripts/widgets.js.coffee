@@ -226,31 +226,32 @@ class Dashboard
 		
 		thresholds_constraints = []
 
-		for a_threshold in widget.thresholds 
-			if a_threshold.operator == '&gt;='
-				color = theme_color_for_class 'service-status-' + a_threshold.alert
-				constraint = { threshold: a_threshold.value
-				, color: color
-				, evaluate : (y, threshold) =>
-					return y >= threshold }
-			else if a_threshold.operator == '&gt;'
-				color = theme_color_for_class 'service-status-' + a_threshold.alert
-				constraint = { threshold: a_threshold.value
-				, color: color
-				, evaluate: (y, threshold) =>
-					return y > threshold }
-			else if a_threshold.operator == '&lt;'
-				color = theme_color_for_class 'service-status-' + a_threshold.alert
-				constraint = { threshold: a_threshold.value
-				, color: color
-				, evaluate: (y, threshold) =>
-					return y < threshold }
-			else if a_threshold.operator == '&lt;='
-				color = theme_color_for_class 'service-status-' + a_threshold.alert
-				constraint = { threshold: a_threshold.value
-				, color: color
-				, evaluate: (y, threshold) =>
-					return y <= threshold }
+		if widget.thresholds
+			for a_threshold in widget.thresholds 
+				if a_threshold.operator == '&gt;='
+					color = theme_color_for_class 'service-status-' + a_threshold.alert
+					constraint = { threshold: a_threshold.value
+					, color: color
+					, evaluate : (y, threshold) =>
+						return y >= threshold }
+				else if a_threshold.operator == '&gt;'
+					color = theme_color_for_class 'service-status-' + a_threshold.alert
+					constraint = { threshold: a_threshold.value
+					, color: color
+					, evaluate: (y, threshold) =>
+						return y > threshold }
+				else if a_threshold.operator == '&lt;'
+					color = theme_color_for_class 'service-status-' + a_threshold.alert
+					constraint = { threshold: a_threshold.value
+					, color: color
+					, evaluate: (y, threshold) =>
+						return y < threshold }
+				else if a_threshold.operator == '&lt;='
+					color = theme_color_for_class 'service-status-' + a_threshold.alert
+					constraint = { threshold: a_threshold.value
+					, color: color
+					, evaluate: (y, threshold) =>
+						return y <= threshold }
 					
 			thresholds_constraints.push constraint
 
