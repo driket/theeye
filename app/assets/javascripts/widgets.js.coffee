@@ -2,30 +2,51 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
-class @Dashboard
+class @Widget
 	
-	constructor: (@element, @widgets) ->
+	# store all created widgets
+	@_widgets 		: []
+	
+	# used to store widget data (json)
+	data					: {}
+
+	# used to store graph data
+	record				: {}
+	graph_data		: []
+	details_data	: []
+	graph					: ''
+	
+	constructor: (json_data) ->
 
 		# init & first display 
-		graph = null
-		#$(@element).sortable()
-		$(@element).sortable({
-
-			stop: (event, ui) =>
-				widget_id_array = $(@element).sortable('toArray')
-
-				$.getJSON("/widgets/sort", { widget_id_array : widget_id_array  })
-				.done( (json) =>
-					console.log "getJSON /widgets/sort ok", json
-				)
-				
-		})
-		this.refresh_all()
-
-
-	set_status_for_widget: (name, widget, status) =>
+		this.graph = null
+		this.graph_data = []
+		this.details_data	= []
+		this.record = {
+			'value' 			: 0,
+			'date'				: 0,
+			'details'			: '',
+		}
 		
-		widget_name = '#' + name
+		#$(@element).sortable({
+
+		#	stop: (event, ui) =>
+		#		widget_id_array = $(@element).sortable('toArray')
+
+		#		$.getJSON("/widgets/sort", { widget_id_array : widget_id_array  })
+		#		.done( (json) =>
+		#			console.log "getJSON /widgets/sort ok", json
+		#		)
+				
+		#})
+		this.data = json_data
+		Widget._widgets.push this
+		this.refresh()
+
+
+	set_status_for_widget: (status) =>
+		
+		widget_name = '#widget-' + this.data.id
 		
 		$(widget_name).removeClass 'service-status-ok'
 		$(widget_name).removeClass 'service-status-disabled'
@@ -40,34 +61,26 @@ class @Dashboard
 			$(widget_name).addClass 'service-status-ok'
 	
 	
-	refresh_widget: (name, widget) =>
+	refresh: =>
+				
 		
 		# setup jQuery selector
 		
-		widget_name = '#' + name
-		template 		= '#' + widget.template
-		container		= '#probe-' + widget.probe_id + '-widgets'
+		widget_name = '#widget-' + this.data.id
+		template 		= '#' + this.data.template
+		container		= '#probe-' + this.data.probe_id + '-widgets'
 
-		# prepare data for template
-		
-		template_variables =
-			'name': name
-			'widget': widget
-			
-			
 		# if widget doesn't exist, create and add an empty one
 		
 		if $(widget_name).length == 0
 			
-			content = $('#widget-empty-template').tmpl template_variables
+			content = $('#widget-empty-template').tmpl {'widget':this.data, 'record':this.record}
 			$(container).append content
 	
-	
 		# if refresh delay is up
+		elapased_time = new Date().getTime() - this.record.date
 	
-		elapased_time = new Date().getTime() - widget.data.date
-		
-		if  elapased_time > widget.refresh_delay
+		if elapased_time > this.data.refresh_delay
 
 	    #display activity indicator while loading
 			status = 'ok'
@@ -77,43 +90,32 @@ class @Dashboard
 			# fetch data remotely (async)
 			#
 			
-			$.getJSON(widget.data_source)
+			$.getJSON(this.data.data_source)
 			
 			.fail () =>
 				content = '<h3>Error</h3>'
 				$(widget_name + ' .widget-content').html content;
 				$(widget_name).spin false
 				status = 'alert'
-				this.set_status_for_widget(name, widget, status)
+				this.set_status_for_widget(status)
 			.done (json) => 
-				widget.data.value 	= json.value
-				widget.data.date  	= Date.parse(json.date)
-				widget.data.details = json.details
+				this.record.value 		= json.value
+				this.record.date  		= Date.parse(json.date)
+				this.record.details 	= json.details
 				$(widget_name).spin false
 				
-				content = $(template).tmpl template_variables;
+				content = $(template).tmpl {'widget':this.data, 'record':this.record};
 				$(widget_name + ' .face-simple-view').html content;
 				
-				status = this.render_graph name, widget
-				this.set_status_for_widget(name, widget, status)
-
+				status = this.render_graph()
+				this.set_status_for_widget(status)
 		
 
-	# refresh all dashboard's widgets
-	
-	refresh_all: => 
-	
-		# for each widget
+	alertLevelForValue: (value) ->
 		
-		for name, widget of @widgets
-
-			this.refresh_widget name, widget
-	
-	alertLevelForValue: (value, widget) ->
+		return 'ok' if !this.data.thresholds 
 		
-		return 'ok' if !widget.thresholds 
-		
-		for threshold in widget.thresholds
+		for threshold in this.data.thresholds
 
 			if threshold.operator == '&gt;='
 				if value >= threshold.value			
@@ -131,24 +133,24 @@ class @Dashboard
 				console.log '(alertLevelForValue) invalid comparison operator: ' + threshold.operator
 				
 	
-	showTooltip: (x, y, date, value, widget, details) =>
+	showTooltip: (x, y, date, value, details) =>
 
 		h 	= ("0" + date.getHours()).slice -2
 		m 	= ("0" + date.getMinutes()).slice -2
 		s 	= ("0" + date.getSeconds()).slice -2
-		alert_level = this.alertLevelForValue value, widget
+		alert_level = this.alertLevelForValue value
 
 		data = 
 			'hours'				: h
 			'minutes'			: m
 			'seconds'			: s
 			'value'				: value
-			'unit'				: widget.unit
+			'unit'				: this.data.unit
 			'alert_level'	: alert_level
 			'details'			: details
 					
 		content = $('#widget-details').tmpl data
-		target	=	$(@element).last()
+		target	=	$('#widget-'+this.data.id).parent()
 		$(content)
 		.css
 	    display: 'none'
@@ -165,16 +167,16 @@ class @Dashboard
 			$(content).css('left', x - $(content).width() )
 	
 	
-	getDetailsForWidgetAtDatetime: (widget, date) =>
+	getDetailsForWidgetAtDatetime: (date) =>
 				
-		for data in widget.details_data
+		for data in this.details_data
 			if data[0] >= Date.parse date
 				return data[1]
 				
 				
 	# draw graph for a given widget
 
-	render_graph: (name, widget) ->
+	render_graph: ->
 
 		service_warning			= false
 		service_alert				= false
@@ -189,15 +191,15 @@ class @Dashboard
 
 			
 		# date set
-		
-		data_value 	= widget.data.value
-		data_time 	= widget.data.date
-		now = Date.parse new Date()
+		data_value 		= this.record.value
+		data_time 		= this.record.date
+		data_details 	= this.record.details
+		now 					= Date.parse new Date()
 
 
 		# set alert if out of thresholds
 
-		alert_level = this.alertLevelForValue data_value, widget
+		alert_level = this.alertLevelForValue data_value
 		
 		if alert_level == 'alert'
 			
@@ -207,27 +209,26 @@ class @Dashboard
 			
 			service_warning = true
 		
-		
 		# add current value to graph data
-
-		widget.graph_data.push [data_time, data_value]
-		widget.details_data.push [data_time, widget.data.details]
+		
+		this.graph_data.push [data_time, data_value]
+		this.details_data.push [data_time, data_details]
 
 
 		# delete old value from temp array
-		for data in widget.graph_data
+		for data in this.graph_data
 			
 			if data[0] < now - (time_scale*1000)
-				widget.graph_data.shift 
-				widget.details_data.shift
+				this.graph_data.shift
+				this.details_data.shift
 				break
 				
 		# setup thresholds for graph
 		
 		thresholds_constraints = []
 
-		if widget.thresholds
-			for a_threshold in widget.thresholds 
+		if this.data.thresholds
+			for a_threshold in this.data.thresholds 
 				if a_threshold.operator == '&gt;='
 					color = theme_color_for_class 'service-status-' + a_threshold.alert
 					constraint = { threshold: a_threshold.value
@@ -256,10 +257,9 @@ class @Dashboard
 			thresholds_constraints.push constraint
 
 		# draw graph
-
-		graph = $.plot $('#'+ name + ' .plot-chart')
+		this.graph = $.plot $('#widget-'+ this.data.id + ' .plot-chart')
 		,	[ 
-			data: widget.graph_data 
+			data: this.graph_data 
 			color: color_ok
 			shadowSize: 0
 			constraints: thresholds_constraints 
@@ -277,34 +277,35 @@ class @Dashboard
 			clickable: true
 			color: grid_color
 		,yaxis: 
-			min: widget.min, 
-			max: widget.max
+			min: this.data.min, 
+			max: this.data.max
 		,xaxis: 
 			min: now-(time_scale*1000)
 			max: now
 		
 		# on plot hover
 		previousPoint = null
-		$('#'+ name + ' .plot-chart').bind plothover: (event, pos, item) =>
+		$('#widget-' + this.data.id + ' .plot-chart').bind plothover: (event, pos, item) =>
 			if item
 				if previousoint != item.dataIndex
 					previousoint = item.dataIndex
-					$(@element + ' .tooltip').remove()
+					$('.tooltip').remove()
 					date = new Date(item.datapoint[0])
 					value = item.datapoint[1]
 
 					target = $(event.currentTarget).closest(".widget")
-					bound_widget_id = target.attr 'id'
-					bound_widget = @widgets[bound_widget_id]
-					details = this.getDetailsForWidgetAtDatetime(bound_widget, date)
-					this.showTooltip item.pageX, item.pageY, date, value, bound_widget, details
+					bound_widget_id = target.attr('id').replace('widget-','')
+					console.log 'bound_widget_id : ', bound_widget_id 
+					bound_widget = Widget.find_by_id(bound_widget_id)
+					details = bound_widget.getDetailsForWidgetAtDatetime(date)
+					bound_widget.showTooltip item.pageX, item.pageY, date, value, details
 			else
 				$(@element + ' .tooltip').remove()
 				previousPoint = null
 
-		$('#'+ name + ' .plot-chart').bind plotclick: (event, pos, item) =>
+		$('#widget-'+ this.data.id + ' .plot-chart').bind plotclick: (event, pos, item) =>
 			if item
-				graph.highlight item.series, item.datapoint
+				this.graph.highlight item.series, item.datapoint
 
 		# return alert code
 		
@@ -315,4 +316,15 @@ class @Dashboard
 		else
 			return 'ok'
 
+	@all: ->
+		return @_widgets
+		
+	@find_by_id: (id) ->
+		for widget in Widget._widgets
+			if widget.data and widget.data.id == id
+				return widget
+
+	@count: ->
+		
+		Widget._widgets.length
 	
