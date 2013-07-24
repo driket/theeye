@@ -25,6 +25,7 @@ $widgets = {
 	<% for widget in ::Widget.sorted %>
 	'widget-<%= widget.id %>'	: 
 	{
+		'id'						: '<%= widget.id %>',
 		'title' 				: '<%= widget.title %>',
 		'url'						: '',
 		'template' 			: '<%= widget.template %>',
