@@ -1,5 +1,5 @@
 <script id="widget-empty-template" type="text/x-jquery-tmpl">
-<li class="widget service-status-disabled" id="${ name }" >
+<li class="widget service-status-disabled" id="widget-${ widget.id }" >
 	<div class="card">
 		<div class="face face-simple-view">
 			<div class="widget-content">
@@ -29,7 +29,7 @@
 <script id="widget-graph" type="text/x-jquery-tmpl">
 <div class="widget-content">
   <h3>${ widget.title }</h3>
-  <h4 class="status-ok"><span>${ widget.data.value }</span><span class="discreet">${ widget.unit }</span></h4>
+  <h4 class="status-ok"><span>${ record.value }</span><span class="discreet">${ widget.unit }</span></h4>
   <div class="plot-chart"></div>
 </div> <!-- end content -->
 </script>
