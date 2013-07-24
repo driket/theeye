@@ -1,13 +1,22 @@
 <h2>Dashboard</h2>
 
-<% for probe in @probes %>
-<h3 class="probe-title"><%= probe.title%><span><%= probe.url %></span><span class="edit-probe"><%= link_to 'Edit', edit_probe_path(probe) %></span></h3>
-<ul id="probe-<%= probe.id %>-widgets" class="widgets">				
+<ul class="probes">				
 
 </ul>
-<% end %>
 
-<br />
+<script>
+
+$probes = {
+	<% for probe in @probes %>
+	'probe-<%= probe.id %>' :
+	{
+		'id'				: '<%= probe.id %>',
+		'title'			: '<%= probe.title %>',
+		'url'				: '<%= probe.url %>',		
+	},
+	<% end %>
+}	
+</script>
 
 <script>
 
