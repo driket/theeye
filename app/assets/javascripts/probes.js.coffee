@@ -31,35 +31,46 @@ class @Probe
 		content = $('#probe-template').tmpl {'probe':this.data}
 		$('#probe-' + this.data['id']).replaceWith content
 		this.jquery_init()
-		
-	@find_by_id: (id) ->
-		
-		for probe in Probe._probes
-			if probe.data and probe.data['id'].to_i == id
-				return probe
+	
+	doc_path: ->
 
-	@count: ->
-		Probe._probes.length
+		this_id = this.data['id']
+		return '#probe-' + this_id
+		
+	set_edit_mode: (state) ->
+
+		if state == 'true'
+			$(this.doc_path()).addClass 'editing'
+			$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'true'
+			$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'true'
+		else
+			$(this.doc_path()).removeClass 'editing'
+			$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'false'
+			$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'false'
 		
 	jquery_init: ->
 
-		this_id = this.data['id']
-		console.log 'this_id:', this_id
-		console.log 'element:', 'probe-' + this_id + ' .probe-edit'
-		$('#probe-' + this_id + ' .probe-edit').click (event) ->
-			probe_element = $(this).parent().parent()
-			$(probe_element).addClass 'editing'
-			$(probe_element).children('.probe-url').attr 'contentEditable', 'true'
-			$(probe_element).children('.probe-title').attr 'contentEditable', 'true'
+		this_instance = this
+		$(this.doc_path() + ' .probe-edit').click (event) ->
+			this_instance.set_edit_mode 'true'
 			event.preventDefault()
 			
-		$('#probe-' + this_id + ' .probe-cancel').click (event) ->
-			probe_element = $(this).parent().parent()
-			$(probe_element).removeClass 'editing'
-			$(probe_element).children('.probe-url').attr 'contentEditable', 'false'
-			$(probe_element).children('.probe-title').attr 'contentEditable', 'false'
-			id = $(probe_element).attr('id').replace('probe-','').to_i
-			Probe.find_by_id(id).refresh()
+		$(this.doc_path() + ' .probe-cancel').click (event) ->
+			this_instance.set_edit_mode 'false'
+			Probe.find_by_id(this_instance.data['id']).refresh()
 			event.preventDefault()
 
-	 
+	# class variables & methods
+	
+	@all: ->
+		
+		return Probe._probes
+		
+	@find_by_id: (id) ->
+		for probe in Probe._probes
+			if probe.data and probe.data['id'] == id
+				return probe
+
+	@count: ->
+		
+		Probe._probes.length
