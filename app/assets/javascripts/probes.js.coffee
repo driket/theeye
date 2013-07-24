@@ -34,7 +34,7 @@ class @Probe
 	
 	doc_path: ->
 
-		this_id = this.data['id']
+		this_id = this.data.id
 		return '#probe-' + this_id
 		
 	set_edit_mode: (state) ->
@@ -57,7 +57,7 @@ class @Probe
 			
 		$(this.doc_path() + ' .probe-cancel').click (event) ->
 			this_instance.set_edit_mode 'false'
-			Probe.find_by_id(this_instance.data['id']).refresh()
+			Probe.find_by_id(this_instance.data.id).refresh()
 			event.preventDefault()
 
 	# class variables & methods
@@ -68,7 +68,7 @@ class @Probe
 		
 	@find_by_id: (id) ->
 		for probe in Probe._probes
-			if probe.data and probe.data['id'] == id
+			if probe.data and probe.data.id == id
 				return probe
 
 	@count: ->
