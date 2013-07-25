@@ -95,7 +95,7 @@ class @Probe
 		
 	@find_by_id: (id) ->
 		for probe in Probe._probes
-			if probe.data and probe.data.id == id
+			if probe.data and parseInt(probe.data.id) == parseInt(id)
 				return probe
 
 	@count: ->
