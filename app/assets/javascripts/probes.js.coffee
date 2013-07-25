@@ -51,23 +51,27 @@ class @Probe
 				$(this.doc_path()).addClass 'editing'
 				$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'true'
 				$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'true'
-				this._edit_mode = false
+				this._edit_mode = true
 			else
 				$(this.doc_path()).removeClass 'editing'
 				$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'false'
 				$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'false'
-				this._edit_mode = true
+				this._edit_mode = false
+				this.refresh()
+				
 		
 	@property 'hidden',
 	
 		get: -> this._hidden 
 		set: (state) -> 
 			if state
-				$(this.doc_path() + ' .widgets').hide()
-				this._hidden = false
-			else
-				$(this.doc_path() + ' .widgets').show()
+				this.data.hidden_class = 'hidden'
 				this._hidden = true
+				this.refresh()
+			else
+				this.data.hidden_class = ''
+				this._hidden = false
+				this.refresh()
 			
 	jquery_init: ->
 
@@ -78,8 +82,10 @@ class @Probe
 			
 		$(this.doc_path() + ' .probe-cancel').click (event) ->
 			this_instance.edit_mode = false
-			Probe.find_by_id(this_instance.data.id).refresh()
 			event.preventDefault()
+			
+		$(this.doc_path() + ' .visibility-caret').click (event) ->
+			this_instance.hidden = !this_instance.hidden 
 
 	# class variables & methods
 	
