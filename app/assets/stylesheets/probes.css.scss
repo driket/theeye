@@ -38,8 +38,15 @@
 		color:rgba($main-color, 0);
 	}
 	span.probe-config a {
-		color:rgba($main-color, 0.1);
+		color:rgba($main-color, 0.4);
+		opacity: 0.3;
 		float:right;
+		margin-left:10px;
+		padding: 0px 5px;
+		font-weight:200;
+		font-size: 12px;
+		font-family: Helvetica;
+		margin-top: -3px;
 	}
 	span.probe-config a.probe-edit { display:block; }
 	span.probe-config a.probe-ok { display:none; }
@@ -62,8 +69,8 @@
 		color:rgba($main-color, 0.3);
 	}
 	span.probe-config a {
-		color:rgba($main-color, 0.8);
-		font-weight: 200;
+		opacity: 1.0;
+		/* font-weight: 200; */
 		float:right;
 	}
 } 
@@ -72,8 +79,8 @@
 	span.probe-config a.probe-edit { display:none; }
 	span.probe-config a.probe-ok { display:block; }
 	span.probe-config a.probe-cancel { display:block; }
-	span.probe-title {	border: 1px dashed rgba($main-color, 0.1);; }
-	span.probe-url { border: 1px dashed rgba($main-color, 0.1);; }
+	span.probe-title {	border: 1px dashed rgba($main-color, 0.1); padding:0px 3px; }
+	span.probe-url { border: 1px dashed rgba($main-color, 0.1); padding:0px 3px; }
 
 }
 
