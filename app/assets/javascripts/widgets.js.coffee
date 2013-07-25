@@ -153,7 +153,6 @@ class @Widget
 		target	=	$('#widget-'+this.data.id).parent()
 		
 		if $('.tooltip').length == 0
-			console.log '.tooltip doesn\'t exist, create one'
 			$(content)
 			.css
 		    display: 'none'
@@ -163,7 +162,6 @@ class @Widget
 			.appendTo(target)
 			.fadeIn(200)
 		else
-			console.log '.tooltip exist, move it'
 			$('.tooltip').replaceWith $(content).css {'display': 'block', 'position': 'absolute', 'top': y + 5, 'left': x + 5}
 		 
 		# if mouse cursor is on the second half of the screen width, 
