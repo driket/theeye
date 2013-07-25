@@ -84,6 +84,8 @@ class @Widget
 		# if refresh delay is up and widget is ready to process
 		if elapased_time > this.data.refresh_delay and !this.processing
 
+			this.processing = true
+
 	    #display activity indicator while loading
 			status = 'ok'
 			$(widget_name).spin 'small', theme_color_for_class 'service-status-disabled'
@@ -91,9 +93,8 @@ class @Widget
 			#
 			# fetch data remotely (async)
 			#
-			this.processing = true
-			$.getJSON(this.data.data_source)
-			
+			probe = Probe.find_by_id(this.data.probe_id)
+			$.getJSON(probe.data.url + "/" + this.data.data_source)
 			.fail () =>
 				content = '<h3>Error</h3>'
 				$(widget_name + ' .widget-content').html content;
