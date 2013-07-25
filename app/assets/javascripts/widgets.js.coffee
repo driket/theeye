@@ -15,14 +15,16 @@ class @Widget
 	graph_data		: []
 	details_data	: []
 	graph					: ''
+	processing		: false
 	
 	constructor: (json_data) ->
 
 		# init & first display 
-		this.graph = null
-		this.graph_data = []
+		this.graph 				= null
+		this.processing	= false
+		this.graph_data 	= []
 		this.details_data	= []
-		this.record = {
+		this.record 			= {
 			'value' 			: 0,
 			'date'				: 0,
 			'details'			: '',
@@ -77,10 +79,10 @@ class @Widget
 			content = $('#widget-empty-template').tmpl {'widget':this.data, 'record':this.record}
 			$(container).append content
 	
-		# if refresh delay is up
 		elapased_time = new Date().getTime() - this.record.date
 	
-		if elapased_time > this.data.refresh_delay
+		# if refresh delay is up and widget is ready to process
+		if elapased_time > this.data.refresh_delay and !this.processing
 
 	    #display activity indicator while loading
 			status = 'ok'
@@ -89,7 +91,7 @@ class @Widget
 			#
 			# fetch data remotely (async)
 			#
-			
+			this.processing = true
 			$.getJSON(this.data.data_source)
 			
 			.fail () =>
@@ -97,12 +99,15 @@ class @Widget
 				$(widget_name + ' .widget-content').html content;
 				$(widget_name).spin false
 				status = 'alert'
+				this.processing = false
 				this.set_status_for_widget(status)
 			.done (json) => 
 				this.record.value 		= json.value
 				this.record.date  		= Date.parse(json.date)
 				this.record.details 	= json.details
+				this.processing 			= false
 				$(widget_name).spin false
+				
 				
 				content = $(template).tmpl {'widget':this.data, 'record':this.record};
 				$(widget_name + ' .face-simple-view').html content;
