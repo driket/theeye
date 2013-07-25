@@ -1,6 +1,8 @@
+#= require tools/jquery.notifications
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+
 
 # getter / setter methods
 Function::property = (prop, desc) ->
@@ -49,8 +51,20 @@ class @Probe
 			data: {'probe':this.data},
 			error: (jqXHR, textStatus, errorThrown) ->
 				console.log "AJAX Error: #{textStatus} #{errorThrown}"
+				jQuery.noticeAdd({
+					title: 'Error',
+					text: 'Error saving probe.',
+					type: 'error',
+					stay: false
+				});
 			success: (jqXHR, textStatus, errorThrown) ->
 				console.log "Successful AXAX call: #{textStatus}"
+				jQuery.noticeAdd({
+					title: 'Probe saved',
+					text: 'Probe settings saved.',
+					type: 'ok',
+					stay: false
+				});
 				_this.refresh()
 		
 		
