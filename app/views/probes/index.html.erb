@@ -27,13 +27,12 @@ $widgets = {
 	{
 		'id'						: '<%= widget.id %>',
 		'title' 				: '<%= widget.title %>',
-		'url'						: '',
+		<% if widget.uri %>
+		'uri'						: '<%= widget.uri %>',
+		<% end %>
 		'template' 			: '<%= widget.template %>',
 		<% if widget.probe %>
 		'probe_id' 			: '<%= widget.probe_id %>',
-		<% end %>
-		<% if widget.url %>
-		'data_source'		: '<%= widget.url %>',
 		<% end %>
 		<% if widget.thresholds.size > 0 %>
 		'thresholds'		: [
