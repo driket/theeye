@@ -162,7 +162,12 @@ class @Widget
 			.appendTo(target)
 			.fadeIn(200)
 		else
-			$('.tooltip').replaceWith $(content).css {'display': 'block', 'position': 'absolute', 'top': y + 5, 'left': x + 5}
+			$('.tooltip').replaceWith	$(content).css {
+				display: 'block', 
+				position: 'absolute', 
+				top: y + 5, 
+				left: x + 5
+			}
 		 
 		# if mouse cursor is on the second half of the screen width, 
 		# display popup on the left of the mouse cursor
