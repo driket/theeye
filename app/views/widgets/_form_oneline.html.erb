@@ -1,7 +1,0 @@
-<div class="field">
-	<%= f.label :title %> : <%= f.text_field :title, :size => 10 %>
-  <%= f.label :uri %> :  <%= f.select :uri, available_uris.collect {|uri| [ uri[:title], uri[:path]]} %>
-	<%= f.link_to_remove "Remove" %>
-</div>
-<%= f.hidden_field :probe_id %>
-
