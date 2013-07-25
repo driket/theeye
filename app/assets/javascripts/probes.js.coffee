@@ -15,6 +15,7 @@ class @Probe
 	# used to store probe data (json)
 	data				: {}
 	_hidden			: false
+	_edit_mode	: false
 	
 	# where the probe will be added
 	container 	: '.probes'
@@ -42,18 +43,23 @@ class @Probe
 		this_id = this.data.id
 		return '#probe-' + this_id
 		
-	set_edit_mode: (state) ->
-
-		if state == 'true'
-			$(this.doc_path()).addClass 'editing'
-			$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'true'
-			$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'true'
-		else
-			$(this.doc_path()).removeClass 'editing'
-			$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'false'
-			$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'false'
+	@property 'edit_mode',
+	
+		get: -> this._edit_mode
+		set: (state) ->
+			if state
+				$(this.doc_path()).addClass 'editing'
+				$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'true'
+				$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'true'
+				this._edit_mode = false
+			else
+				$(this.doc_path()).removeClass 'editing'
+				$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'false'
+				$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'false'
+				this._edit_mode = true
 		
 	@property 'hidden',
+	
 		get: -> this._hidden 
 		set: (state) -> 
 			if state
@@ -67,11 +73,11 @@ class @Probe
 
 		this_instance = this
 		$(this.doc_path() + ' .probe-edit').click (event) ->
-			this_instance.set_edit_mode 'true'
+			this_instance.edit_mode = true
 			event.preventDefault()
 			
 		$(this.doc_path() + ' .probe-cancel').click (event) ->
-			this_instance.set_edit_mode 'false'
+			this_instance.edit_mode = false
 			Probe.find_by_id(this_instance.data.id).refresh()
 			event.preventDefault()
 
