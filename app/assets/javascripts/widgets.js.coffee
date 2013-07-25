@@ -152,6 +152,8 @@ class @Widget
 		content = $('#widget-details').tmpl data
 		target	=	$('#widget-'+this.data.id).parent()
 		
+		# append tooltip if doesn't exist already
+		# of just update it with new position / content
 		if $('.tooltip').length == 0
 			$(content)
 			.css
