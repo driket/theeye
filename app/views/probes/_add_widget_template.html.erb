@@ -1,0 +1,32 @@
+<script id="add-widget-template" type="text/x-jquery-tmpl">
+	<div class="add-widget-form">
+		<a href="#" data-dropdown="#probe-${probe_id}-list-modules" class="button">chose module</a>
+		<a href="#" data-dropdown="#probe-${probe_id}-list-commands" class="button">chose command</a>
+	</div>
+	{{tmpl "#list-probe-modules"}}
+	{{tmpl "#list-probe-commands"}}
+</script>
+
+<script id="list-probe-modules" type="text/x-jquery-tmpl">
+	<div id="probe-${probe_id}-list-modules" class="dropdown dropdown-tip">
+		<ul class="dropdown-menu">
+		{{each(i, module) modules}}
+			<li><a href="#1" data-uri="${module}" class="probe-module">${module}</a></li>
+	  {{/each}}
+		</ul>
+	</div>
+</script>
+
+<script id="list-probe-commands" type="text/x-jquery-tmpl">
+	<div id="probe-${probe_id}-list-commands" class="dropdown dropdown-tip">
+		<ul class="dropdown-menu">
+		{{each(i, command) commands}}
+			<li>
+				<a href="#1" class="probe-command" data-command="${JSON.stringify(command)}" data-module="${module}">
+				${command.title}
+				</a>
+			</li>
+	  {{/each}}
+		</ul>
+	</div>
+</script>
