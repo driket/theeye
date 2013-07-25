@@ -59,7 +59,7 @@
 		color:rgba($main-color, 0.8);
 	}
 	span.probe-url {
-		color:rgba($main-color, 0.2);
+		color:rgba($main-color, 0.3);
 	}
 	span.probe-config a {
 		color:rgba($main-color, 0.8);
@@ -72,8 +72,8 @@
 	span.probe-config a.probe-edit { display:none; }
 	span.probe-config a.probe-ok { display:block; }
 	span.probe-config a.probe-cancel { display:block; }
-	span.probe-title {	border: 1px dashed #888; }
-	span.probe-url { border: 1px dashed #888; }
+	span.probe-title {	border: 1px dashed rgba($main-color, 0.1);; }
+	span.probe-url { border: 1px dashed rgba($main-color, 0.1);; }
 
 }
 
@@ -88,6 +88,7 @@
     vertical-align: top;
     width: 0;
 		margin-top:4px;
+		margin-left:2px;
 	}
 	
 	/* hide widgets when hiddenmode */
