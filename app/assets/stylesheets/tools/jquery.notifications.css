@@ -1,0 +1,183 @@
+
+/* NOTIFICATIONS */
+
+.notice-wrap {
+	position: fixed;
+	top: 30px; 
+	right: 5px;
+	width: 270px;
+	z-index: 9999;
+}
+
+* html .notice-wrap {
+	position: absolute;		
+}
+ 
+.notice-item {
+	height: 60px;
+	/*background: #333;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	color: #eee;
+	*/
+	padding: 6px 6px 0 6px;
+	font-family: lucida Grande;
+	font-size: 11px;
+	/* border: 2px solid #999; */
+	display: block;
+	position: relative;
+	margin: 0 0 4px 0;
+}
+
+.notice-item-close {
+/*
+	position: absolute;
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;
+	right: 6px;
+	top: 6px;
+	cursor: pointer;
+	*/
+}
+
+/* GLOSSY NOTIFICATION CSS */
+#a92 .rightpage {
+-webkit-box-shadow: 0 0 40px rgba(0,0,0,.4),0 -1px 0 rgba(0,0,0,.15);
+}
+#a92 button {
+margin: 0 0 10px 0;
+}
+#a92 h6 {
+text-align:center;
+}
+#a92 .wrap {
+margin: 0;
+padding: 0;
+width: 100%;
+height: 100%;
+overflow: hidden;
+background: url('/|/92/bg.jpg') bottom center;
+display: block;
+-webkit-perspective: 750;
+font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+#a91 .notificationwrap {
+display: none;
+}
+#a92 .notification { 
+	-webkit-animation: notification .75s linear;
+	background: rgba(0,0,0,1);
+	-webkit-box-shadow: 0 2px 5px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.2), inset 0 0 0 1px rgba(255,255,255,.1);
+	border: 1px solid rgba(0,0,0,.95);
+	padding: 10px;
+	-webkit-border-radius: 5px;
+	-webkit-font-smoothing: antialiased;
+	text-shadow: 0 1px 2px rgba(0,0,0,.5);
+	color: #fff;
+height: 32px;
+	margin: -20px 0 0 -125px;
+top: 50%;
+left: 50%;
+	-webkit-transform: rotateY(-0deg);
+	position: absolute;
+	background-clip: padding-box;
+width: 230px;
+}
+#a92 #emergency .notification { 
+	background: rgba(100,0,0,.85);
+	-webkit-animation: emergency 2s ease infinite;
+}
+#a92 .img {
+	-webkit-animation: icon .8s ease;
+	display: block;
+	height: 32px;
+	width: 32px;
+	-webkit-border-radius: 5px;
+	position: absolute;
+}
+#a92 .img img {
+	height: 32px;
+	width: 32px;
+	-webkit-border-radius: 5px;
+	position: absolute;
+margin: 0;
+}
+#a92 .growltitle, #a92 .text {
+	padding: 0 0 0 42px;
+	margin: 0;
+	position: relative;
+}
+#a92 .growltitle {
+	font-weight: 700 ;
+	font-size: 14px ;
+	-webkit-animation: growltitle .7s ease-out;
+}
+#a92 .text {
+	-webkit-animation: text .8s ease-out;
+	font-weight: 700;
+	font-size: 10px;
+	opacity: .75;
+}
+#a92 .glosswrap {
+	display: block;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	top: 0;
+	position: absolute;
+	overflow: hidden;
+	-webkit-border-radius: 5px;
+-webkit-transform-style: preserve-3d;
+}
+#a92 .gloss {
+	-webkit-animation: gloss .6s linear;
+	display: block;
+	right: 0;
+	left: 0;
+	top: 0;
+	height: 50px;
+	position: absolute;
+	z-index: 10;
+	pointer-events: none;
+	margin: 0;
+	background: -webkit-gradient(linear, 0% -16.5%, 16.5% -100%, from(rgba(255,255,255,.0)), to(rgba(255,255,255,.6)), color-stop(.99,rgba(255,255,255,.2)),color-stop(.5,rgba(255,255,255,.0))) no-repeat;
+	-webkit-mask-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255,255,255,.5)), color-stop(.8,rgba(255,255,255,.0)));
+	border-top-right-radius: 5px;
+	overflow: hidden;
+	background-position: 10px;
+}
+@-webkit-keyframes notification {
+	0% { -webkit-transform: rotateY(-90deg); opacity: 0; }
+	70% { -webkit-transform: rotateY(20deg); opacity: .8; }
+	90% { -webkit-transform: rotateY(-10deg); opacity: 1; }
+	100% { -webkit-transform: rotateY(-0deg); opacity: 1; }
+}
+@-webkit-keyframes gloss {
+	0% { background-position: 200px; }
+	70% { background-position: 20px; }
+	90% { background-position: 0px; }
+	100% { background-position: 10px; }
+}
+@-webkit-keyframes emergency {
+	0% { -webkit-transform: translateY(0px); }
+	10% { -webkit-transform: translateY(-5px); }
+	20% { -webkit-transform: translateY(0px); }
+	30% { -webkit-transform: translateY(-5px); }
+	40% { -webkit-transform: translateY(0px); }
+	100% { -webkit-transform: translateY(0px); }
+}
+@-webkit-keyframes icon {
+	0% { -webkit-transform: scale(0) rotateZ(-200deg); opacity: 0; }
+	100% { -webkit-transform: scale(1) rotateZ(0deg); opacity: 1; }
+}
+@-webkit-keyframes growltitle {
+	0% { right: -10px; opacity: 0; }
+	50% { right: -10px; opacity: 0; }
+	100% { right: 0; opacity: 1; }
+}
+@-webkit-keyframes text {
+	0% { right: -10px; opacity: 0; }
+	60% { right: -10px; opacity: 0; }
+	100% { right: 0; opacity: .75; }
+}
