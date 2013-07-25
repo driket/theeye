@@ -45,7 +45,6 @@ class @Probe
 		_this = this
 		this.data.title = $(this.doc_path()).children('.probe-title').text()
 		this.data.url 	= $(this.doc_path()).children('.probe-url').text()
-		console.log "url:", this.data.url
 		$.ajax '/probes/' + this.data.id,
 			type: 'PUT',
 			data: {'probe':this.data},
@@ -73,20 +72,71 @@ class @Probe
 		this_id = this.data.id
 		return '#probe-' + this_id
 		
+	fetch_modules: ->
+		_this = this
+		console.log "url:", this.data.url + "/index"
+		$.getJSON(this.data.url + "/index")
+			.fail (jqXHR, textStatus, errorThrown) =>
+				console.log "AJAX Error: #{textStatus} #{errorThrown}"
+				jQuery.noticeAdd({
+					title: 'Probe error',
+					text: 'Can\'t connect to this probe',
+					type: 'error',
+					stay: false
+				});
+			.done (modules_json) => 
+				content = $('#add-widget-template').tmpl {
+					'modules':modules_json
+					'commands':{}
+					'probe_id':_this.data.id
+				}
+				$(this.doc_path()).append content
+				$('.probe-module').click ->
+					console.log $(this).attr('data-uri')
+					_this.fetch_commands($(this).attr('data-uri'))
+
+	fetch_commands: (module) ->
+		_this = this
+		console.log "url:", this.data.url + "/" + module + "/index"
+		$.getJSON(this.data.url + "/" + module + "/index")
+			.fail (jqXHR, textStatus, errorThrown) =>
+				console.log "AJAX Error: #{textStatus} #{errorThrown}"
+				jQuery.noticeAdd({
+					title: 'Probe error',
+					text: 'Can\'t connect to this probe',
+					type: 'error',
+					stay: false
+				});
+			.done (commands_json) => 
+				console.log commands_json
+				content = $('#list-probe-commands').tmpl {
+					'module':module
+					'commands':commands_json
+					'probe_id':_this.data.id
+				}
+				console.log 'content:', content
+				console.log 'element:', "#probe-#{_this.data.id}-list-commands"
+				$("#probe-#{_this.data.id}-list-commands").replaceWith content
+				$('.probe-command').click ->
+					console.log $(this)
+					#_this.add_module()
+	
+	#add_widget: (module, command)
 	@property 'edit_mode',
 	
 		get: -> this._edit_mode
 		set: (state) ->
 			if state
+				this._edit_mode = true
 				$(this.doc_path()).addClass 'editing'
 				$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'true'
 				$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'true'
-				this._edit_mode = true
+				this.fetch_modules()
 			else
+				this._edit_mode = false
 				$(this.doc_path()).removeClass 'editing'
 				$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'false'
 				$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'false'
-				this._edit_mode = false
 				this.refresh()
 				
 		
