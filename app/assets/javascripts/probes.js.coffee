@@ -2,6 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+# getter / setter methods
+Function::property = (prop, desc) ->
+  Object.defineProperty @prototype, prop, desc
+	
 class @Probe
 	
 	# probes class variable
@@ -10,6 +14,7 @@ class @Probe
 	
 	# used to store probe data (json)
 	data				: {}
+	_hidden			: false
 	
 	# where the probe will be added
 	container 	: '.probes'
@@ -48,6 +53,16 @@ class @Probe
 			$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'false'
 			$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'false'
 		
+	@property 'hidden',
+		get: -> this._hidden 
+		set: (state) -> 
+			if state
+				$(this.doc_path() + ' .widgets').hide()
+				this._hidden = false
+			else
+				$(this.doc_path() + ' .widgets').show()
+				this._hidden = true
+			
 	jquery_init: ->
 
 		this_instance = this
