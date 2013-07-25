@@ -151,15 +151,21 @@ class @Widget
 					
 		content = $('#widget-details').tmpl data
 		target	=	$('#widget-'+this.data.id).parent()
-		$(content)
-		.css
-	    display: 'none'
-	    position: 'absolute'
-	    top: y + 5 
-	    left: x + 5
-		.appendTo(target)
-		.fadeIn(200)
 		
+		if $('.tooltip').length == 0
+			console.log '.tooltip doesn\'t exist, create one'
+			$(content)
+			.css
+		    display: 'none'
+		    position: 'absolute'
+		    top: y + 5 
+		    left: x + 5
+			.appendTo(target)
+			.fadeIn(200)
+		else
+			console.log '.tooltip exist, move it'
+			$('.tooltip').replaceWith $(content).css {'display': 'block', 'position': 'absolute', 'top': y + 5, 'left': x + 5}
+		 
 		# if mouse cursor is on the second half of the screen width, 
 		# display popup on the left of the mouse cursor
 		mouseX = window.event.clientX
@@ -289,18 +295,17 @@ class @Widget
 			if item
 				if previousoint != item.dataIndex
 					previousoint = item.dataIndex
-					$('.tooltip').remove()
+					#$('.tooltip').remove()
 					date = new Date(item.datapoint[0])
 					value = item.datapoint[1]
 
 					target = $(event.currentTarget).closest(".widget")
 					bound_widget_id = target.attr('id').replace('widget-','')
-					console.log 'bound_widget_id : ', bound_widget_id 
 					bound_widget = Widget.find_by_id(bound_widget_id)
 					details = bound_widget.getDetailsForWidgetAtDatetime(date)
 					bound_widget.showTooltip item.pageX, item.pageY, date, value, details
 			else
-				$(@element + ' .tooltip').remove()
+				$('.tooltip').remove()
 				previousPoint = null
 
 		$('#widget-'+ this.data.id + ' .plot-chart').bind plotclick: (event, pos, item) =>
