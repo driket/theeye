@@ -11,8 +11,23 @@
 	font-weight: 200;
 	font-size: 12px;
 	padding: 3px 0px;
-	list-style-position:inside;
+	list-style:none;
 	color:rgba($main-color, 0.1);
+	
+	span.visibility-caret {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid rgba($main-color, 1);
+    display: inline-block;
+    height: 0;
+    opacity: 0.3;
+    vertical-align: top;
+		margin-top:5px;
+    width: 0;
+	}
+	span.visibility-caret:hover {
+		cursor:pointer;
+	}
 	
 	span.probe-title {
 		padding-left:0px;
@@ -29,6 +44,12 @@
 	span.probe-config a.probe-edit { display:block; }
 	span.probe-config a.probe-ok { display:none; }
 	span.probe-config a.probe-cancel { display:none; }
+	
+	/* display widgets when visible */
+	.widgets {
+		display:block;
+	}
+	
 }
 
 .probe-header:hover,
@@ -53,4 +74,26 @@
 	span.probe-config a.probe-edit { display:none; }
 	span.probe-config a.probe-ok { display:block; }
 	span.probe-config a.probe-cancel { display:block; }
+	span.probe-title{	cursor:pointer; }
+	span.probe-url { cursor:pointer; }
+
+}
+
+.probe-header.hidden {
+	span.visibility-caret {
+  	border-bottom: 4px solid transparent;
+    border-top: 4px solid transparent;
+    border-left: 4px solid rgba($main-color, 1);
+    display: inline-block;
+    height: 0;
+    opacity: 0.3;
+    vertical-align: top;
+    width: 0;
+		margin-top:4px;
+	}
+	
+	/* hide widgets when hiddenmode */
+	.widgets {
+		display:none;
+	}
 }
