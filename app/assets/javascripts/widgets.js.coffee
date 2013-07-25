@@ -267,55 +267,56 @@ class @Widget
 					
 			thresholds_constraints.push constraint
 
-		# draw graph
-		this.graph = $.plot $('#widget-'+ this.data.id + ' .plot-chart')
-		,	[ 
-			data: this.graph_data 
-			color: color_ok
-			shadowSize: 0
-			constraints: thresholds_constraints 
-		]
-		,series:  
-			lines:
-				lineWidth: 1
-				show: true
-				fill: true
-				fillColor: fill_color 
-			points:
-				show: false
-		,grid: 
-			hoverable: true
-			clickable: true
-			color: grid_color
-		,yaxis: 
-			min: this.data.min, 
-			max: this.data.max
-		,xaxis: 
-			min: now-(time_scale*1000)
-			max: now
+		# draw graph if not hidden
+		if !Probe.find_by_id(this.data.probe_id).hidden
+			this.graph = $.plot $('#widget-'+ this.data.id + ' .plot-chart')
+			,	[ 
+				data: this.graph_data 
+				color: color_ok
+				shadowSize: 0
+				constraints: thresholds_constraints 
+			]
+			,series:  
+				lines:
+					lineWidth: 1
+					show: true
+					fill: true
+					fillColor: fill_color 
+				points:
+					show: false
+			,grid: 
+				hoverable: true
+				clickable: true
+				color: grid_color
+			,yaxis: 
+				min: this.data.min, 
+				max: this.data.max
+			,xaxis: 
+				min: now-(time_scale*1000)
+				max: now
 		
-		# on plot hover
-		previousPoint = null
-		$('#widget-' + this.data.id + ' .plot-chart').bind plothover: (event, pos, item) =>
-			if item
-				if previousoint != item.dataIndex
-					previousoint = item.dataIndex
-					#$('.tooltip').remove()
-					date = new Date(item.datapoint[0])
-					value = item.datapoint[1]
+			# on plot hover
+			previousPoint = null
+			$('#widget-' + this.data.id + ' .plot-chart').bind plothover: (event, pos, item) =>
+				if item
+					if previousoint != item.dataIndex
+						previousoint = item.dataIndex
+						#$('.tooltip').remove()
+						date = new Date(item.datapoint[0])
+						value = item.datapoint[1]
 
-					target = $(event.currentTarget).closest(".widget")
-					bound_widget_id = target.attr('id').replace('widget-','')
-					bound_widget = Widget.find_by_id(bound_widget_id)
-					details = bound_widget.getDetailsForWidgetAtDatetime(date)
-					bound_widget.showTooltip item.pageX, item.pageY, date, value, details
-			else
-				$('.tooltip').remove()
-				previousPoint = null
+						target = $(event.currentTarget).closest(".widget")
+						bound_widget_id = target.attr('id').replace('widget-','')
+						bound_widget = Widget.find_by_id(bound_widget_id)
+						details = bound_widget.getDetailsForWidgetAtDatetime(date)
+						bound_widget.showTooltip item.pageX, item.pageY, date, value, details
+				else
+					$('.tooltip').remove()
+					previousPoint = null
 
-		$('#widget-'+ this.data.id + ' .plot-chart').bind plotclick: (event, pos, item) =>
-			if item
-				this.graph.highlight item.series, item.datapoint
+			$('#widget-'+ this.data.id + ' .plot-chart').bind plotclick: (event, pos, item) =>
+				if item
+					this.graph.highlight item.series, item.datapoint
 
 		# return alert code
 		
