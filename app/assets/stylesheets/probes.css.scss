@@ -10,7 +10,7 @@
 	clear:both;
 	font-weight: 200;
 	font-size: 12px;
-	padding: 3px 0px;
+	padding: 3px 3px;
 	list-style:none;
 	color:rgba($main-color, 0.1);
 	
@@ -30,11 +30,11 @@
 	}
 	
 	span.probe-title {
-		padding-left:0px;
+		margin-left:2px;
 		color:rgba($main-color, 0.2);
 	}
 	span.probe-url {
-		padding-left:10px;
+		margin-left:10px;
 		color:rgba($main-color, 0);
 	}
 	span.probe-config a {
@@ -56,11 +56,9 @@
 .probe-header.editing {
 
 	span.probe-title{
-		padding-left:0;
 		color:rgba($main-color, 0.8);
 	}
 	span.probe-url {
-		padding-left:10px;
 		color:rgba($main-color, 0.2);
 	}
 	span.probe-config a {
@@ -74,8 +72,8 @@
 	span.probe-config a.probe-edit { display:none; }
 	span.probe-config a.probe-ok { display:block; }
 	span.probe-config a.probe-cancel { display:block; }
-	span.probe-title{	cursor:pointer; }
-	span.probe-url { cursor:pointer; }
+	span.probe-title {	border: 1px dashed #888; }
+	span.probe-url { border: 1px dashed #888; }
 
 }
 
