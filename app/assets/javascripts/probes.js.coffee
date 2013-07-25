@@ -38,6 +38,22 @@ class @Probe
 		$('#probe-' + this.data['id']).replaceWith content
 		this.jquery_init()
 	
+	save: ->
+		
+		_this = this
+		this.data.title = $(this.doc_path()).children('.probe-title').text()
+		this.data.url 	= $(this.doc_path()).children('.probe-url').text()
+		console.log "url:", this.data.url
+		$.ajax '/probes/' + this.data.id,
+			type: 'PUT',
+			data: {'probe':this.data},
+			error: (jqXHR, textStatus, errorThrown) ->
+				console.log "AJAX Error: #{textStatus} #{errorThrown}"
+			success: (jqXHR, textStatus, errorThrown) ->
+				console.log "Successful AXAX call: #{textStatus}"
+				_this.refresh()
+		
+		
 	doc_path: ->
 
 		this_id = this.data.id
@@ -75,17 +91,23 @@ class @Probe
 			
 	jquery_init: ->
 
-		this_instance = this
+		_this = this
 		$(this.doc_path() + ' .probe-edit').click (event) ->
-			this_instance.edit_mode = true
+			_this.edit_mode = true
 			event.preventDefault()
 			
 		$(this.doc_path() + ' .probe-cancel').click (event) ->
-			this_instance.edit_mode = false
+			_this.edit_mode = false
 			event.preventDefault()
 			
+		$(this.doc_path() + ' .probe-ok').click (event) ->
+			_this.save()
+			_this.edit_mode = false
+			event.preventDefault()
+		
+			
 		$(this.doc_path() + ' .visibility-caret').click (event) ->
-			this_instance.hidden = !this_instance.hidden 
+			_this.hidden = !_this.hidden 
 
 	# class variables & methods
 	
