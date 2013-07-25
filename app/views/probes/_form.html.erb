@@ -20,15 +20,6 @@
     <%= f.text_field :url %>
   </div>
 
-	<% if !f.object.new_record? %>
-	  <%= f.label :widgets %><br />	
-		<%= f.fields_for :widgets do |f_widget| %>
-			<p>
-		    <%= render :partial => "widgets/form_oneline", :locals => { :f => f_widget, :available_uris => @probe.available_uris } %>
-			</p>
-		<% end %>
-		<%= f.link_to_add "Add a widget", :widgets %>
-	<% end %>
 	<!--
   <div class="field">
     <%= f.label :position %><br />
