@@ -122,18 +122,18 @@ class @Widget
 		
 		for threshold in this.data.thresholds
 
-			if threshold.operator == '&gt;='
+			if threshold.operator == '>='
 				if value >= threshold.value			
-					return threshold.alert
-			else if threshold.operator == '&gt;'
+					return threshold.type
+			else if threshold.operator == '>'
 				if value > threshold.value				
-					return threshold.alert
-			else if threshold.operator == '&lt;'
+					return threshold.type
+			else if threshold.operator == '<'
 				if value < threshold.value				
-					return threshold.alert
-			else if threshold.operator == '&lt;='
+					return threshold.type
+			else if threshold.operator == '<='
 				if value <= threshold.value				
-					return threshold.alert
+					return threshold.type
 			else
 				console.log '(alertLevelForValue) invalid comparison operator: ' + threshold.operator
 				
@@ -245,30 +245,33 @@ class @Widget
 
 		if this.data.thresholds
 			for a_threshold in this.data.thresholds 
-				if a_threshold.operator == '&gt;='
-					color = theme_color_for_class 'service-status-' + a_threshold.alert
+				if a_threshold.operator == '>='
+					color = theme_color_for_class 'service-status-' + a_threshold.type
 					constraint = { threshold: a_threshold.value
 					, color: color
 					, evaluate : (y, threshold) =>
 						return y >= threshold }
-				else if a_threshold.operator == '&gt;'
-					color = theme_color_for_class 'service-status-' + a_threshold.alert
+				else if a_threshold.operator == '>'
+					color = theme_color_for_class 'service-status-' + a_threshold.type
 					constraint = { threshold: a_threshold.value
 					, color: color
 					, evaluate: (y, threshold) =>
 						return y > threshold }
-				else if a_threshold.operator == '&lt;'
-					color = theme_color_for_class 'service-status-' + a_threshold.alert
+				else if a_threshold.operator == '<'
+					color = theme_color_for_class 'service-status-' + a_threshold.type
 					constraint = { threshold: a_threshold.value
 					, color: color
 					, evaluate: (y, threshold) =>
 						return y < threshold }
-				else if a_threshold.operator == '&lt;='
-					color = theme_color_for_class 'service-status-' + a_threshold.alert
+				else if a_threshold.operator == '<='
+					color = theme_color_for_class 'service-status-' + a_threshold.type
 					constraint = { threshold: a_threshold.value
 					, color: color
 					, evaluate: (y, threshold) =>
 						return y <= threshold }
+				else
+					console.log '(alertLevelForValue) invalid comparison operator: ' + a_threshold.operator
+				
 					
 			thresholds_constraints.push constraint
 
