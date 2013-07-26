@@ -37,7 +37,7 @@ $widgets = {
 		<% if widget.thresholds.size > 0 %>
 		'thresholds'		: [
 		<% for threshold in widget.thresholds %>
-			{ 'operator':'<%= threshold.operator %>', 'value': <%= threshold.value %>, 'type':'<%= threshold.alert %>' },
+			{ 'operator':'<%= raw threshold.operator %>', 'value': <%= threshold.value %>, 'type':'<%= threshold.alert %>' },
 		<% end %>
 		],
 		<% end %>
