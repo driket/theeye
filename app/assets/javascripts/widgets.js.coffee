@@ -30,17 +30,6 @@ class @Widget
 			'details'			: '',
 		}
 		
-		#$(@element).sortable({
-
-		#	stop: (event, ui) =>
-		#		widget_id_array = $(@element).sortable('toArray')
-
-		#		$.getJSON("/widgets/sort", { widget_id_array : widget_id_array  })
-		#		.done( (json) =>
-		#			console.log "getJSON /widgets/sort ok", json
-		#		)
-				
-		#})
 		this.data = json_data
 		Widget._widgets.push this
 		this.refresh()
