@@ -170,11 +170,14 @@ class @Probe
 			$(this.doc_path('.command-dropdown')).html("command: <b>#{command.title}</b><span class=\"dropdown-caret\"> </span>")
 			$(this.doc_path('.add-widget-button')).removeClass('disabled')
 			$(this.doc_path('.add-widget-button')).unbind()
-			$(this.doc_path('.add-widget-button')).click ->
+			$(this.doc_path('.add-widget-button')).click (event) ->
 
+				event.preventDefault()
 				widget = command
 				widget.module = _this.new_module
 				widget.probe_id = _this.data.id
+				widget.id = Widget.find_unused_id()
+				
 				new_widget = new Widget widget
 				new_widget.create() 	
 			
