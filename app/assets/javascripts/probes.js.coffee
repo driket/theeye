@@ -173,6 +173,8 @@ class @Probe
 			$(this.doc_path('.add-widget-button')).click ->
 
 				widget = command
+				widget.module = _this.new_module
+				widget.probe_id = _this.data.id
 				new_widget = new Widget widget
 				new_widget.create() 	
 			
