@@ -5,7 +5,6 @@
 @import "_init.css.scss";
 
 .probe-header {
-	border-bottom: 1px solid rgba($main-color, 0.05);
 	// background: #f8f8f8;
 	clear:both;
 	font-weight: 200;
@@ -46,24 +45,27 @@
 		font-weight:200;
 		font-size: 12px;
 		font-family: Helvetica;
-		margin-top: -3px;
+		margin-top: -5px;
 	}
-	span.probe-config a.probe-edit {
+	span.probe-config a.probe-edit,
+	span.probe-config a.probe-add-widget
+	{
 		opacity:0.1;
 	}
-	span.probe-config a.probe-edit { display:block; }
-	span.probe-config a.probe-ok { display:none; }
-	span.probe-config a.probe-cancel { display:none; }
-	
+		
 	/* display widgets when visible */
 	.widgets {
 		display:block;
 	}
+	.probe-title-bar {
+		border-bottom: 1px solid rgba($main-color, 0.05);
+	}
 	
 }
 
-.probe-header:hover,
-.probe-header.editing {
+
+.probe-header .probe-title-bar:hover,
+.probe-header.editing .probe-title-bar {
 
 	span.probe-title{
 		color:rgba($main-color, 0.5);
@@ -71,20 +73,20 @@
 	span.probe-url {
 		color:rgba($main-color, 0.3);
 	}
-	span.probe-config a.probe-edit {
-		opacity: 0.4;
+	span.probe-config a.probe-edit,
+	span.probe-config a.probe-add-widget
+	{
+		opacity: 0.7;
 		/* font-weight: 200; */
 		float:right;
 	}
 } 
-.probe-header span.probe-config a.probe-edit:hover {
-	opacity: 1;
+.probe-header span.probe-config a.probe-edit:hover,
+.probe-header span.probe-config a.probe-add-widget:hover {
+	opacity: 1 !important;
 }
 
 .probe-header.editing {
-	span.probe-config a.probe-edit { display:none; }
-	span.probe-config a.probe-ok { display:block; }
-	span.probe-config a.probe-cancel { display:block; }
 	span.probe-title {	border: 1px dashed rgba($main-color, 0.1); padding:0px 0px; }
 	span.probe-url { border: 1px dashed rgba($main-color, 0.1); padding:0px 0px; }
 
@@ -122,5 +124,6 @@
 	background: rgba($main-color, 0.03);
 	border-radius: 3px;
 	padding: 20px 20px;
+	margin-bottom: 10px;
 	clear:both;
 }
