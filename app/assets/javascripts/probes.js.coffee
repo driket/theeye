@@ -74,7 +74,11 @@ class @Probe
 		
 	fetch_modules: ->
 		_this = this
-		console.log "url:", this.data.url + "/index"
+
+		# add dropdown buttons
+		content = $('#add-widget-template').tmpl {'probe_id':_this.data.id}
+		$(this.doc_path()).append content
+
 		$.getJSON(this.data.url + "/index")
 			.fail (jqXHR, textStatus, errorThrown) =>
 				console.log "AJAX Error: #{textStatus} #{errorThrown}"
@@ -85,15 +89,15 @@ class @Probe
 					stay: false
 				});
 			.done (modules_json) => 
-				content = $('#add-widget-template').tmpl {
+				content = $('#list-probe-modules').tmpl {
 					'modules':modules_json
-					'commands':{}
 					'probe_id':_this.data.id
 				}
-				$(this.doc_path()).append content
-				$('.probe-module').click ->
-					console.log $(this).attr('data-uri')
-					_this.fetch_commands($(this).attr('data-uri'))
+				$(_this.doc_path()).append content
+				$(_this.doc_path() + ' .probe-module').click ->
+					uri = $(this).attr('data-uri')
+					_this.fetch_commands(uri)
+					$(_this.doc_path() + ' .module-dropdown').text("module: #{uri}")
 
 	fetch_commands: (module) ->
 		_this = this
@@ -114,9 +118,11 @@ class @Probe
 					'commands':commands_json
 					'probe_id':_this.data.id
 				}
-				console.log 'content:', content
-				console.log 'element:', "#probe-#{_this.data.id}-list-commands"
-				$("#probe-#{_this.data.id}-list-commands").replaceWith content
+				dropdown_tmpl = "#probe-#{_this.data.id}-list-commands"
+				if $(dropdown_tmpl).length > 0
+					$("#probe-#{_this.data.id}-list-commands").replaceWith content
+				else
+					$(this.doc_path()).append content
 				$('.probe-command').click ->
 					console.log $(this)
 					#_this.add_module()
