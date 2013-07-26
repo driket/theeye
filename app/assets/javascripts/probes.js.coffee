@@ -15,9 +15,11 @@ class @Probe
 	@_probes 		: []
 	
 	# used to store probe data (json)
-	data				: {}
-	_hidden			: false
-	_edit_mode	: false
+	data					: {}
+	_hidden				: false
+	_edit_mode		: false
+	_new_module 	: ''
+	_new_command 	: '' 
 	
 	# where the probe will be added
 	container 	: '.probes'
@@ -27,6 +29,8 @@ class @Probe
 		this.data = json_data
 		this.init()
 		Probe._probes.push this
+		this._new_module = ''
+		this._new_command = ''
 
 	init: ->
 		
@@ -79,6 +83,8 @@ class @Probe
 		content = $('#add-widget-template').tmpl {'probe_id':_this.data.id}
 		$(this.doc_path()).append content
 
+		_this.new_module = ''
+
 		$.getJSON(this.data.url + "/index")
 			.fail (jqXHR, textStatus, errorThrown) =>
 				console.log "AJAX Error: #{textStatus} #{errorThrown}"
@@ -96,8 +102,7 @@ class @Probe
 				$(_this.doc_path()).append content
 				$(_this.doc_path() + ' .probe-module').click ->
 					uri = $(this).attr('data-uri')
-					_this.fetch_commands(uri)
-					$(_this.doc_path() + ' .module-dropdown').html("module: <b>#{uri}</b><span class=\"dropdown-caret\"> </span>")
+					_this.new_module = uri
 
 	fetch_commands: (module) ->
 		_this = this
@@ -125,12 +130,32 @@ class @Probe
 					$(this.doc_path()).append content
 				$(_this.doc_path() + ' .probe-command').click ->
 					command = jQuery.parseJSON($(this).attr('data-command'))
-					console.log command
-					console.log command.title
-					$(_this.doc_path() + ' .command-dropdown').html("command: <b>#{command.title}</b><span class=\"dropdown-caret\"> </span>")
+					_this.new_command = command
 					
 					#_this.add_module()
 	
+	@property 'new_module',
+		get: -> this._new_module
+		set: (module) ->
+			if module == ''
+				$(this.doc_path() + ' .command-dropdown').addClass('disabled')				
+				$(this.doc_path() + ' .add-widget-button').addClass('disabled')				
+			else
+				this.fetch_commands(module)
+				$(this.doc_path() + ' .module-dropdown').html("module: <b>#{module}</b><span class=\"dropdown-caret\"> </span>")
+				$(this.doc_path() + ' .command-dropdown').removeClass('disabled')				
+				$(this.doc_path() + ' .command-dropdown').html("<b>commands</b> <span class=\"dropdown-caret\"> </span>")
+				$(this.doc_path() + ' .add-widget-button').addClass('disabled')
+			
+	@property 'new_command',
+	
+		get: -> this._new_command
+		set: (command) ->
+			$(this.doc_path() + ' .command-dropdown').html("command: <b>#{command.title}</b><span class=\"dropdown-caret\"> </span>")
+			$(this.doc_path() + ' .add-widget-button').removeClass('disabled')
+			
+			
+			
 	#add_widget: (module, command)
 	@property 'edit_mode',
 	
