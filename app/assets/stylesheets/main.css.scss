@@ -132,20 +132,30 @@ input[type=submit] {
 	box-shadow: inset 0px 0px 3px rgba(0,0,0,0.9);
 }
 
+// button sizes
+ 
 .button {
 	border-radius: 3px;
 	border:1px solid rgba($main-color, 0.3);
 	color:rgba($main-color, 0.6);	
 	font-weight: 100;
+	
+	&.button.small {
+		font-size: 12px;
+		margin: 0px 4px;
+		padding: 1px 5px;
+	}
+	&.button.medium {
+		font-size: 14px;
+		margin: 0px 4px;
+		padding: 5px 10px;
+	}
+
 }
 
-.button.small {
-	font-size: 12px;
-	margin: 0px 4px;
-	padding: 1px 5px;
-}
 
-// style
+// button styles
+ 
 .button {
 	background:rgba($main-color, 0.05);	
 	background: -webkit-linear-gradient(top, rgba($main-color, 0.03) 0%,rgba($main-color, 0.07) 100%);
