@@ -156,6 +156,21 @@ input[type=submit] {
 .button.discreet {
 	box-shadow: none;
 }
+.dropdown-caret {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid rgba($main-color, 1);
+  display: inline-block;
+  height: 0;
+  opacity: 0.3;
+  vertical-align: top;
+	margin-top:5px;
+  width: 0;
+}
+
+.button.dropdown-button {
+	.dropdown-caret { margin-top:6px; margin-left:4px;}
+}
 .button.red {
 	background:#D34843;	
 	background: -webkit-linear-gradient(top, #e02f32 0%,#ad030e 100%); /* Chrome10+,Safari5.1+ */	color: white !important;
