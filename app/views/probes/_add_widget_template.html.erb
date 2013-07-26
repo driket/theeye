@@ -1,10 +1,9 @@
 <script id="add-widget-template" type="text/x-jquery-tmpl">
 	<div class="add-widget-form">
-		<a href="#" data-dropdown="#probe-${probe_id}-list-modules" class="button">chose module</a>
-		<a href="#" data-dropdown="#probe-${probe_id}-list-commands" class="button">chose command</a>
+		<a href="#" data-dropdown="#probe-${probe_id}-list-modules"  class="button dropdown-button module-dropdown">chose module<span class="dropdown-caret"> </span></a>
+		<a href="#" data-dropdown="#probe-${probe_id}-list-commands" class="button dropdown-button command-dropdown">chose command<span class="dropdown-caret"> </span></a>
+		<a href="#" class="button blue"><b> + add widget</b></a>
 	</div>
-	{{tmpl "#list-probe-modules"}}
-	{{tmpl "#list-probe-commands"}}
 </script>
 
 <script id="list-probe-modules" type="text/x-jquery-tmpl">
@@ -23,7 +22,7 @@
 		{{each(i, command) commands}}
 			<li>
 				<a href="#1" class="probe-command" data-command="${JSON.stringify(command)}" data-module="${module}">
-				${command.title}
+				${command.title} <span class="discreet">(${command.unit})</span>
 				</a>
 			</li>
 	  {{/each}}
