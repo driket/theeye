@@ -37,21 +37,13 @@ $widgets = {
 		<% if widget.thresholds.size > 0 %>
 		'thresholds'		: [
 		<% for threshold in widget.thresholds %>
-			{ 'operator':'<%= threshold.operator %>', 'value': <%= threshold.value %>, 'alert':'<%= threshold.alert %>' },
+			{ 'operator':'<%= threshold.operator %>', 'value': <%= threshold.value %>, 'type':'<%= threshold.alert %>' },
 		<% end %>
 		],
 		<% end %>
-		'data'					:
-		{
-			'value' 			: 0,
-			'date'				: 0,
-			'details'			: '',
-		},
 		'min'						: <%= widget.min %>,
 		'max'						: <%= widget.max %>,
 		'unit'					: '<%= widget.unit %>',
-		'graph_data'		: [],
-		'details_data'	: [],
 		'refresh_delay'	: <%= widget.refresh_delay %>,
 	},
 	<% end %>
