@@ -325,6 +325,46 @@ class @Widget
 			return 'ok'
 
 
+	create: ->
+		
+		_this = this
+		
+		this.data.id = Widget.find_unused_id()
+		this.data.uri = "#{this.data.module}/#{this.data.uri}"
+		this.data.min = parseInt(this.data.min)
+		this.data.max = parseInt(this.data.max)
+		this.data.refresh_delay = this.data.interval * 1000
+		this.data.template = "widget-graph"
+		this.data.thresholds_attributes = this.data.thresholds
+		for threshold in this.data.thresholds_attributes
+			threshold['alert'] = threshold.type
+			delete threshold['type']
+		delete this.data['interval']
+		delete this.data['module']
+		delete this.data['thresholds']
+		console.log 'widget:', this.data
+		
+		$.ajax '/widgets.json',
+			type: 'POST',
+			data: {'widget':this.data},
+			error: (jqXHR, textStatus, errorThrown) ->
+				console.log "AJAX Error: #{textStatus} #{errorThrown}"
+				jQuery.noticeAdd({
+					title: 'Error',
+					text: 'Error saving widget.',
+					type: 'error',
+					stay: false
+				});
+			success: (jqXHR, textStatus, errorThrown) ->
+				console.log "Successful AXAX call: #{textStatus}"
+				jQuery.noticeAdd({
+					title: 'Widget created',
+					text: 'Widget successfully created.',
+					type: 'ok',
+					stay: false
+				});
+		
+		
   # class method
 		
 	@all: ->
