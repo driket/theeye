@@ -172,20 +172,9 @@ class @Probe
 			$(this.doc_path('.add-widget-button')).unbind()
 			$(this.doc_path('.add-widget-button')).click ->
 
-				#format widget data 
 				widget = command
-				widget.id = Widget.find_unused_id()
-				widget.uri = "#{_this.new_module}/#{command.uri}"
-				widget.min = parseInt(command.min)
-				widget.max = parseInt(command.max)
-				widget.refresh_delay = command.interval * 1000
-				widget.probe_id = _this.data.id
-				widget.template = "widget-graph"
-				console.log 'widget:',widget
-				
-				# new widget and create in db
-				new Widget widget
-				widget.create 	
+				new_widget = new Widget widget
+				new_widget.create() 	
 			
 			
 	#add_widget: (module, command)
