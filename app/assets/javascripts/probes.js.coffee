@@ -118,7 +118,6 @@ class @Probe
 					stay: false
 				});
 			.done (commands_json) => 
-				console.log commands_json
 				content = $('#list-probe-commands').tmpl {
 					'module':module
 					'commands':commands_json
@@ -138,6 +137,7 @@ class @Probe
 	@property 'new_module',
 		get: -> this._new_module
 		set: (module) ->
+			this._new_module = module
 			if module == ''
 				$(this.doc_path('.command-dropdown')).addClass('disabled')				
 				$(this.doc_path('.add-widget-button')).addClass('disabled')				
@@ -152,9 +152,22 @@ class @Probe
 	
 		get: -> this._new_command
 		set: (command) ->
+			_this = this
+			this._new_command = command
 			$(this.doc_path('.command-dropdown')).html("command: <b>#{command.title}</b><span class=\"dropdown-caret\"> </span>")
 			$(this.doc_path('.add-widget-button')).removeClass('disabled')
-			
+			$(this.doc_path('.add-widget-button')).unbind()
+			$(this.doc_path('.add-widget-button')).click ->
+				widget = command
+				widget.id = Widget.find_unused_id()
+				widget.uri = "#{_this.new_module}/#{command.uri}"
+				widget.min = parseInt(command.min)
+				widget.max = parseInt(command.max)
+				widget.refresh_delay = command.interval * 1000
+				widget.probe_id = _this.data.id
+				widget.template = "widget-graph"
+				console.log 'widget:',widget
+				new Widget widget			
 			
 			
 	#add_widget: (module, command)
