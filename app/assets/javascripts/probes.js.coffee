@@ -70,11 +70,12 @@ class @Probe
 				});
 				_this.refresh()
 		
-		
-	doc_path: ->
+	# return probe path for jQuery selectors
+	# path parameter : helper to select class from the current probe
+	doc_path: (path) ->
 
-		this_id = this.data.id
-		return '#probe-' + this_id
+		path = '' if !path
+		return '#probe-' + this.data.id + ' ' + path
 		
 	fetch_modules: ->
 		_this = this
@@ -138,21 +139,21 @@ class @Probe
 		get: -> this._new_module
 		set: (module) ->
 			if module == ''
-				$(this.doc_path() + ' .command-dropdown').addClass('disabled')				
-				$(this.doc_path() + ' .add-widget-button').addClass('disabled')				
+				$(this.doc_path('.command-dropdown')).addClass('disabled')				
+				$(this.doc_path('.add-widget-button')).addClass('disabled')				
 			else
 				this.fetch_commands(module)
-				$(this.doc_path() + ' .module-dropdown').html("module: <b>#{module}</b><span class=\"dropdown-caret\"> </span>")
-				$(this.doc_path() + ' .command-dropdown').removeClass('disabled')				
-				$(this.doc_path() + ' .command-dropdown').html("<b>commands</b> <span class=\"dropdown-caret\"> </span>")
-				$(this.doc_path() + ' .add-widget-button').addClass('disabled')
+				$(this.doc_path('.module-dropdown')).html("module: <b>#{module}</b><span class=\"dropdown-caret\"> </span>")
+				$(this.doc_path('.command-dropdown')).removeClass('disabled')				
+				$(this.doc_path('.command-dropdown')).html("<b>commands</b> <span class=\"dropdown-caret\"> </span>")
+				$(this.doc_path('.add-widget-button')).addClass('disabled')
 			
 	@property 'new_command',
 	
 		get: -> this._new_command
 		set: (command) ->
-			$(this.doc_path() + ' .command-dropdown').html("command: <b>#{command.title}</b><span class=\"dropdown-caret\"> </span>")
-			$(this.doc_path() + ' .add-widget-button').removeClass('disabled')
+			$(this.doc_path('.command-dropdown')).html("command: <b>#{command.title}</b><span class=\"dropdown-caret\"> </span>")
+			$(this.doc_path('.add-widget-button')).removeClass('disabled')
 			
 			
 			
