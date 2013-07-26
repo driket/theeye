@@ -335,6 +335,9 @@ class @Widget
 		else
 			return 'ok'
 
+
+  # class method
+		
 	@all: ->
 		return @_widgets
 		
