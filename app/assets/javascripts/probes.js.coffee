@@ -15,11 +15,12 @@ class @Probe
 	@_probes 		: []
 	
 	# used to store probe data (json)
-	data					: {}
-	_hidden				: false
-	_edit_mode		: false
-	_new_module 	: ''
-	_new_command 	: '' 
+	data							: {}
+	_hidden						: false
+	_edit_mode				: false
+	_add_widget_mode 	: false
+	_new_module 			: ''
+	_new_command 			: '' 
 	
 	# where the probe will be added
 	container 	: '.probes'
@@ -36,6 +37,10 @@ class @Probe
 		
 		content = $('#probe-template').tmpl {'probe':this.data}
 		$(this.container).append content
+
+		this.edit_mode 				= false
+		this.add_widget_mode 	= false	
+
 		this.jquery_init()
 		
 	refresh: ->
@@ -47,8 +52,8 @@ class @Probe
 	save: ->
 		
 		_this = this
-		this.data.title = $(this.doc_path()).children('.probe-title').text()
-		this.data.url 	= $(this.doc_path()).children('.probe-url').text()
+		this.data.title = $(this.doc_path('.probe-title')).text()
+		this.data.url 	= $(this.doc_path('.probe-url')).text()
 		$.ajax '/probes/' + this.data.id,
 			type: 'PUT',
 			data: {'probe':this.data},
@@ -68,7 +73,6 @@ class @Probe
 					type: 'ok',
 					stay: false
 				});
-				_this.refresh()
 		
 	# return probe path for jQuery selectors
 	# path parameter : helper to select class from the current probe
@@ -78,6 +82,7 @@ class @Probe
 		return '#probe-' + this.data.id + ' ' + path
 		
 	fetch_modules: ->
+		
 		_this = this
 
 		# add dropdown buttons
@@ -135,6 +140,7 @@ class @Probe
 					#_this.add_module()
 	
 	@property 'new_module',
+	
 		get: -> this._new_module
 		set: (module) ->
 			this._new_module = module
@@ -167,6 +173,7 @@ class @Probe
 				widget.probe_id = _this.data.id
 				widget.template = "widget-graph"
 				console.log 'widget:',widget
+				#_this.edit_mode = false
 				new Widget widget			
 			
 			
@@ -178,16 +185,38 @@ class @Probe
 			if state
 				this._edit_mode = true
 				$(this.doc_path()).addClass 'editing'
-				$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'true'
-				$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'true'
-				this.fetch_modules()
+				$(this.doc_path('.probe-add-widget')).hide()
+				$(this.doc_path('.probe-edit')).hide()
+				$(this.doc_path('.probe-ok')).show()
+				$(this.doc_path('.probe-cancel')).show()
+				$(this.doc_path('.probe-url')).attr 'contentEditable', 'true'
+				$(this.doc_path('.probe-title')).attr 'contentEditable', 'true'
 			else
 				this._edit_mode = false
 				$(this.doc_path()).removeClass 'editing'
-				$(this.doc_path()).children('.probe-url').attr 'contentEditable', 'false'
-				$(this.doc_path()).children('.probe-title').attr 'contentEditable', 'false'
-				this.refresh()
-				
+				$(this.doc_path('.probe-add-widget')).show()
+				$(this.doc_path('.probe-edit')).show()
+				$(this.doc_path('.probe-ok')).hide()
+				$(this.doc_path('.probe-cancel')).hide()
+
+	@property 'add_widget_mode',
+	
+		get: -> this._add_widget_mode
+		set: (state) ->		
+			if state		
+				this.fetch_modules()
+				$(this.doc_path('.probe-add-widget')).hide()
+				$(this.doc_path('.probe-edit')).hide()
+				$(this.doc_path('.probe-ok')).show()
+				$(this.doc_path('.probe-cancel')).hide()
+				this._add_widget_mode = true
+			else
+				$(this.doc_path('.probe-add-widget')).show()
+				$(this.doc_path('.probe-edit')).show()
+				$(this.doc_path('.probe-ok')).hide()
+				$(this.doc_path('.probe-cancel')).hide()
+				$(this.doc_path('.add-widget-form')).remove()
+				this._add_widget_mode = false
 		
 	@property 'hidden',
 	
@@ -205,21 +234,31 @@ class @Probe
 	jquery_init: ->
 
 		_this = this
-		$(this.doc_path() + ' .probe-edit').click (event) ->
+		$(this.doc_path('.probe-edit')).click (event) ->
 			_this.edit_mode = true
 			event.preventDefault()
 			
-		$(this.doc_path() + ' .probe-cancel').click (event) ->
-			_this.edit_mode = false
+		$(this.doc_path('.probe-cancel')).click (event) ->
 			event.preventDefault()
+			if _this.edit_mode
+				_this.refresh()
+				_this.edit_mode = false
+			else if _this.add_widget_mode
+				_this.add_widget_mode = false	
 			
-		$(this.doc_path() + ' .probe-ok').click (event) ->
-			_this.save()
-			_this.edit_mode = false
+		$(this.doc_path('.probe-ok')).click (event) ->
 			event.preventDefault()
-		
+			if _this.edit_mode
+				_this.save()
+				_this.edit_mode = false
+			else if _this.add_widget_mode
+				_this.add_widget_mode = false
 			
-		$(this.doc_path() + ' .visibility-caret').click (event) ->
+		$(this.doc_path('.probe-add-widget')).click (event) ->
+			_this.add_widget_mode = true
+			event.preventDefault()	
+			
+		$(this.doc_path('.visibility-caret')).click (event) ->
 			_this.hidden = !_this.hidden 
 
 	# class variables & methods
