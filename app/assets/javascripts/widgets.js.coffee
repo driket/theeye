@@ -85,7 +85,6 @@ class @Widget
 		if elapased_time > this.data.refresh_delay and !this.processing
 
 			this.processing = true
-
 	    #display activity indicator while loading
 			status = 'ok'
 			$(widget_name).spin 'small', theme_color_for_class 'service-status-disabled'
@@ -338,7 +337,7 @@ class @Widget
 		
 	@find_by_id: (id) ->
 		for widget in Widget._widgets
-			if widget.data and widget.data.id == id
+			if widget.data and parseInt(widget.data.id) == parseInt(id)
 				return widget
 
 	@count: ->
@@ -347,4 +346,16 @@ class @Widget
 	@refresh: ->
 		for widget in Widget._widgets
 			widget.refresh()
+	
+	@is_id_used: (id) ->
+		for widget in Widget._widgets
+			if parseInt(widget.data.id) == parseInt(id)
+				return true
+		return false
+		
+	@find_unused_id: ->
+		id = 0
+		id++ while Widget.is_id_used(id)
+		return id
+		
 		
