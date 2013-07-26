@@ -92,6 +92,7 @@ class @Probe
 		_this.new_module = ''
 
 		$.getJSON(this.data.url + "/index")
+		
 			.fail (jqXHR, textStatus, errorThrown) =>
 				console.log "AJAX Error: #{textStatus} #{errorThrown}"
 				jQuery.noticeAdd({
@@ -100,6 +101,7 @@ class @Probe
 					type: 'error',
 					stay: false
 				});
+				
 			.done (modules_json) => 
 				content = $('#list-probe-modules').tmpl {
 					'modules':modules_json
@@ -113,7 +115,9 @@ class @Probe
 	fetch_commands: (module) ->
 		_this = this
 		console.log "url:", this.data.url + "/" + module + "/index"
+		
 		$.getJSON(this.data.url + "/" + module + "/index")
+		
 			.fail (jqXHR, textStatus, errorThrown) =>
 				console.log "AJAX Error: #{textStatus} #{errorThrown}"
 				jQuery.noticeAdd({
@@ -122,6 +126,7 @@ class @Probe
 					type: 'error',
 					stay: false
 				});
+				
 			.done (commands_json) => 
 				content = $('#list-probe-commands').tmpl {
 					'module':module
@@ -143,6 +148,7 @@ class @Probe
 	
 		get: -> this._new_module
 		set: (module) ->
+			
 			this._new_module = module
 			if module == ''
 				$(this.doc_path('.command-dropdown')).addClass('disabled')				
@@ -158,12 +164,15 @@ class @Probe
 	
 		get: -> this._new_command
 		set: (command) ->
+			
 			_this = this
 			this._new_command = command
 			$(this.doc_path('.command-dropdown')).html("command: <b>#{command.title}</b><span class=\"dropdown-caret\"> </span>")
 			$(this.doc_path('.add-widget-button')).removeClass('disabled')
 			$(this.doc_path('.add-widget-button')).unbind()
 			$(this.doc_path('.add-widget-button')).click ->
+
+				#format widget data 
 				widget = command
 				widget.id = Widget.find_unused_id()
 				widget.uri = "#{_this.new_module}/#{command.uri}"
@@ -173,8 +182,10 @@ class @Probe
 				widget.probe_id = _this.data.id
 				widget.template = "widget-graph"
 				console.log 'widget:',widget
-				#_this.edit_mode = false
-				new Widget widget			
+				
+				# new widget and create in db
+				new Widget widget
+				widget.create 	
 			
 			
 	#add_widget: (module, command)
@@ -182,6 +193,7 @@ class @Probe
 	
 		get: -> this._edit_mode
 		set: (state) ->
+			
 			if state
 				this._edit_mode = true
 				$(this.doc_path()).addClass 'editing'
@@ -203,6 +215,7 @@ class @Probe
 	
 		get: -> this._add_widget_mode
 		set: (state) ->		
+			
 			if state		
 				this.fetch_modules()
 				$(this.doc_path('.probe-add-widget')).hide()
@@ -222,6 +235,7 @@ class @Probe
 	
 		get: -> this._hidden 
 		set: (state) -> 
+			
 			if state
 				this.data.hidden_class = 'hidden'
 				this._hidden = true
