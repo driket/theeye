@@ -66,7 +66,7 @@
 	function resize_page() {
 		
 		$width = $(window).width();
-		$new_width = Math.floor($width / 190) * 190;
+		$new_width = Math.floor($width / 190) * 190 + 20;
 		$('#page').css('width',$new_width);		
 		$('body').css('height',$(window).height());
 	}
