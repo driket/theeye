@@ -328,8 +328,7 @@ class @Widget
 	create: ->
 		
 		_this = this
-		
-		this.data.id = Widget.find_unused_id()
+		console.log 
 		this.data.uri = "#{this.data.module}/#{this.data.uri}"
 		this.data.min = parseInt(this.data.min)
 		this.data.max = parseInt(this.data.max)
