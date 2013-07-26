@@ -97,7 +97,7 @@ class @Probe
 				$(_this.doc_path() + ' .probe-module').click ->
 					uri = $(this).attr('data-uri')
 					_this.fetch_commands(uri)
-					$(_this.doc_path() + ' .module-dropdown').text("module: #{uri}")
+					$(_this.doc_path() + ' .module-dropdown').html("module: <b>#{uri}</b><span class=\"dropdown-caret\"> </span>")
 
 	fetch_commands: (module) ->
 		_this = this
@@ -123,8 +123,12 @@ class @Probe
 					$("#probe-#{_this.data.id}-list-commands").replaceWith content
 				else
 					$(this.doc_path()).append content
-				$('.probe-command').click ->
-					console.log $(this)
+				$(_this.doc_path() + ' .probe-command').click ->
+					command = jQuery.parseJSON($(this).attr('data-command'))
+					console.log command
+					console.log command.title
+					$(_this.doc_path() + ' .command-dropdown').html("command: <b>#{command.title}</b><span class=\"dropdown-caret\"> </span>")
+					
 					#_this.add_module()
 	
 	#add_widget: (module, command)
