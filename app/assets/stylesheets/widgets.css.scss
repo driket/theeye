@@ -199,6 +199,9 @@
 .face-simple-view h3 {
 	
 	text-align:left;
+	width: $card-width - 80;
+	height: 18px;
+	overflow:hidden;
 }
 
 .face-simple-view h3 span {
