@@ -37,7 +37,7 @@
 		color:rgba($main-color, 0);
 	}
 	span.probe-config a {
-		color:rgba($main-color, 0.4);
+		color:rgba($main-color, 0.8);
 		//opacity: 0.3;
 		float:right;
 		margin-left:10px;
@@ -45,7 +45,7 @@
 		font-weight:200;
 		font-size: 12px;
 		font-family: Helvetica;
-		margin-top: -5px;
+		margin-top: -7px;
 	}
 	span.probe-config a.probe-edit,
 	span.probe-config a.probe-add-widget
