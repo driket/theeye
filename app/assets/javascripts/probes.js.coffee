@@ -234,12 +234,12 @@ class @Probe
 		set: (state) -> 
 			
 			if state
-				this.data.hidden_class = 'hidden'
+				$(this.doc_path()).addClass('hidden')				
 				$(this.doc_path('.widgets')).hide()
 				this._hidden = true
 				#this.refresh()
 			else
-				this.data.hidden_class = ''
+				$(this.doc_path()).removeClass('hidden')	
 				$(this.doc_path('.widgets')).show()
 				this._hidden = false
 				#this.refresh()
