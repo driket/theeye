@@ -273,6 +273,31 @@ class @Probe
 			
 		$(this.doc_path('.visibility-caret')).click (event) ->
 			_this.hidden = !_this.hidden 
+			
+		$(this.doc_path('.widgets')).sortable({
+
+			stop: (event, ui) =>
+				widget_id_array = $(this.doc_path('.widgets')).sortable('toArray')
+
+				$.getJSON("/widgets/sort", { widget_id_array : widget_id_array  })
+
+					.fail (jqXHR, textStatus, errorThrown) =>
+						jQuery.noticeAdd({
+							title: 'Save error',
+							text: 'Can\'t save widgets order',
+							type: 'error',
+							stay: false
+						})
+					.done( (json) =>
+						jQuery.noticeAdd({
+							title: 'Probe saved',
+							text: 'Widgets order saved',
+							type: 'ok',
+							stay: false
+						})
+						console.log "getJSON /widgets/sort ok", json
+					)
+		})
 		
 	# class variables & methods
 	
