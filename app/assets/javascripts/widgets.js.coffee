@@ -53,7 +53,6 @@ class @Widget
 	
 	
 	refresh: =>
-				
 		
 		# setup jQuery selector
 		
@@ -96,7 +95,6 @@ class @Widget
 				this.record.details 	= json.details
 				this.processing 			= false
 				$(widget_name).spin false
-				
 				
 				content = $(template).tmpl {'widget':this.data, 'record':this.record};
 				$(widget_name + ' .face-simple-view').html content;
