@@ -205,6 +205,8 @@ class @Probe
 				$(this.doc_path('.probe-edit')).show()
 				$(this.doc_path('.probe-ok')).hide()
 				$(this.doc_path('.probe-cancel')).hide()
+				$(this.doc_path('.probe-url')).attr 'contentEditable', 'false'
+				$(this.doc_path('.probe-title')).attr 'contentEditable', 'false'
 
 	@property 'add_widget_mode',
 	
