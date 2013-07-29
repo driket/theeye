@@ -271,7 +271,7 @@ class @Probe
 			
 		$(this.doc_path('.visibility-caret')).click (event) ->
 			_this.hidden = !_this.hidden 
-
+		
 	# class variables & methods
 	
 	@all: ->
@@ -279,6 +279,7 @@ class @Probe
 		return Probe._probes
 		
 	@find_by_id: (id) ->
+		
 		for probe in Probe._probes
 			if probe.data and parseInt(probe.data.id) == parseInt(id)
 				return probe
