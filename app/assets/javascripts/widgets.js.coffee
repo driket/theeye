@@ -63,7 +63,6 @@ class @Widget
 		_this = this
 		$(this.doc_path('.widget-delete')).unbind()
 		$(this.doc_path('.widget-delete')).click (event) ->
-			console.log $(this).attr('data-widget-id')
 			_this.delete()
 				
 	refresh: =>
