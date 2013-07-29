@@ -87,7 +87,7 @@ class @Probe
 
 		# add dropdown buttons
 		content = $('#add-widget-template').tmpl {'probe_id':_this.data.id}
-		$(this.doc_path()).append content
+		content.insertAfter($(this.doc_path(".probe-title-bar")));
 
 		_this.new_module = ''
 
@@ -113,6 +113,7 @@ class @Probe
 					_this.new_module = uri
 
 	fetch_commands: (module) ->
+		
 		_this = this
 		console.log "url:", this.data.url + "/" + module + "/index"
 		
