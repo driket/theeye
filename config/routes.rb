@@ -5,7 +5,7 @@ Dashboard::Application.routes.draw do
 
   resources :widgets do
     collection do
-      get 'sort'
+      post 'sort'
     end
   end
 
