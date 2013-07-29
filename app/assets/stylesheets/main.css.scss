@@ -172,6 +172,10 @@ input[type=submit] {
 }
 .button.discreet {
 	box-shadow: none;
+	border: none;
+	position:relative;
+	top: 2px;
+	background: none;
 }
 .dropdown-caret {
   border-left: 4px solid transparent;
