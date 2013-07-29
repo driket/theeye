@@ -32,10 +32,12 @@
 		margin-left:2px;
 		color:rgba($main-color, 0.2);
 	}
+	
 	span.probe-url {
 		margin-left:10px;
 		color:rgba($main-color, 0);
 	}
+	
 	span.probe-config a {
 		color:rgba($main-color, 0.8);
 		//opacity: 0.3;
@@ -47,6 +49,7 @@
 		font-family: Helvetica;
 		margin-top: -7px;
 	}
+	
 	span.probe-config a.probe-edit,
 	span.probe-config a.probe-add-widget
 	{
