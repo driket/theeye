@@ -306,15 +306,18 @@
 .probe-header.editing .widget-delete
 {
 	display:block;
-	color: rgba($main-color, 0.9);
+	color: rgba($main-color, 0.7);
 	background: rgba($inverted-color, 0.9);
 	border: 1px solid rgba($main-color, 0.5);
 	border-radius:30px;
 	padding:1px 1px 1px 3px;
 	box-shadow: 0px 1px 3px rgba(0,0,0,0.6);
-	z-index:50;
-	position:relative;
+	z-index:101;
+	position:absolute;
 	float:right;
-	top:-125px;
-	right:-17px;
+	top:-7px; 
+	right:-8px;
+	&:hover {
+		color: rgba($main-color, 1.0);
+	}
 }
