@@ -51,7 +51,21 @@ class @Widget
 		else
 			$(widget_name).addClass 'service-status-ok'
 	
-	
+	# return widget path for jQuery selectors
+	# path parameter : helper to select class from the current probe
+	doc_path: (path) ->
+
+		path = '' if !path
+		return '#widget-' + this.data.id + ' ' + path
+		
+	init_jquery: =>
+		
+		_this = this
+		$(this.doc_path('.widget-delete')).unbind()
+		$(this.doc_path('.widget-delete')).click (event) ->
+			console.log $(this).attr('data-widget-id')
+			_this.delete()
+				
 	refresh: =>
 		
 		# setup jQuery selector
@@ -59,6 +73,7 @@ class @Widget
 		widget_name = '#widget-' + this.data.id
 		template 		= '#' + this.data.template
 		container		= '#probe-' + this.data.probe_id + '-widgets'
+		this.init_jquery()
 
 		# if widget doesn't exist, create and add an empty one
 		
@@ -361,7 +376,35 @@ class @Widget
 					stay: false
 				});
 		
+	delete: ->
 		
+		# remove widget html code
+		$(this.doc_path()).remove()
+		
+		# remove widget from Widgets
+		this_array = Widget._widgets.indexOf(this)
+		Widget._widgets.splice(this_array, 1)
+		
+		$.ajax "/widgets/#{this.data.id}.json",
+			type: 'DELETE',
+			data: {'widget':{'id':this.data.id}},
+			error: (jqXHR, textStatus, errorThrown) ->
+				console.log "AJAX Error: #{textStatus} #{errorThrown}"
+				jQuery.noticeAdd({
+					title: 'Error',
+					text: 'Error deleting widget.',
+					type: 'error',
+					stay: false
+				});
+			success: (jqXHR, textStatus, errorThrown) ->
+				console.log "Successful AXAX call: #{textStatus}"
+				jQuery.noticeAdd({
+					title: 'Widget deleted',
+					text: 'Widget successfully deleted.',
+					type: 'ok',
+					stay: false
+				});
+				
   # class method
 		
 	@all: ->
