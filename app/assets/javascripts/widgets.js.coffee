@@ -61,6 +61,7 @@ class @Widget
 	init_jquery: =>
 		
 		_this = this
+		
 		$(this.doc_path('.widget-delete')).unbind()
 		$(this.doc_path('.widget-delete')).click (event) ->
 			_this.delete()
