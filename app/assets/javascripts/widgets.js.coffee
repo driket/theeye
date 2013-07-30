@@ -96,7 +96,7 @@ class @Widget
 			# fetch data remotely (async)
 			#
 			probe = Probe.find_by_id(this.data.probe_id)
-			args = "?#{this.data.args}" || ''
+			args = "?#{this.data.args.replace(/&amp;/g, '&')}" || ''
 			
 			$.getJSON("#{probe.data.url}/#{this.data.uri}#{args}")
 			
