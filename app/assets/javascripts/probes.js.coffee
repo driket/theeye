@@ -281,11 +281,10 @@ class @Probe
 		$(this.doc_path('.visibility-caret')).click (event) ->
 			_this.hidden = !_this.hidden 
 			
-		$(this.doc_path('.widgets')).sortable({
-
+		$(this.doc_path('.widgets')).sortable(connectWith: '.widgets',
 			stop: (event, ui) =>
-				widget_id_array = $(this.doc_path('.widgets')).sortable('toArray')
-				Widget.sort(widget_id_array)
+				widget_id_array = $(_this.doc_path('.widgets')).sortable('toArray')
+				Widget.sort(widget_id_array, _this.data.id)
 		})
 		
 	# class variables & methods
