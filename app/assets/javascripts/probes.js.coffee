@@ -181,7 +181,7 @@ class @Probe
 				widget = command
 				widget.module = _this.new_module
 				widget.probe_id = _this.data.id
-				widget.args = $(this.doc_path('.widget-args-input')).val()
+				widget.args = $(_this.doc_path('.widget-args-input')).val()
 				widget.id = Widget.find_unused_id()
 				
 				new_widget = new Widget widget
