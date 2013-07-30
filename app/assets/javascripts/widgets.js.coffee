@@ -395,8 +395,8 @@ class @Widget
 			delete threshold['type']
 		delete this.data['thresholds']
 			
-		$.ajax "/widgets.json/#_this.data.id",
-			type: 'POST',
+		$.ajax "/widgets/#{_this.data.id}.json",
+			type: 'PUT',
 			data: {'widget':this.data},
 			error: (jqXHR, textStatus, errorThrown) ->
 				console.log "AJAX Error: #{textStatus} #{errorThrown}"
