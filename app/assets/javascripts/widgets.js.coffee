@@ -96,7 +96,8 @@ class @Widget
 			# fetch data remotely (async)
 			#
 			probe = Probe.find_by_id(this.data.probe_id)
-			$.getJSON(probe.data.url + "/" + this.data.uri)
+			args = "?#{this.data.args}" || ''
+			$.getJSON("#{probe.data.url}/#{this.data.uri}#{args}")
 			.fail () =>
 				content = '<h3>Error</h3>'
 				$(widget_name + ' .widget-content').html content;
