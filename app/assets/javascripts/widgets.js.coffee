@@ -434,23 +434,26 @@ class @Widget
 		return id
 		
 	@sort: (widget_id_array) ->
-		$.getJSON("/widgets/sort", { widget_id_array : widget_id_array })
-
-			.fail (jqXHR, textStatus, errorThrown) =>
+		
+		$.ajax '/widgets/sort.json',
+			type: 'POST',
+			data: { widget_id_array : widget_id_array },
+			error: (jqXHR, textStatus, errorThrown) ->
+				console.log "AJAX Error: #{textStatus} #{errorThrown}"
 				jQuery.noticeAdd({
 					title: 'Save error',
 					text: 'Can\'t save widgets order',
 					type: 'error',
 					stay: false
 				})
-			.done( (json) =>
+			success: (jqXHR, textStatus, errorThrown) ->
+				console.log "Successful AXAX call: #{textStatus}"
 				jQuery.noticeAdd({
 					title: 'Probe saved',
 					text: 'Widgets order saved',
 					type: 'ok',
 					stay: false
 				})
-				console.log "getJSON /widgets/sort ok", json
-			)
+
 		
 		
