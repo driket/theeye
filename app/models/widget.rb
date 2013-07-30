@@ -27,11 +27,8 @@ class Widget < ActiveRecord::Base
     widget_id_array.each_with_index do |widget_id, index|
       widget = Widget.find(widget_id.gsub('widget-',''))
       widget.position = index
-      widget.probe_id = probe_id
-      logger.debug widget.inspect
       widget.save!
     end
-    puts 'yeah'
   end
   
   def url
