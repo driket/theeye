@@ -437,11 +437,11 @@ class @Widget
 		id++ while Widget.is_id_used(id)
 		return id
 		
-	@sort: (widget_id_array) ->
+	@sort: (widget_id_array, probe_id) ->
 		
 		$.ajax '/widgets/sort.json',
 			type: 'POST',
-			data: { widget_id_array : widget_id_array },
+			data: { widget_id_array : widget_id_array, probe_id : probe_id },
 			error: (jqXHR, textStatus, errorThrown) ->
 				console.log "AJAX Error: #{textStatus} #{errorThrown}"
 				jQuery.noticeAdd({
