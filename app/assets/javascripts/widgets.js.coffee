@@ -97,7 +97,9 @@ class @Widget
 			#
 			probe = Probe.find_by_id(this.data.probe_id)
 			args = "?#{this.data.args}" || ''
+			
 			$.getJSON("#{probe.data.url}/#{this.data.uri}#{args}")
+			
 			.fail () =>
 				content = '<h3>Error</h3>'
 				$(widget_name + ' .widget-content').html content;
@@ -105,6 +107,7 @@ class @Widget
 				status = 'alert'
 				this.processing = false
 				this.set_status_for_widget(status)
+				
 			.done (json) => 
 				this.record.value 		= json.value
 				this.record.date  		= Date.parse(json.date)
