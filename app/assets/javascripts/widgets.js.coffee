@@ -379,7 +379,42 @@ class @Widget
 					type: 'ok',
 					stay: false
 				});
+	
+	save: ->
 		
+		_this = this
+		console.log 'widget:', this.data
+		
+		# TODO :
+		# - rename data.thresholds -> data.thresholds_attributes in widget.js.coffee
+		# - fix column "refresh_delay" / "interval"
+		# - change column "alert" -> "type" in thresholds
+		this.data.thresholds_attributes = this.data.thresholds
+		for threshold in this.data.thresholds_attributes
+			threshold['alert'] = threshold.type
+			delete threshold['type']
+		delete this.data['thresholds']
+			
+		$.ajax "/widgets.json/#_this.data.id",
+			type: 'POST',
+			data: {'widget':this.data},
+			error: (jqXHR, textStatus, errorThrown) ->
+				console.log "AJAX Error: #{textStatus} #{errorThrown}"
+				jQuery.noticeAdd({
+					title: 'Error',
+					text: 'Error saving widget.',
+					type: 'error',
+					stay: false
+				});
+			success: (jqXHR, textStatus, errorThrown) ->
+				console.log "Successful AXAX call: #{textStatus}"
+				jQuery.noticeAdd({
+					title: 'Widget created',
+					text: 'Widget successfully created.',
+					type: 'ok',
+					stay: false
+				});
+	
 	delete: ->
 		
 		# remove widget html code
