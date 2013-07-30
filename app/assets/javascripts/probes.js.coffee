@@ -154,12 +154,14 @@ class @Probe
 			if module == ''
 				$(this.doc_path('.command-dropdown')).addClass('disabled')				
 				$(this.doc_path('.add-widget-button')).addClass('disabled')				
+				$(this.doc_path('.widget-args-input')).addClass('disabled')	
 			else
 				this.fetch_commands(module)
 				$(this.doc_path('.module-dropdown')).html("module: <b>#{module}</b><span class=\"dropdown-caret\"> </span>")
 				$(this.doc_path('.command-dropdown')).removeClass('disabled')				
 				$(this.doc_path('.command-dropdown')).html("<b>commands</b> <span class=\"dropdown-caret\"> </span>")
 				$(this.doc_path('.add-widget-button')).addClass('disabled')
+				$(this.doc_path('.widget-args-input')).addClass('disabled')
 			
 	@property 'new_command',
 	
@@ -170,6 +172,8 @@ class @Probe
 			this._new_command = command
 			$(this.doc_path('.command-dropdown')).html("command: <b>#{command.title}</b><span class=\"dropdown-caret\"> </span>")
 			$(this.doc_path('.add-widget-button')).removeClass('disabled')
+			if command.args
+				$(this.doc_path('.widget-args-input')).removeClass('disabled')
 			$(this.doc_path('.add-widget-button')).unbind()
 			$(this.doc_path('.add-widget-button')).click (event) ->
 
@@ -177,6 +181,7 @@ class @Probe
 				widget = command
 				widget.module = _this.new_module
 				widget.probe_id = _this.data.id
+				widget.args = $(this.doc_path('.widget-args-input')).val()
 				widget.id = Widget.find_unused_id()
 				
 				new_widget = new Widget widget
@@ -198,6 +203,7 @@ class @Probe
 				$(this.doc_path('.probe-cancel')).show()
 				$(this.doc_path('.probe-url')).attr 'contentEditable', 'true'
 				$(this.doc_path('.probe-title')).attr 'contentEditable', 'true'
+				#$(this.doc_path('h3')).attr 'contentEditable', 'true'
 			else
 				this._edit_mode = false
 				$(this.doc_path()).removeClass 'editing'
@@ -207,6 +213,7 @@ class @Probe
 				$(this.doc_path('.probe-cancel')).hide()
 				$(this.doc_path('.probe-url')).attr 'contentEditable', 'false'
 				$(this.doc_path('.probe-title')).attr 'contentEditable', 'false'
+				#$(this.doc_path('.widget h3')).attr 'contentEditable', 'false'
 
 	@property 'add_widget_mode',
 	
