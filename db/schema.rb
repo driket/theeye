@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130723113511) do
+ActiveRecord::Schema.define(:version => 20130730190319) do
 
   create_table "probes", :force => true do |t|
     t.string   "title"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20130723113511) do
     t.integer  "position",      :default => 0
     t.string   "template",      :default => "widget-graph"
     t.integer  "probe_id"
+    t.string   "args"
   end
 
 end
