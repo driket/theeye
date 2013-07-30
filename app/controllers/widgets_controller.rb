@@ -82,7 +82,7 @@ class WidgetsController < ApplicationController
   end
   
   def sort
-    Widget.sort! params[:widget_id_array]
+    Widget.sort! params[:widget_id_array], params[:probe_id]
     respond_to do |format|
       format.html { redirect_to widgets_path }
       format.json { head :no_content }
