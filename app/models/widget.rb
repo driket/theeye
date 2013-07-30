@@ -23,10 +23,12 @@ class Widget < ActiveRecord::Base
     end
   end
   
-  def Widget.sort! (widget_id_array)
+  def Widget.sort! (widget_id_array, probe_id)
     widget_id_array.each_with_index do |widget_id, index|
       widget = Widget.find(widget_id.gsub('widget-',''))
       widget.position = index
+      widget.probe_id = probe_id
+      logger.debug widget.inspect
       widget.save!
     end
     puts 'yeah'
