@@ -10,7 +10,7 @@
 	width:100%;
 	float:left; clear:both;
 	text-shadow:0px 0px 0px rgba(black,0);
-	
+	min-height: 100px;
 	.tooltip {
 		z-index: 100;
     border: 1px solid rgba($main-color, 1);
