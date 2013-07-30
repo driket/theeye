@@ -23,7 +23,7 @@ class Widget < ActiveRecord::Base
     end
   end
   
-  def Widget.sort! (widget_id_array, probe_id)
+  def Widget.sort! (widget_id_array)
     widget_id_array.each_with_index do |widget_id, index|
       widget = Widget.find(widget_id.gsub('widget-',''))
       widget.position = index
