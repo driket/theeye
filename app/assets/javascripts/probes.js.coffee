@@ -281,10 +281,17 @@ class @Probe
 		$(this.doc_path('.visibility-caret')).click (event) ->
 			_this.hidden = !_this.hidden 
 			
-		$(this.doc_path('.widgets')).sortable(connectWith: '.widgets',
+		$(this.doc_path('.widgets')).sortable(connectWith: '.widgets', {
 			stop: (event, ui) =>
 				widget_id_array = $(_this.doc_path('.widgets')).sortable('toArray')
-				Widget.sort(widget_id_array, _this.data.id)
+				widget_id = $(ui.item).attr('id').replace('widget-','')
+				probe_id = $(ui.item).parent().attr('id').replace('probe-','').replace('-widgets','')
+				widget = Widget.find_by_id(widget_id)
+				if probe_id != _this.data.id
+					widget.data.probe_id = probe_id
+					widget.save()
+					console.log "this_id = #{_this.data.id}, id = #{probe_id}"
+				Widget.sort(widget_id_array)
 		})
 		
 	# class variables & methods
