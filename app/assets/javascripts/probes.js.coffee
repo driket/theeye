@@ -174,17 +174,25 @@ class @Probe
 			$(this.doc_path('.add-widget-button')).removeClass('disabled')
 			if command.args
 				$(this.doc_path('.widget-args-input')).removeClass('disabled')
+				
 			$(this.doc_path('.add-widget-button')).unbind()
 			$(this.doc_path('.add-widget-button')).click (event) ->
 
 				event.preventDefault()
-				widget = command
-				widget.module = _this.new_module
-				widget.probe_id = _this.data.id
-				widget.args = $(_this.doc_path('.widget-args-input')).val()
-				widget.id = Widget.find_unused_id()
+				data = {}
+				data.title 			= command.title
+				data.unit 			= command.unit
+				data.probe_id 	= _this.data.id
+				data.args 			= $(_this.doc_path('.widget-args-input')).val()
+				data.id 				= parseInt(Widget.find_unused_id())
+				data.uri				= "#{_this.new_module}/#{command.uri}"
+				data.min 				= parseInt(command.min)
+				data.max 				= parseInt(command.max)
+				data.template 	= "widget-graph"
+				data.refresh_delay = command.interval * 1000
+				data.thresholds_attributes = command.thresholds
 				
-				new_widget = new Widget widget
+				new_widget = new Widget data
 				new_widget.create() 	
 			
 			
