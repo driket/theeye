@@ -12,6 +12,12 @@
   height:45px;
   float:left;
 	box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+  position: fixed;
+  top: 0;
+	z-index:500;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke: rgba(255,255,255,0.01) 0.1px;
+	
 
 	ul {
 	
