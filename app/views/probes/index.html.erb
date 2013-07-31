@@ -36,9 +36,9 @@ $widgets = {
 		'probe_id' 			: '<%= widget.probe_id %>',
 		<% end %>
 		<% if widget.thresholds.size > 0 %>
-		'thresholds'		: [
+		'thresholds_attributes'	: [
 		<% for threshold in widget.thresholds %>
-			{ 'operator':'<%= raw threshold.operator %>', 'value': <%= threshold.value %>, 'type':'<%= threshold.alert %>' },
+			{ 'operator':'<%= raw threshold.operator %>', 'value': <%= threshold.value %>, 'alert':'<%= threshold.alert %>' },
 		<% end %>
 		],
 		<% end %>
