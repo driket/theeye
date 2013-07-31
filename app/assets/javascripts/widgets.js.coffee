@@ -124,22 +124,22 @@ class @Widget
 
 	alertLevelForValue: (value) ->
 		
-		return 'ok' if !this.data.thresholds 
+		return 'ok' if !this.data.thresholds_attributes 
 		
-		for threshold in this.data.thresholds
+		for threshold in this.data.thresholds_attributes
 
 			if threshold.operator == '>='
 				if value >= threshold.value			
-					return threshold.type
+					return threshold.alert
 			else if threshold.operator == '>'
 				if value > threshold.value				
-					return threshold.type
+					return threshold.alert
 			else if threshold.operator == '<'
 				if value < threshold.value				
-					return threshold.type
+					return threshold.alert
 			else if threshold.operator == '<='
 				if value <= threshold.value				
-					return threshold.type
+					return threshold.alert
 			else
 				console.log '(alertLevelForValue) invalid comparison operator: ' + threshold.operator
 				
@@ -249,28 +249,28 @@ class @Widget
 		
 		thresholds_constraints = []
 
-		if this.data.thresholds
-			for a_threshold in this.data.thresholds 
+		if this.data.thresholds_attributes
+			for a_threshold in this.data.thresholds_attributes 
 				if a_threshold.operator == '>='
-					color = theme_color_for_class 'service-status-' + a_threshold.type
+					color = theme_color_for_class 'service-status-' + a_threshold.alert
 					constraint = { threshold: a_threshold.value
 					, color: color
 					, evaluate : (y, threshold) =>
 						return y >= threshold }
 				else if a_threshold.operator == '>'
-					color = theme_color_for_class 'service-status-' + a_threshold.type
+					color = theme_color_for_class 'service-status-' + a_threshold.alert
 					constraint = { threshold: a_threshold.value
 					, color: color
 					, evaluate: (y, threshold) =>
 						return y > threshold }
 				else if a_threshold.operator == '<'
-					color = theme_color_for_class 'service-status-' + a_threshold.type
+					color = theme_color_for_class 'service-status-' + a_threshold.alert
 					constraint = { threshold: a_threshold.value
 					, color: color
 					, evaluate: (y, threshold) =>
 						return y < threshold }
 				else if a_threshold.operator == '<='
-					color = theme_color_for_class 'service-status-' + a_threshold.type
+					color = theme_color_for_class 'service-status-' + a_threshold.alert
 					constraint = { threshold: a_threshold.value
 					, color: color
 					, evaluate: (y, threshold) =>
@@ -345,19 +345,6 @@ class @Widget
 	create: ->
 		
 		_this = this
-		console.log 
-		this.data.uri = "#{this.data.module}/#{this.data.uri}"
-		this.data.min = parseInt(this.data.min)
-		this.data.max = parseInt(this.data.max)
-		this.data.refresh_delay = this.data.interval * 1000
-		this.data.template = "widget-graph"
-		this.data.thresholds_attributes = this.data.thresholds
-		for threshold in this.data.thresholds_attributes
-			threshold['alert'] = threshold.type
-			delete threshold['type']
-		delete this.data['interval']
-		delete this.data['module']
-		delete this.data['thresholds']
 		console.log 'widget:', this.data
 		
 		$.ajax '/widgets.json',
@@ -386,15 +373,9 @@ class @Widget
 		console.log 'widget:', this.data
 		
 		# TODO :
-		# - rename data.thresholds -> data.thresholds_attributes in widget.js.coffee
+		# - [OK] rename data.thresholds -> data.thresholds_attributes in widget.js.coffee
 		# - fix column "refresh_delay" / "interval"
-		# - change column "alert" -> "type" in thresholds
-		this.data.thresholds_attributes = this.data.thresholds
-		for threshold in this.data.thresholds_attributes
-			threshold['alert'] = threshold.type
-			delete threshold['type']
-		delete this.data['thresholds']
-			
+		# - [OK] change column "alert" -> "type" in thresholds
 		$.ajax "/widgets/#{_this.data.id}.json",
 			type: 'PUT',
 			data: {'widget':this.data},
