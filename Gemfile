@@ -6,7 +6,8 @@ gem 'rails', '3.2.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :development, :test do
-  gem 'sqlite3'
+  gem 'sqlite3'   #local minimal db
+  gem 'railroady' #generate diagram in svg format
 end
 
 group :production do

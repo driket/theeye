@@ -68,6 +68,7 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
+    railroady (1.1.0)
     rails (3.2.1)
       actionmailer (= 3.2.1)
       actionpack (= 3.2.1)
@@ -116,6 +117,7 @@ DEPENDENCIES
   jquery-ui-rails
   nested_form
   pg (= 0.12.2)
+  railroady
   rails (= 3.2.1)
   sass-rails (~> 3.2.3)
   sqlite3
