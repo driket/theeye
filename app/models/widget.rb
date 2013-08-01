@@ -6,21 +6,15 @@ class Widget < ActiveRecord::Base
   accepts_nested_attributes_for :thresholds
   
   scope :sorted, Widget.order('position ASC')
-  
-  def fetch_default_values 
-    index_url = probe.url + '/' + uri.split('/')[0]+'/index'
-    widget_command = uri.split('/')[1]
-    index_data = JSON.parse(open("#{index_url}").read)
-    logger.debug "index_url: #{index_url}"
-    logger.debug "index_data: #{index_data}"
-    for data in index_data
-      logger.debug "data: #{data} / #{widget_command}"
-      if widget_command == data['uri']
-        self.unit = data['unit']
-        logger.debug "unit = #{data['unit']}"
-        self.save!
-      end
-    end
+
+  require 'open-uri'
+  require 'json'
+  require 'socket'  
+
+  def record_sample()
+    file = open(url, "x-secret" => 'MySeCr3t')     
+    content = JSON.parse(file.read)
+    logger.debug "content: #{content.inspect}"
   end
   
   def Widget.sort! (widget_id_array)
@@ -33,9 +27,14 @@ class Widget < ActiveRecord::Base
   
   def url
     if probe
-      probe.url + '/' + uri
+      #formated_args = args.replace(/&amp;/g, '&')
+      if args
+        "#{probe.url}/#{uri}?#{args}"
+      else
+        "#{probe.url}/#{uri}"        
+      end
     else
-      uri
+      ''
     end
   end
 end
