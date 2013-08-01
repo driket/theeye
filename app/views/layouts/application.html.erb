@@ -60,9 +60,19 @@
 	$(document).ready(function() {
 				
 		resize_page();
-		//refresh_widget_js_bind();
+		pop_menubar();
 	});
 	
+	function pop_menubar() {
+		
+		$(document).scroll(function() {
+		  if ($(document).scrollTop() >= 40) {
+		    $("#mv-topbar").addClass('pop');
+		  } else {
+		    $("#mv-topbar").removeClass('pop');
+		  }
+		});
+	}
 	function resize_page() {
 		
 		$width = $(window).width();
