@@ -98,6 +98,25 @@ class @Widget
 			probe = Probe.find_by_id(this.data.probe_id)
 			args = "?#{this.data.args.replace(/&amp;/g, '&')}" || ''
 			
+			#$.ajaxSetup({
+			#	beforeSend: (xhr) =>
+		  #  	xhr.setRequestHeader('x-secret','MySeCr3t')
+			#})
+			
+			#$.ajax({
+			#	type:"get",
+			#	url:"#{probe.data.url}/#{this.data.uri}#{args}",
+			#	beforeSend: (xhr) =>
+        	#May need to use "Authorization" instead
+			#		xhr.setRequestHeader("Authorization", "Basic " + "azer:tyuio")
+					#xhr.setRequestHeader("Access-Control-Request-Headers", "x-requested-with")
+			#	dataType: 'json',
+			#	sucess: =>
+			#		console.log 'yo'
+			#	error: =>
+			#		console.log 'dawg'
+			#})
+			
 			$.getJSON("#{probe.data.url}/#{this.data.uri}#{args}")
 			
 			.fail () =>
@@ -108,7 +127,8 @@ class @Widget
 				this.processing = false
 				this.set_status_for_widget(status)
 				
-			.done (json) => 
+			.done (json, textStatus, jqXHR) => 
+				#jqXHR.setRequestHeader('x-secret', 'MySeCr3t')	
 				this.record.value 		= json.value
 				this.record.date  		= Date.parse(json.date)
 				this.record.details 	= json.details
