@@ -89,6 +89,7 @@
 	
 }
 
+span.service-status-fail { color: $status-fail-color; }
 .service-status-fail {
 
 	.card			{ border-top-color: $status-fail-color;  }
@@ -101,6 +102,7 @@
 	h3,h4				{ color: $status-warning-color; }
 }
 
+span.service-status-ok { color: $status-ok-color;  }
 .service-status-ok 		{ 
 	
 	.card 		{ border-top-color: rgba($status-ok-color,0.2); 
