@@ -1,4 +1,6 @@
 Dashboard::Application.routes.draw do
+  resources :notifications
+
   resources :samples
 
   resources :probes
