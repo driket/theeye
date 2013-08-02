@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Widget:</b>
+  <%= @notification.widget_id %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @notification.date %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @notification.status %>
+</p>
+
+
+<%= link_to 'Edit', edit_notification_path(@notification) %> |
+<%= link_to 'Back', notifications_path %>

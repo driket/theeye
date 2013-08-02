@@ -1,0 +1,29 @@
+<h1>Listing notifications</h1>
+
+<table>
+  <tr>
+    <th>Widget</th>
+    <th>Date</th>
+    <th>Status</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @notifications.each do |notification| %>
+  <tr>
+    <td><%= notification.widget.title %></td>
+    <td><%= time_ago_in_words(notification.date) %></td>
+    <td><% if notification.status == 10 %><span class="service-status-fail">PROBLEM</span><% end %>
+			  <% if notification.status == 11 %><span class="service-status-ok">RECOVERY</span><% end %>
+		</td>
+    <td><%= link_to 'Show', notification %></td>
+    <td><%= link_to 'Edit', edit_notification_path(notification) %></td>
+    <td><%= link_to 'Destroy', notification, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Notification', new_notification_path %>
