@@ -11,8 +11,8 @@ class Widget < ActiveRecord::Base
   require 'json'
   require 'socket'  
 
-  def record_sample()
-    file = open(url, "x-secret" => 'MySeCr3t')     
+  def record_sample!
+    file = open(url, "x-secret" => Settings.probe_secret)     
     content = JSON.parse(file.read)
     logger.debug "content: #{content.inspect}"
   end
