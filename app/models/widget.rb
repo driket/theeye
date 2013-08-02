@@ -10,14 +10,45 @@ class Widget < ActiveRecord::Base
   require 'open-uri'
   require 'json'
   require 'socket'  
+  
+  STATUS = {
+    'ok'            => 0,
+    'alert'         => 1,
+    'warning'       => 2,
+    'unresponsive'  => 3,
+  }
 
   def record_sample!
+    
     file = open(url, "x-secret" => Settings.probe_secret)     
     content = JSON.parse(file.read)
     logger.debug "content: #{content.inspect}"
+    alert = service_status_for_value(content['value'].to_f)
+    logger.debug "alert level: #{alert}"
+  end
+  
+  def service_status_for_value(value)
+    
+    return STATUS['ok'] if !thresholds
+    
+    for threshold in thresholds
+			if threshold.operator == '>='
+				return STATUS[threshold.alert] if value >= threshold.value	
+			elsif threshold.operator == '>'
+				return STATUS[threshold.alert] if value > threshold.value				
+			elsif threshold.operator == '<'
+				return STATUS[threshold.alert] if value < threshold.value				
+			elsif threshold.operator == '<='
+				return STATUS[threshold.alert] if value <= threshold.value				
+			else
+				logger.debug '(service_status_for_value) invalid comparison operator: ' + threshold.operator
+      end
+    end
+    return STATUS['ok']
   end
   
   def Widget.sort! (widget_id_array)
+    
     widget_id_array.each_with_index do |widget_id, index|
       widget = Widget.find(widget_id.gsub('widget-',''))
       widget.position = index
@@ -26,6 +57,7 @@ class Widget < ActiveRecord::Base
   end
   
   def url
+    
     if probe
       #formated_args = args.replace(/&amp;/g, '&')
       if args
