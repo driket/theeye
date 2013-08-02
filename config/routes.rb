@@ -1,4 +1,6 @@
 Dashboard::Application.routes.draw do
+  resources :samples
+
   resources :probes
 
   resources :thresholds
