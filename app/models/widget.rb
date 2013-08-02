@@ -1,6 +1,7 @@
 class Widget < ActiveRecord::Base
   
   has_many    :thresholds
+  has_many    :samples
   belongs_to  :probe
   
   accepts_nested_attributes_for :thresholds
