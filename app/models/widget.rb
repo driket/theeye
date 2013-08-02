@@ -24,8 +24,15 @@ class Widget < ActiveRecord::Base
     file = open(url, "x-secret" => Settings.probe_secret)     
     content = JSON.parse(file.read)
     logger.debug "content: #{content.inspect}"
-    alert = service_status_for_value(content['value'].to_f)
-    logger.debug "alert level: #{alert}"
+    
+    sample = Sample.new({
+      :widget_id  => id,
+      :value      => content['value'].to_f,
+      :status     => service_status_for_value(content['value'].to_f),
+      :date       => content['date'],
+      :details    => content['details'],
+    })
+    sample.save!
   end
   
   def service_status_for_value(value)
