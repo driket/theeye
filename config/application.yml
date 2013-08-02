@@ -1,0 +1,12 @@
+# config/application.yml
+defaults: &defaults
+  probe_secret: MySeCr3t
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
