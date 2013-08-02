@@ -26,6 +26,9 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+# use setting YML file for config
+gem 'settingslogic'
+
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
