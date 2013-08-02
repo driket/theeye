@@ -32,9 +32,6 @@ gem 'settingslogic'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
-# for code editing with syntax coloring
-gem 'codemirror-rails'
-
 # for nested attribute forms
 gem "nested_form"
 
