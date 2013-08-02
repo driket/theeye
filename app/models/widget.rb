@@ -55,6 +55,18 @@ class Widget < ActiveRecord::Base
     return STATUS['ok']
   end
   
+  def has_same_status_several_times?(status, times)
+    last_samples = samples.last(times)
+
+    return false if last_samples.size < times
+
+    for sample in last_samples
+      return false if sample.status != status
+    end
+        
+    return true    
+  end
+  
   def Widget.sort! (widget_id_array)
     
     widget_id_array.each_with_index do |widget_id, index|
