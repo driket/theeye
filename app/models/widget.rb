@@ -19,20 +19,39 @@ class Widget < ActiveRecord::Base
     'warning'       => 2,
     'unresponsive'  => 3,
   }
+  
+  def Widget.record_all_samples!
+    
+    for widget in Widget.all
+      widget.record_sample!
+    end
+  end
 
   def record_sample!
     
-    file = open(url, "x-secret" => Settings.probe_secret)     
-    content = JSON.parse(file.read)
-    logger.debug "content: #{content.inspect}"
+    logger.debug "fetching #{url}"
+    begin
+      file = open(url, "x-secret" => Settings.probe_secret)     
+      content = JSON.parse(file.read)
+      logger.debug "content: #{content.inspect}"
     
-    sample = Sample.new({
-      :widget_id  => id,
-      :value      => content['value'].to_f,
-      :status     => service_status_for_value(content['value'].to_f),
-      :date       => content['date'],
-      :details    => content['details'],
-    })
+      sample = Sample.new({
+        :widget_id  => id,
+        :value      => content['value'].to_f,
+        :status     => service_status_for_value(content['value'].to_f),
+        :date       => content['date'],
+        :details    => content['details'],
+      })
+    rescue
+      logger.debug "can't access #{url} -> unresponsive"
+      sample = Sample.new({
+        :widget_id  => id,
+        :value      => -1,
+        :status     => STATUS['unresponsive'],
+        :date       => DateTime.now,
+        :details    => {},
+      })
+    end
     sample.save!
   end
   
@@ -81,7 +100,7 @@ class Widget < ActiveRecord::Base
     
     if probe
       #formated_args = args.replace(/&amp;/g, '&')
-      if args
+      if args && args != ''
         "#{probe.url}/#{uri}?#{args}"
       else
         "#{probe.url}/#{uri}"        

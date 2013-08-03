@@ -8,8 +8,9 @@ class Sample < ActiveRecord::Base
   SAMPLE_STATUS_WARNING       = 2
   SAMPLE_STATUS_UNRESPONSIVE  = 3
   
-  NOTIFICATION_STATUS_PROBLEM   = 10
-  NOTIFICATION_STATUS_RECOVERY  = 11
+  NOTIFICATION_STATUS_PROBLEM       = 10
+  NOTIFICATION_STATUS_RECOVERY      = 11
+  NOTIFICATION_STATUS_UNRESPONSIVE  = 12
   
   def check_for_notifications
   	# send alert notification if status has changed to'alert' since 3 samples
@@ -26,6 +27,21 @@ class Sample < ActiveRecord::Base
       end
     end
 
+  	# send unresponsive notification if status has changed to 'ok' since 3 samples
+  	# don't send notification if already sent
+    if widget.has_same_status_several_times?(SAMPLE_STATUS_UNRESPONSIVE, 3)
+      logger.debug 'unresponsive status for at least 3 times'
+      if !widget.notifications.last or widget.notifications.last.status != NOTIFICATION_STATUS_UNRESPONSIVE
+        notification = Notification.new ({
+          :widget_id  => widget.id,
+          :date       => DateTime.now,
+          :status     => NOTIFICATION_STATUS_UNRESPONSIVE
+        })
+        notification.save!
+        logger.debug 'unresponsive notification'
+      end
+    end   
+    
   	# send recovery notification if status has changed to 'ok' since 3 samples
   	# don't send notification if already sent
     if widget.has_same_status_several_times?(SAMPLE_STATUS_OK, 3)
