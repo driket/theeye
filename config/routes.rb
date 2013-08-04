@@ -9,7 +9,8 @@ Dashboard::Application.routes.draw do
 
   resources :widgets do
     collection do
-      post 'sort'
+      post  'sort'
+      get   'record_all_samples'
     end
   end
 

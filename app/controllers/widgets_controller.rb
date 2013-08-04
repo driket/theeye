@@ -89,4 +89,8 @@ class WidgetsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def record_all_samples
+    Widget.record_all_samples!
+  end
 end
