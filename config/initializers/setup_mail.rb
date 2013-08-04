@@ -4,6 +4,6 @@ ActionMailer::Base.smtp_settings = {
   :domain               => Settings.mailer.domain,  
   :user_name            => Settings.mailer.user_name,  
   :password             => Settings.mailer.password,  
-  :authentication       => Settings.mailer.authentication  
-  :enable_starttls_auto => true  
+  :authentication       => Settings.mailer.authentication,
+  :enable_starttls_auto => true,
 }  
