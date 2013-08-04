@@ -12,10 +12,11 @@
 
 <% @notifications.each do |notification| %>
   <tr>
-    <td><%= notification.widget.title %></td>
+    <td><%= notification.widget.probe.title %> - <%= notification.widget.title %></td>
     <td><%= time_ago_in_words(notification.date) %></td>
     <td><% if notification.status == 10 %><span class="service-status-fail">PROBLEM</span><% end %>
 			  <% if notification.status == 11 %><span class="service-status-ok">RECOVERY</span><% end %>
+			  <% if notification.status == 12 %><span class="service-status-fail">UNRESPONSIVE</span><% end %>
 		</td>
     <td><%= link_to 'Show', notification %></td>
     <td><%= link_to 'Edit', edit_notification_path(notification) %></td>
