@@ -1,0 +1,19 @@
+# config/application.yml
+defaults: &defaults
+  probe_secret: mysecret
+
+development:
+  mailer:
+    address: smtp.gmail.com
+    port: 587
+		domain: theeye.com
+		user_name: yourname
+		password: yourpass
+		authentication: plain
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
