@@ -12,7 +12,7 @@
 
 <% @notifications.each do |notification| %>
   <tr>
-    <td><%= notification.widget.probe.title %> - <%= notification.widget.title %></td>
+    <td><%= notification.widget.probe.title if notification.widget and notification.widget.probe %> - <%= notification.widget.title  if notification.widget %></td>
     <td><%= time_ago_in_words(notification.date) %></td>
     <td><% if notification.status == 10 %><span class="service-status-fail">PROBLEM</span><% end %>
 			  <% if notification.status == 11 %><span class="service-status-ok">RECOVERY</span><% end %>
