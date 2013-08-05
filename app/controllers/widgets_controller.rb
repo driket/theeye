@@ -92,5 +92,6 @@ class WidgetsController < ApplicationController
   
   def record_all_samples
     Widget.record_all_samples!
+    render nothing: true
   end
 end
