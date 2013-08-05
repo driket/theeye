@@ -23,7 +23,8 @@ class Widget < ActiveRecord::Base
   def Widget.record_all_samples!
     
     for widget in Widget.all
-      widget.record_sample!
+      # record sample asynchronously (delayed job)
+      widget.delay.record_sample!
     end
   end
 

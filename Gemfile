@@ -29,6 +29,10 @@ end
 # use setting YML file for config
 gem 'settingslogic'
 
+# async queued jobs
+gem "daemons"
+gem 'delayed_job_active_record'
+
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
