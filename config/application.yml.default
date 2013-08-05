@@ -3,6 +3,7 @@ defaults: &defaults
   auth_login: admin
   auth_password: secret
   admin_mail: your@mail.com
+  notification_mail: notifications@mail.com
   probe_secret: mysecret
 
 development:

@@ -1,5 +1,6 @@
 class NotificationMailer < ActionMailer::Base
-  default from: "notifications@theeye.com"
+  default from: Settings.notification_mail
+
   
   def notification(notification)
     
