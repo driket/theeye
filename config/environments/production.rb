@@ -66,6 +66,7 @@ Dashboard::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   config.middleware.insert_after(::Rack::Lock, "::Rack::Auth::Basic", "Production") do |u, p|
-    [u, p] == [ENV['MY_SITE_USERNAME'], ENV['MY_SITE_SECRET']]
+    #[u, p] == [ENV['MY_SITE_USERNAME'], ENV['MY_SITE_SECRET']]
+    [u, p] == [Settings.auth_login, Settings.auth_password]
   end
 end
