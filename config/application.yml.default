@@ -13,6 +13,7 @@ development:
     user_name: yourname
     password: yourpass
     authentication: plain
+    enable_starttls_auto: false
   <<: *defaults
 
 test:
