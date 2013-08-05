@@ -12,6 +12,7 @@ end
 
 group :production do
   gem 'mysql2'
+  gem 'therubyracer'
 end
 
 # Gems used only for assets and not required
