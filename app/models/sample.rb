@@ -51,7 +51,7 @@ class Sample < ActiveRecord::Base
   	# send notification only if was PROBLEM or UNRESPONSIVE
     if widget.has_same_status_several_times?(SAMPLE_STATUS_OK, CHECK_RETRY_BEFORE_NOTIFICATION)
       logger.debug 'ok status for at least 3 times'
-      if !widget.notifications.last or widget.notifications.last.status == NOTIFICATION_STATUS_UNRESPONSIVE or  widget.notifications.last.status == NOTIFICATION_STATUS_PROBLEM
+      if widget.notifications.last and (widget.notifications.last.status == NOTIFICATION_STATUS_UNRESPONSIVE or  widget.notifications.last.status == NOTIFICATION_STATUS_PROBLEM)
         notification = Notification.new ({
           :widget_id  => widget.id,
           :date       => DateTime.now,
