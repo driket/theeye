@@ -1,11 +1,11 @@
 class Widget < ActiveRecord::Base
   
-  has_many    :thresholds
-  has_many    :samples
+  has_many    :thresholds, dependent: :destroy
+  has_many    :samples, dependent: :destroy
   has_many    :notifications
   belongs_to  :probe
   
-  accepts_nested_attributes_for :thresholds
+  accepts_nested_attributes_for :thresholds, :allow_destroy => true
   
   scope :sorted, Widget.order('position ASC')
 
