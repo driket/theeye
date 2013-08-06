@@ -10,23 +10,27 @@
   <tr>
     <th>Widget</th>
     <th>url</th>
-    <th>probe</th>
+    <th>thresholds</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
 
-<% for widget in ::Widget.all %>
+<% for probe in ::Probe.all %>
+<tr><th colspan="4"><%= probe.title %></th></tr>
+<% for widget in probe.widgets.sorted %>
   <tr>
     <td><%= widget.title %></td>
-    <td><%= widget.url %></td>
-    <td><%= widget.probe.title if widget.probe %></td>
+    <td><%= widget.uri %></td>
+    <td><%= widget.thresholds.size %></td>
     <td><%= link_to 'Edit', edit_widget_path(widget) %></td>
     <td><%= link_to 'Destroy', widget, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
-</table>
+<% end %>
 
+</table>
 <br />
+
 
 <%= link_to 'New Widget', new_widget_path %> | <%= link_to 'Probes', probes_path %>
