@@ -64,6 +64,7 @@ class @Widget
 		
 		$(this.doc_path('.widget-delete')).unbind()
 		$(this.doc_path('.widget-delete')).click (event) ->
+			event.preventDefault()
 			_this.delete()
 				
 	refresh: =>
