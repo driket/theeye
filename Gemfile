@@ -40,6 +40,9 @@ gem 'jquery-ui-rails'
 # for nested attribute forms
 gem "nested_form"
 
+# for cron jobs
+gem 'whenever', :require => false
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
