@@ -97,6 +97,10 @@ class Widget < ActiveRecord::Base
     end
   end
   
+  def selected_samples(days)
+    samples.where("created_at > :week", {:week => days.day.ago}).order('date DESC')
+  end
+    
   def url
     
     if probe

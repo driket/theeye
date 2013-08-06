@@ -2,7 +2,8 @@ class SamplesController < ApplicationController
   # GET /samples
   # GET /samples.json
   def index
-    @samples = Sample.all
+    @number_of_days = 1
+    @probes = ::Probe.all
 
     respond_to do |format|
       format.html # index.html.erb

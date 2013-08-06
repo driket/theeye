@@ -1,33 +1,15 @@
-<h1>Listing samples</h1>
+<h2>Listing recorded samples</h2>
 
-<table>
-  <tr>
-    <th>Date</th>
-    <th>Widget</th>
-    <th>Value</th>
-    <th>Status</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% for sample in ::Sample.order('date DESC limit 100') %>
-  <tr>
-    <td nowrap><%= time_ago_in_words(sample.date) %></td>
-    <td><%= sample.widget.probe.title if sample.widget.probe and sample.widget %> - <%= sample.widget.title if sample.widget %></td>
-    <td><%= sample.value %></td>
-    <td><% if sample.status == 0 %><span class="service-status-ok">OK</span><% end %>
-			  <% if sample.status == 1 %><span class="service-status-fail">ALERT</span><% end %>
-			  <% if sample.status == 2 %><span class="service-status-warning">WARNING</span><% end %>
-			  <% if sample.status == 3 %><span class="service-status-fail">UNRESPONSIVE</span><% end %>
-		</td>
-    <td><%= link_to 'Show', sample %></td>
-    <td><%= link_to 'Edit', edit_sample_path(sample) %></td>
-    <td><%= link_to 'Destroy', sample, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
+<% for probe in @probes %>
+<h3><%= probe.title %></h3>
+<% for widget in probe.widgets %>
+<h4><%= widget.title %></h4>
+<h5><%= widget.selected_samples(@number_of_days).average(:value).round(3) %><%= widget.unit %></h5>
+<span class="discreet"><%= widget.selected_samples(@number_of_days).size %></span>
+<span>[ graph ]</span>
 <br />
+<br />
+<% end %>
+<% end %>
 
 <%= link_to 'New Sample', new_sample_path %>
