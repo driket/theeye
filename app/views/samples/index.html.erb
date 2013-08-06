@@ -2,23 +2,25 @@
 
 <table>
   <tr>
-    <th>Value</th>
     <th>Date</th>
     <th>Widget</th>
+    <th>Value</th>
     <th>Status</th>
-    <th>Details</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
 
-<% @samples.each do |sample| %>
+<% for sample in ::Sample.order('date DESC limit 100') %>
   <tr>
+    <td nowrap><%= time_ago_in_words(sample.date) %></td>
+    <td><%= sample.widget.probe.title if sample.widget.probe and sample.widget %> - <%= sample.widget.title if sample.widget %></td>
     <td><%= sample.value %></td>
-    <td><%= sample.date %></td>
-    <td><%= sample.widget_id %></td>
-    <td><%= sample.status %></td>
-    <td><%= sample.details %></td>
+    <td><% if sample.status == 0 %><span class="service-status-ok">OK</span><% end %>
+			  <% if sample.status == 1 %><span class="service-status-fail">ALERT</span><% end %>
+			  <% if sample.status == 2 %><span class="service-status-warning">WARNING</span><% end %>
+			  <% if sample.status == 3 %><span class="service-status-fail">UNRESPONSIVE</span><% end %>
+		</td>
     <td><%= link_to 'Show', sample %></td>
     <td><%= link_to 'Edit', edit_sample_path(sample) %></td>
     <td><%= link_to 'Destroy', sample, confirm: 'Are you sure?', method: :delete %></td>
