@@ -45,7 +45,7 @@ class ProbesController < ApplicationController
 
     respond_to do |format|
       if @probe.save
-        format.html { redirect_to @probe, notice: 'Probe was successfully created.' }
+        format.html { redirect_to probes_path, notice: 'Probe was successfully created.' }
         format.json { render json: @probe, status: :created, location: @probe }
       else
         format.html { render action: "new" }
