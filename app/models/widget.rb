@@ -97,10 +97,30 @@ class Widget < ActiveRecord::Base
     end
   end
   
-  def selected_samples(days)
-    samples.where("created_at > :week", {:week => days.day.ago}).order('date DESC')
+  def process_samples(days)
+    data = {}
+    data['samples'] = samples.where("created_at > :week", {:week => days.day.ago}).order('date DESC')
+    data['average'] = data['samples'].average(:value).round(3)
+    data['max'] = data['samples'].maximum(:value)
+    data['graph'] = data['samples'].map { |s| s.value }.join ','
+    data['encoded_graph'] = Widget.encode_samples(data['samples'], data['max'])
+    return data
   end
-    
+  
+  def Widget.encode_samples(samples, max_value)
+    sample_array = samples.map { |s| s.value } #.join ','
+    simpleEncoding = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    chart_data = ['s:']
+    for sample in sample_array
+      if sample >= 0 and max_value != 0
+        chart_data << simpleEncoding[((simpleEncoding.size-1) * sample / max_value).round]
+      else
+        chart_data << '_'
+      end
+    end
+    return chart_data.join ''
+  end
+  
   def url
     
     if probe
