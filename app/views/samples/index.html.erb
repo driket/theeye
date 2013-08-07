@@ -7,9 +7,11 @@
 			<% for widget in probe.widgets.order('position ASC') %>
 			<li class="widget-section">
 				<h4><%= widget.title %></h4>
-				<h5><%= widget.selected_samples(@number_of_days).average(:value).round(3) %><%= widget.unit %></h5>
-				<% data = widget.selected_samples(@number_of_days).map { |s| s.value }.join ',' %>
-				<img src="http://chart.googleapis.com/chart?chxr=0,<%= widget.min %>,<%= widget.max %>&chxs=0,00000042,11.5,0,lt,0000006A&chxt=y&chs=360x53&cht=lc&chco=000000&chd=t:<%= data %>&chg=14.3,-1,2,2&chls=2,4,0&chm=B,0000000D,0,0,0" width="360" height="53" alt="" />
+				<% data = widget.process_samples(@number_of_days) %>
+				<h5><%= data['average'] %><%= widget.unit %></h5>
+				<img src="http://chart.googleapis.com/chart?chxr=0,<%= widget.min %>,<%= widget.max %>&chxs=0,00000042,11.5,0,lt,0000006A&chxt=y&chs=360x53&cht=lc&chco=000000&chd=<%= data['encoded_graph'] %>&chg=14.3,-1,2,2&chls=2,4,0&chm=B,0000000D,0,0,0" width="360" height="53" alt="" />
+				<%= data['graph']%><br />
+				<%= data['encoded_graph']%>
 				<br />
 				<br />
 			</li>

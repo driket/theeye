@@ -103,7 +103,7 @@ class Widget < ActiveRecord::Base
     data['average'] = data['samples'].average(:value).round(3)
     data['max'] = data['samples'].maximum(:value)
     data['graph'] = data['samples'].map { |s| s.value }.join ','
-    data['encoded_graph'] = Widget.encode_samples(data['samples'], data['max'])
+    data['encoded_graph'] = Widget.encode_samples(data['samples'], max)
     return data
   end
   
@@ -111,11 +111,19 @@ class Widget < ActiveRecord::Base
     sample_array = samples.map { |s| s.value } #.join ','
     simpleEncoding = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     chart_data = ['s:']
+    if max_value == 0
+      max_value = 1
+    end
     for sample in sample_array
-      if sample >= 0 and max_value != 0
-        chart_data << simpleEncoding[((simpleEncoding.size-1) * sample / max_value).round]
-      else
+      if sample < 0 
         chart_data << '_'
+      else
+        index = ((simpleEncoding.size-1) * sample / max_value)
+        if !index.nan?
+          chart_data << simpleEncoding[index.round]
+        else
+          chart_data << '_'          
+        end
       end
     end
     return chart_data.join ''
