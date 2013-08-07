@@ -1,0 +1,46 @@
+@import "_init.css.scss";
+
+.report {
+	
+	h3 {
+		color: rgba($main-color, 0.2);
+		font-size: 14px;
+		text-transform: uppercase;
+		width: 100%;
+		border-bottom: 2px solid rgba($main-color, 0.1);
+		padding-bottom: 5px;
+		margin-bottom: 40px;
+	}
+	
+	h4 {
+		color: rgba($main-color, 0.4);
+		font-size: 14px;
+		text-transform: uppercase;
+		width: 260px;
+		padding-bottom: 5px;
+		float:left;
+		clear:left;
+		padding-bottom:0px;
+	}
+
+	h5 {
+		color: rgba($main-color, 0.8);
+		font-size: 36px;
+		width: 260px;
+		padding-bottom: 5px;
+		float:left;
+		clear:left;
+		padding-top:0px;		
+		margin-top: -4px;
+	}
+	
+	.probe-section {
+		list-style: none	;
+		margin-bottom: 40px;
+	}
+	
+	.widget-section {
+		list-style: none	;
+		margin-bottom: 20px;
+	}
+}
