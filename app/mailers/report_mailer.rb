@@ -3,7 +3,7 @@ class ReportMailer < ActionMailer::Base
 
   def report(days)
     
-    @probes = probes
+    @probes = ::Probe.all
     @days   = days
     
     mail(:to => Settings.admin_mail, :subject => "TheEye report")  
