@@ -11,4 +11,8 @@ every 2.minutes do
  runner "Widget.record_all_samples!"
 end
 
+every :day, :at => '8:00am', :roles => [:app] do
+  runner "ReportMailer.report(1).deliver"
+end
+
 # Learn more: http://github.com/javan/whenever
