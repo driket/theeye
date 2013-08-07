@@ -10,10 +10,6 @@
 				<% data = widget.process_samples(@number_of_days) %>
 				<h5><%= data['average'] %><%= widget.unit %></h5>
 				<img src="http://chart.googleapis.com/chart?chxr=0,<%= widget.min %>,<%= widget.max %>&chxs=0,00000042,11.5,0,lt,0000006A&chxt=y&chs=360x53&cht=lc&chco=000000&chd=<%= data['encoded_graph'] %>&chg=14.3,-1,2,2&chls=2,4,0&chm=B,0000000D,0,0,0" width="360" height="53" alt="" />
-				<%= data['graph']%><br />
-				<%= data['encoded_graph']%>
-				<br />
-				<br />
 			</li>
 			<% end %>
 		</ul>
