@@ -65,9 +65,6 @@ Dashboard::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  # add fonts to precompiled assets
-  config.assets.precompile += %w( .svg .eot .woff .ttf )
-
   config.middleware.insert_after(::Rack::Lock, "::Rack::Auth::Basic", "Production") do |u, p|
     #[u, p] == [ENV['MY_SITE_USERNAME'], ENV['MY_SITE_SECRET']]
     [u, p] == [Settings.auth_login, Settings.auth_password]
