@@ -1,6 +1,10 @@
 <h2><a href="/">Live</a> | Reports</h2>
 
+<% if !params['debug']%>
 <%= render :partial => "report_ajax", :locals => { :probes => @probes, :days => @number_of_days } %>
+<% else %>
+<%= render :partial => "report", :locals => { :probes => @probes, :days => @number_of_days } %>
+<% end %>
 
 <%= render :partial => 'probes/probes_to_js', :locals => {:probes => @probes} %>
 <%= render :partial => 'widgets/widgets_to_js', :locals => {:widgets => ::Widget.sorted} %>
