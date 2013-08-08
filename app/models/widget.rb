@@ -106,8 +106,8 @@ class Widget < ActiveRecord::Base
     data['samples'] = samples.where("created_at > :week", {:week => days.day.ago}).order('date DESC')
     data['average'] = data['samples'].average(:value).round(3)
     data['max'] = data['samples'].maximum(:value)
-    data['graph'] = data['samples'].map { |s| s.value }.join ','
-    data['encoded_graph'] = Widget.encode_samples(data['samples'], max)
+    data['graph'] = data['samples'].map { |s| s.value }.join(',')
+    data['encoded_graph'] = Widget.encode_samples(data['samples'].reverse, max)
     return data
   end
   
