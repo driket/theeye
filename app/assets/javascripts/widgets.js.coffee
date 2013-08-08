@@ -183,12 +183,16 @@ class @Widget
 			console.log json
 			
 			this.record 			= {
-				'value' 			: mean_value,
+				'value' 			: json.average,
 				'date'				: Date.parse new Date(),
 				'details'			: {},
 			}
+			console.log this.time_range
+			for sample in json.samples
+				this.graph_data.push [Date.parse(sample.date) , sample.value]
+				this.details_data.push [Date.parse(sample.date), sample.details]
 		
-		status = this.render_graph(true)
+			status = this.render_graph(true)
 
 	alertLevelForValue: (value) ->
 		
