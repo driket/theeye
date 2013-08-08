@@ -180,14 +180,12 @@ class @Widget
 			
 		.done (json, textStatus, jqXHR) => 
 			mean_value = 8
-			console.log json
 			
 			this.record 			= {
 				'value' 			: json.average,
 				'date'				: Date.parse new Date(),
 				'details'			: {},
 			}
-			console.log this.time_range
 			for sample in json.samples
 				this.graph_data.push [Date.parse(sample.date) , sample.value]
 				this.details_data.push [Date.parse(sample.date), sample.details]
