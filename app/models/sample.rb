@@ -2,6 +2,7 @@ class Sample < ActiveRecord::Base
   
   belongs_to :widget
   after_save :check_for_notifications
+  serialize :details, Hash
   
   CHECK_RETRY_BEFORE_NOTIFICATION   = Settings.retries_before_notification || 3
   
