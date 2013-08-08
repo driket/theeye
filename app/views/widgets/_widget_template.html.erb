@@ -28,9 +28,24 @@
 </script>
 
 <script id="widget-graph" type="text/x-jquery-tmpl">
-<div class="widget-content">
-  <h3>${ widget.title }</h3>
-  <h4 class="status-ok"><span>${ record.value }</span><span class="discreet">${ widget.unit }</span></h4>
-  <div class="plot-chart"></div>
-</div> <!-- end content -->
+<li class="widget widget-live service-status-ok" id="widget-${ widget.id }" >
+	<div class="card">
+		<div class="face face-simple-view">
+			<div class="widget-content">
+			  <h3>${ widget.title }</h3>
+			  <h4 class="status-ok"><span>${ record.value }</span><span class="discreet">${ widget.unit }</span></h4>
+			  <div class="plot-chart"></div>
+			</div> <!-- end content -->
+		</div> <!-- end face simple view -->
+	</div> <!-- end card -->
+	<a href="#" class="widget-delete" data-widget-id="${ widget.id }">&#10006;</a>
+</li> <!-- end widget -->
+</script>
+
+<script id="widget-report-graph" type="text/x-jquery-tmpl">
+<li class="widget widget-section" id="widget-${ widget.id }">
+	<h4>${ widget.title }</h4>
+	<h5><span class="value">${ record.value }</span>${ widget.unit }</h5>
+	<div class='plot-chart'></div>
+</li>
 </script>
