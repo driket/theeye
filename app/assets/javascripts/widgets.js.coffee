@@ -122,12 +122,15 @@ class @Widget
 			$.getJSON("#{probe.data.url}/#{this.data.uri}#{args}")
 			
 			.fail () =>
-				content = '<h3>Error</h3>'
-				$(widget_name + ' .widget-content').html content;
-				$(widget_name).spin false
-				status = 'alert'
-				this.processing = false
-				this.set_status_for_widget(status)
+				#content = '<h3>Error</h3>'
+				#$(widget_name + ' .widget-content').html content;
+				this.record 			= {
+					'value' 			: '----',
+					'date'				: 0,
+					'details'			: '',
+				}
+				
+				status = this.render_graph(false)
 				
 			.done (json, textStatus, jqXHR) => 
 				#jqXHR.setRequestHeader('x-secret', 'MySeCr3t')	
@@ -147,15 +150,9 @@ class @Widget
 						this.graph_data.shift
 						this.details_data.shift
 						break
-						
-				this.processing 			= false
-				$(widget_name).spin false
-				
-				content = $(template).tmpl {'widget':this.data, 'record':this.record};
-				$(widget_name).replaceWith content;
-				
-				status = this.render_graph()
-				this.set_status_for_widget(status)
+								
+				status = this.render_graph(true)
+
 		
 
 	alertLevelForValue: (value) ->
@@ -240,7 +237,8 @@ class @Widget
 				
 	# draw graph for a given widget
 
-	render_graph: ->
+	render_graph: (is_reachable)->
+
 
 		service_warning			= false
 		service_alert				= false
@@ -253,15 +251,28 @@ class @Widget
 
 			
 		# date set
-		data_value 		= this.record.value
+		if is_reachable
+			data_value 	= this.record.value
+		else
+			data_value 	= '---' 
 		data_time 		= this.record.date
 		data_details 	= this.record.details
 		now 					= Date.parse new Date()
 
+		
+		this.processing	= false
+		$(this.doc_path('')).spin false
+		
+		content = $("#"+this.template).tmpl {'widget':this.data, 'record':this.record};
+		$(this.doc_path('')).replaceWith content;
+		
 		# set alert if out of thresholds
 
-		alert_level = this.alertLevelForValue data_value
-		
+		if is_reachable
+			alert_level = this.alertLevelForValue data_value
+		else
+			alert_level = 'alert'
+			
 		if alert_level == 'alert'
 			
 			service_alert = true
@@ -372,10 +383,13 @@ class @Widget
 		# return alert code
 		
 		if service_alert
+			this.set_status_for_widget('alert')
 			return 'alert'
 		else if service_warning
+			this.set_status_for_widget('warning')
 			return 'warning'			
 		else
+			this.set_status_for_widget('ok')
 			return 'ok'
 
 
