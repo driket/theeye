@@ -95,12 +95,10 @@ class @Widget
 				'details'			: '',
 			}
 			content = $("#"+this.template).tmpl {'widget':this.data, 'record':this.record};
-			$(this.doc_path('')).replaceWith content;
 			container		= '#probe-' + this.data.probe_id + '-widgets'
 			$(container).append content
 			this.set_status_for_widget('disabled')
-			$(this.doc_path('')).spin 'small', theme_color_for_class 'service-status-disabled'
-			
+			$(this.doc_path('')).spin 'small', theme_color_for_class 'service-status-disabled'		
 	
 		elapased_time = new Date().getTime() - this.record.date
 	
