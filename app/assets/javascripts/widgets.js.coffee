@@ -83,24 +83,23 @@ class @Widget
 		
 		# setup jQuery selector
 		
-		widget_name = '#widget-' + this.data.id
-		template 		= '#' + this.template
-		container		= '#probe-' + this.data.probe_id + '-widgets'
 		this.init_jquery()
 
 		# if widget doesn't exist, create and add an empty one
 		
-		if $(widget_name).length == 0
+		if $(this.doc_path('')).length == 0
 			
 			this.record 			= {
 				'value' 			: '----',
 				'date'				: 0,
 				'details'			: '',
 			}
-			content = $(template).tmpl {'widget':this.data, 'record':this.record};
+			content = $("#"+this.template).tmpl {'widget':this.data, 'record':this.record};
+			$(this.doc_path('')).replaceWith content;
+			container		= '#probe-' + this.data.probe_id + '-widgets'
 			$(container).append content
 			this.set_status_for_widget('disabled')
-			$(widget_name).spin 'small', theme_color_for_class 'service-status-disabled'
+			$(this.doc_path('')).spin 'small', theme_color_for_class 'service-status-disabled'
 			
 	
 		elapased_time = new Date().getTime() - this.record.date
@@ -111,7 +110,7 @@ class @Widget
 			this.processing = true
 	    #display activity indicator while loading
 			status = 'ok'
-			$(widget_name).spin 'small', theme_color_for_class 'service-status-disabled'
+			$(this.doc_path('')).spin 'small', theme_color_for_class 'service-status-disabled'
 
 			#
 			# fetch data remotely (async)
