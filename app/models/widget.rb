@@ -69,6 +69,10 @@ class Widget < ActiveRecord::Base
 				return STATUS[threshold.alert] if value < threshold.value				
 			elsif threshold.operator == '<='
 				return STATUS[threshold.alert] if value <= threshold.value				
+			elsif threshold.operator == '=='
+				return STATUS[threshold.alert] if value == threshold.value				
+			elsif threshold.operator == '='
+				return STATUS[threshold.alert] if value == threshold.value				
 			else
 				logger.debug '(service_status_for_value) invalid comparison operator: ' + threshold.operator
       end

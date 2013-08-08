@@ -161,6 +161,12 @@ class @Widget
 			else if threshold.operator == '<='
 				if value <= threshold.value				
 					return threshold.alert
+			else if threshold.operator == '='
+				if value == threshold.value				
+					return threshold.alert
+			else if threshold.operator == '=='
+				if value == threshold.value				
+					return threshold.alert
 			else
 				console.log '(alertLevelForValue) invalid comparison operator: ' + threshold.operator
 				
@@ -296,6 +302,18 @@ class @Widget
 					, color: color
 					, evaluate: (y, threshold) =>
 						return y <= threshold }
+				else if a_threshold.operator == '=='
+					color = theme_color_for_class 'service-status-' + a_threshold.alert
+					constraint = { threshold: a_threshold.value
+					, color: color
+					, evaluate: (y, threshold) =>
+						return y == threshold }
+				else if a_threshold.operator == '='
+					color = theme_color_for_class 'service-status-' + a_threshold.alert
+					constraint = { threshold: a_threshold.value
+					, color: color
+					, evaluate: (y, threshold) =>
+						return y == threshold }
 				else
 					console.log '(alertLevelForValue) invalid comparison operator: ' + a_threshold.operator
 				
