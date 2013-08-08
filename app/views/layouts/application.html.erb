@@ -77,6 +77,9 @@
 		
 		$width = $(window).width();
 		$new_width = Math.floor($width / 190) * 190 + 20;
+		if ($new_width > 5 * 190 + 20) {
+			$new_width = 5 * 190 + 20;
+		}
 		$('#page').css('width',$new_width);		
 		$('body').css('height',$(window).height());
 	}
