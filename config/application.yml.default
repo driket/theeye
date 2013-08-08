@@ -5,6 +5,7 @@ defaults: &defaults
   admin_mail: your@mail.com
   notification_mail: notifications@mail.com
   probe_secret: mysecret
+  retries_before_notification: 3
 
 development:
   mailer:

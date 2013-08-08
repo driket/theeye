@@ -3,7 +3,7 @@ class Sample < ActiveRecord::Base
   belongs_to :widget
   after_save :check_for_notifications
   
-  CHECK_RETRY_BEFORE_NOTIFICATION   = 1
+  CHECK_RETRY_BEFORE_NOTIFICATION   = Settings.retries_before_notification || 3
   
   SAMPLE_STATUS_OK                  = 0
   SAMPLE_STATUS_ALERT               = 1
