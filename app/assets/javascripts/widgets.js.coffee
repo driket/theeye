@@ -109,48 +109,52 @@ class @Widget
 	    #display activity indicator while loading
 			status = 'ok'
 			$(this.doc_path('')).spin 'small', theme_color_for_class 'service-status-disabled'
+			
+			this.fetch_live_data()
 
-			#
-			# fetch data remotely (async)
-			#
-			probe = Probe.find_by_id(this.data.probe_id)
-			args = "?#{this.data.args.replace(/&amp;/g, '&')}" || ''
-			
-			$.getJSON("#{probe.data.url}/#{this.data.uri}#{args}")
-			
-			.fail () =>
-				#content = '<h3>Error</h3>'
-				#$(widget_name + ' .widget-content').html content;
-				this.record 			= {
-					'value' 			: '----',
-					'date'				: 0,
-					'details'			: '',
-				}
-				
-				status = this.render_graph(false)
-				
-			.done (json, textStatus, jqXHR) => 
-				#jqXHR.setRequestHeader('x-secret', 'MySeCr3t')	
-				this.record.value 		= json.value
-				this.record.date  		= Date.parse(json.date)
-				this.record.details 	= json.details
-				
-				# add current value to graph data
+	#
+	# fetch live data from remote probes (async)
+	#
+	
+	fetch_live_data: ->	
+
+		probe = Probe.find_by_id(this.data.probe_id)
+		args = "?#{this.data.args.replace(/&amp;/g, '&')}" || ''
 		
-				this.graph_data.push [this.record.date , this.record.value]
-				this.details_data.push [this.record.date, this.record.details]
-
-				# delete old values from temp array
-				for data in this.graph_data
-			
-					if data[0] < Date.parse new Date() - (this.time_range*1000)
-						this.graph_data.shift
-						this.details_data.shift
-						break
-								
-				status = this.render_graph(true)
-
+		$.getJSON("#{probe.data.url}/#{this.data.uri}#{args}")
 		
+		.fail () =>
+			#content = '<h3>Error</h3>'
+			#$(widget_name + ' .widget-content').html content;
+			this.record 			= {
+				'value' 			: '----',
+				'date'				: 0,
+				'details'			: '',
+			}
+			
+			status = this.render_graph(false)
+			
+		.done (json, textStatus, jqXHR) => 
+			#jqXHR.setRequestHeader('x-secret', 'MySeCr3t')	
+			this.record.value 		= json.value
+			this.record.date  		= Date.parse(json.date)
+			this.record.details 	= json.details
+			
+			# add current value to graph data
+	
+			this.graph_data.push [this.record.date , this.record.value]
+			this.details_data.push [this.record.date, this.record.details]
+
+			# delete old values from temp array
+			for data in this.graph_data
+		
+				if data[0] < Date.parse new Date() - (this.time_range*1000)
+					this.graph_data.shift
+					this.details_data.shift
+					break
+							
+			status = this.render_graph(true)
+			
 
 	alertLevelForValue: (value) ->
 		
