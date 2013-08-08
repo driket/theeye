@@ -1,0 +1,31 @@
+<script>
+$widgets = {
+	
+	<% for widget in widgets %>
+	'widget-<%= widget.id %>'	: 
+	{
+		'id'						: '<%= widget.id %>',
+		'title' 				: '<%= widget.title %>',
+		'args' 					: '<%= widget.args %>',
+		<% if widget.uri %>
+		'uri'						: '<%= widget.uri %>',
+		<% end %>
+		'template' 			: '<%= widget.template %>',
+		<% if widget.probe %>
+		'probe_id' 			: '<%= widget.probe_id %>',
+		<% end %>
+		<% if widget.thresholds.size > 0 %>
+		'thresholds_attributes'	: [
+		<% for threshold in widget.thresholds %>
+			{ 'operator':'<%= raw threshold.operator %>', 'value': <%= threshold.value %>, 'alert':'<%= threshold.alert %>' },
+		<% end %>
+		],
+		<% end %>
+		'min'						: <%= widget.min %>,
+		'max'						: <%= widget.max %>,
+		'unit'					: '<%= widget.unit %>',
+		'refresh_delay'	: <%= widget.refresh_delay %>,
+	},
+	<% end %>
+}
+</script>

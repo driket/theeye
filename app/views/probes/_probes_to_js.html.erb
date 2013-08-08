@@ -1,0 +1,12 @@
+<script>
+$probes = {
+	<% for probe in probes %>
+	'probe-<%= probe.id %>' :
+	{
+		'id'				: '<%= probe.id %>',
+		'title'			: '<%= probe.title %>',
+		'url'				: '<%= probe.url %>',		
+	},
+	<% end %>
+}	
+</script>
