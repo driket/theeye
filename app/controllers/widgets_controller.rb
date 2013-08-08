@@ -94,4 +94,13 @@ class WidgetsController < ApplicationController
     Widget.record_all_samples!
     render nothing: true
   end
+  
+  def process_samples
+    @widget = Widget.find(params[:id])
+    #@widget.process_samples(1)
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @widget }
+    end
+  end
 end

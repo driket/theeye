@@ -173,6 +173,21 @@ class @Widget
 			'date'				: 0,
 			'details'			: '',
 		}
+
+		$.getJSON("/widgets/#{this.data.id}/process_samples")
+		.fail () =>
+			status = this.render_graph(false)
+			
+		.done (json, textStatus, jqXHR) => 
+			mean_value = 8
+			console.log json
+			
+			this.record 			= {
+				'value' 			: mean_value,
+				'date'				: Date.parse new Date(),
+				'details'			: {},
+			}
+		
 		status = this.render_graph(true)
 
 	alertLevelForValue: (value) ->

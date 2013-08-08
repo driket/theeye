@@ -8,6 +8,9 @@ Dashboard::Application.routes.draw do
   resources :thresholds
 
   resources :widgets do
+    member do 
+      get   'process_samples'
+    end
     collection do
       post  'sort'
       get   'record_all_samples'
