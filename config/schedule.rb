@@ -11,7 +11,7 @@ every 2.minutes do
  runner "Widget.record_all_samples!"
 end
 
-every :day, :at => '8:00am', :roles => [:app] do
+every :day, :at => '8:00am' do
   runner "ReportMailer.report(1).deliver"
 end
 
