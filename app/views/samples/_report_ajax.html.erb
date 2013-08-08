@@ -1,0 +1,22 @@
+<ul class="report probes-report">
+	<% for probe in probes %>
+	<li class="probe-section">
+		<h3><%= probe.title %><span style="float:right"><%= Time.now.strftime("%Y-%m-%d %H:%M") %> - <%= (Time.now - 3600 * 24 * days).strftime("%Y-%m-%d %H:%M") %> </h3>
+		<ul id="probe-<%= probe.id %>-widgets">
+
+		</ul>
+	</li>
+	<% end %>
+</ul>
+
+<script>
+//$('.widget-section img').parent().spin('small', theme_color_for_class('service-status-disabled'));
+//$('.widget-section').css('opacity', '0.1');
+var widget_data = {};
+widget_data.average = "18.9"
+widget_data.graph_data = "s:zoeiu87rhekjrshdfsdgzerzeoij"
+widget_data.min	= "0"
+widget_data.max = "100"
+$('.widget-section h5 .value').html(widget_data.average);
+$('.widget-section img').attr('src', "http://chart.googleapis.com/chart?chxr=0,"+widget_data.min+","+widget_data.max+"&chxs=0,00000042,11.5,0,lt,0000006A&chxt=y&chs=360x53&cht=lc&chco=000000&chd="+widget_data.graph_data+"&chg=14.3,-1,2,2&chls=2,4,0&chm=B,0000000D,0,0,0");
+</script>
