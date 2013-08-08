@@ -27,7 +27,7 @@ class @Widget
 	graph					: ''
 	processing		: false
 	
-	constructor: (json_data, template, time_range) ->
+	constructor: (json_data, template, time_range, live_mode) ->
 
 		# init & first display 
 		this.graph 				= null
@@ -42,6 +42,9 @@ class @Widget
 		this.data 				= json_data
 		this.template 		= template || json_data.template
 		this.time_range 	= time_range || 60
+		
+		this.live_mode = live_mode if live_mode?
+		
 		
 		Widget._widgets.push this
 		this.refresh()
@@ -100,18 +103,23 @@ class @Widget
 			this.set_status_for_widget('disabled')
 			$(this.doc_path('')).spin 'small', theme_color_for_class 'service-status-disabled'		
 	
-		elapased_time = new Date().getTime() - this.record.date
-	
-		# if refresh delay is up and widget is ready to process
-		if elapased_time > this.data.refresh_delay and !this.processing
-
-			this.processing = true
-	    #display activity indicator while loading
-			status = 'ok'
-			$(this.doc_path('')).spin 'small', theme_color_for_class 'service-status-disabled'
+		if this.live_mode
 			
-			this.fetch_live_data()
+			elapased_time = new Date().getTime() - this.record.date
+	
+			# if refresh delay is up and widget is ready to process
+			if elapased_time > this.data.refresh_delay and !this.processing
 
+				this.processing = true
+		    #display activity indicator while loading
+				status = 'ok'
+				$(this.doc_path('')).spin 'small', theme_color_for_class 'service-status-disabled'
+			
+				this.fetch_live_data()
+				
+		else
+			
+			this.fetch_db_data()
 	#
 	# fetch live data from remote probes (async)
 	#
@@ -124,8 +132,6 @@ class @Widget
 		$.getJSON("#{probe.data.url}/#{this.data.uri}#{args}")
 		
 		.fail () =>
-			#content = '<h3>Error</h3>'
-			#$(widget_name + ' .widget-content').html content;
 			this.record 			= {
 				'value' 			: '----',
 				'date'				: 0,
@@ -135,10 +141,11 @@ class @Widget
 			status = this.render_graph(false)
 			
 		.done (json, textStatus, jqXHR) => 
-			#jqXHR.setRequestHeader('x-secret', 'MySeCr3t')	
-			this.record.value 		= json.value
-			this.record.date  		= Date.parse(json.date)
-			this.record.details 	= json.details
+			this.record 			= {
+				'value' 			: json.value,
+				'date'				: Date.parse(json.date),
+				'details'			: json.details,
+			}
 			
 			# add current value to graph data
 	
@@ -155,6 +162,18 @@ class @Widget
 							
 			status = this.render_graph(true)
 			
+	fetch_db_data: ->	
+		
+		delete this.graph_data
+		delete this.details_data
+		this.graph_data 	= []
+		this.details_data = []
+		this.record 			= {
+			'value' 			: '----',
+			'date'				: 0,
+			'details'			: '',
+		}
+		status = this.render_graph(true)
 
 	alertLevelForValue: (value) ->
 		

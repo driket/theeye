@@ -32,9 +32,4 @@ $ ->
 
 		# create widgets from generated json data
 		for name, widget of $widgets
-			new Widget widget, 'widget-report-graph'
-								
-		# refresh widgets each time clock 'ticks'
-		$("#clock").bind tick: ->
-			Widget.refresh()
-		
+			new Widget widget, 'widget-report-graph', 60, false		
