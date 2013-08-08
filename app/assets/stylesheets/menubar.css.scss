@@ -106,7 +106,7 @@
 			color: rgba($main-color,1.0);
 		}		
 		.seconds {
-			color: rgba($main-color,0.30);
+			color: rgba($main-color,0.35);
 		}
 		.milliseconds {
 			color: rgba($main-color,0.25);
@@ -115,15 +115,13 @@
 	
 	#time-controls {
 		float:left;
-		margin: -13px 20px 0px 0px;	
+		margin: -11px 20px 0px 0px;	
 		a {
-			color:rgba($main-color, 0.50);			
+			color:rgba($main-color, 0.60);			
 			padding-bottom:12px;
 		}
 		.disabled a{
-			display:none;
-				color:rgba($main-color,0.30);
-				border-bottom: 2px solid rgba($main-color,0.30);
+			color:rgba($main-color,0.20);
 		}
 	}
 }
