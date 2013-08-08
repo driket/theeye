@@ -10,6 +10,9 @@ class @Widget
 	# used to store widget data (json)
 	data					: {}
 
+	# template to render widget
+	template			: ''
+	
 	# used to store graph data
 	record				: {}
 	graph_data		: []
@@ -17,7 +20,7 @@ class @Widget
 	graph					: ''
 	processing		: false
 	
-	constructor: (json_data) ->
+	constructor: (json_data, template) ->
 
 		# init & first display 
 		this.graph 				= null
@@ -29,8 +32,8 @@ class @Widget
 			'date'				: 0,
 			'details'			: '',
 		}
-		
 		this.data = json_data
+		this.template = template || json_data.template
 		Widget._widgets.push this
 		this.refresh()
 
@@ -72,7 +75,7 @@ class @Widget
 		# setup jQuery selector
 		
 		widget_name = '#widget-' + this.data.id
-		template 		= '#' + this.data.template
+		template 		= '#' + this.template
 		container		= '#probe-' + this.data.probe_id + '-widgets'
 		this.init_jquery()
 
@@ -80,8 +83,12 @@ class @Widget
 		
 		if $(widget_name).length == 0
 			
-			content = $('#widget-empty-template').tmpl {'widget':this.data, 'record':this.record}
+#			this.record = '---'
+			content = $(template).tmpl {'widget':this.data, 'record':this.record};
 			$(container).append content
+			this.set_status_for_widget('disabled')
+			$(widget_name).spin 'small', theme_color_for_class 'service-status-disabled'
+			
 	
 		elapased_time = new Date().getTime() - this.record.date
 	
@@ -98,25 +105,6 @@ class @Widget
 			#
 			probe = Probe.find_by_id(this.data.probe_id)
 			args = "?#{this.data.args.replace(/&amp;/g, '&')}" || ''
-			
-			#$.ajaxSetup({
-			#	beforeSend: (xhr) =>
-		  #  	xhr.setRequestHeader('x-secret','MySeCr3t')
-			#})
-			
-			#$.ajax({
-			#	type:"get",
-			#	url:"#{probe.data.url}/#{this.data.uri}#{args}",
-			#	beforeSend: (xhr) =>
-        	#May need to use "Authorization" instead
-			#		xhr.setRequestHeader("Authorization", "Basic " + "azer:tyuio")
-					#xhr.setRequestHeader("Access-Control-Request-Headers", "x-requested-with")
-			#	dataType: 'json',
-			#	sucess: =>
-			#		console.log 'yo'
-			#	error: =>
-			#		console.log 'dawg'
-			#})
 			
 			$.getJSON("#{probe.data.url}/#{this.data.uri}#{args}")
 			
@@ -137,7 +125,7 @@ class @Widget
 				$(widget_name).spin false
 				
 				content = $(template).tmpl {'widget':this.data, 'record':this.record};
-				$(widget_name + ' .face-simple-view').html content;
+				$(widget_name).replaceWith content;
 				
 				status = this.render_graph()
 				this.set_status_for_widget(status)

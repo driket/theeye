@@ -12,6 +12,9 @@
 	text-shadow:0px 0px 0px rgba(black,0);
 	min-height: 100px;
 	
+	
+}
+
 	.tooltip {
 		z-index: 100;
     border: 1px solid rgba($main-color, 1);
@@ -50,9 +53,8 @@
 		
 				
 	}
-}
-
-.widget {
+	
+.widget-live {
 	
 	list-style:none;
 	font-family:Arial, Sans serif;
@@ -258,37 +260,37 @@ span.service-status-ok { color: $status-ok-color;  }
 	font-weight: 500;
 }
 
-.widget li {
+.widget-live li {
 	
 	list-style:none;
 }
 
-.widget .status {
+.widget-live .status {
 
 }
 
-.widget h2 a {
+.widget-live h2 a {
 	
 	text-decoration:none;
 }
 
-.widget .value {
+.widget-live .value {
 	
 	float:right;
 }
 
-.widget table {
+.widget-live table {
 	
 	width: 100%;
 	font-size: 12px;
 }
 
-.widget table thead td {
+.widget-live table thead td {
 	
 	font-weight:bold;
 }
 
-.widget table tr td {
+.widget-live table tr td {
 	
 	text-overflow:ellipsis;
 	max-width:110px;
@@ -296,7 +298,7 @@ span.service-status-ok { color: $status-ok-color;  }
 	display:block;
 }
 
-.widget table tr td:last-child {
+.widget-live table tr td:last-child {
 	
 	text-align:right;
 }
