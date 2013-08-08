@@ -10,6 +10,7 @@
 		border-bottom: 2px solid rgba($main-color, 0.1);
 		padding-bottom: 5px;
 		margin-bottom: 40px;
+		clear:both;
 	}
 	
 	h4 {
@@ -37,10 +38,17 @@
 	.probe-section {
 		list-style: none	;
 		margin-bottom: 40px;
+		width: 630px;
+		margin-left:auto;
+		margin-right:auto;
 	}
 	
 	.widget-section {
 		list-style: none	;
 		margin-bottom: 20px;
+		width: 630px;
+		margin-left:auto;
+		margin-right:auto;
+		clear:none;
 	}
 }
