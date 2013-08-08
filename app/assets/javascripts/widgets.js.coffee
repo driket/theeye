@@ -13,6 +13,13 @@ class @Widget
 	# template to render widget
 	template			: ''
 	
+	# time range for samples in seconds
+	time_range		: 60
+
+	# live mode fetch data from probes
+	# non-live mode fetch data from db history
+	live_mode			: true
+	
 	# used to store graph data
 	record				: {}
 	graph_data		: []
@@ -20,11 +27,11 @@ class @Widget
 	graph					: ''
 	processing		: false
 	
-	constructor: (json_data, template) ->
+	constructor: (json_data, template, time_range) ->
 
 		# init & first display 
 		this.graph 				= null
-		this.processing	= false
+		this.processing		= false
 		this.graph_data 	= []
 		this.details_data	= []
 		this.record 			= {
@@ -32,8 +39,10 @@ class @Widget
 			'date'				: 0,
 			'details'			: '',
 		}
-		this.data = json_data
-		this.template = template || json_data.template
+		this.data 				= json_data
+		this.template 		= template || json_data.template
+		this.time_range 	= time_range || 60
+		
 		Widget._widgets.push this
 		this.refresh()
 
@@ -69,7 +78,7 @@ class @Widget
 		$(this.doc_path('.widget-delete')).click (event) ->
 			event.preventDefault()
 			_this.delete()
-				
+							
 	refresh: =>
 		
 		# setup jQuery selector
@@ -83,7 +92,11 @@ class @Widget
 		
 		if $(widget_name).length == 0
 			
-#			this.record = '---'
+			this.record 			= {
+				'value' 			: '----',
+				'date'				: 0,
+				'details'			: '',
+			}
 			content = $(template).tmpl {'widget':this.data, 'record':this.record};
 			$(container).append content
 			this.set_status_for_widget('disabled')
@@ -121,6 +134,20 @@ class @Widget
 				this.record.value 		= json.value
 				this.record.date  		= Date.parse(json.date)
 				this.record.details 	= json.details
+				
+				# add current value to graph data
+		
+				this.graph_data.push [this.record.date , this.record.value]
+				this.details_data.push [this.record.date, this.record.details]
+
+				# delete old values from temp array
+				for data in this.graph_data
+			
+					if data[0] < Date.parse new Date() - (this.time_range*1000)
+						this.graph_data.shift
+						this.details_data.shift
+						break
+						
 				this.processing 			= false
 				$(widget_name).spin false
 				
@@ -217,9 +244,7 @@ class @Widget
 
 		service_warning			= false
 		service_alert				= false
-
-		time_scale 					= 60 #(in second)
-
+			
 		color_ok 						= theme_color_for_class 'service-status-ok'
 		color_warning 			= theme_color_for_class 'service-status-warning'
 		color_alert					= theme_color_for_class 'service-status-alert'
@@ -233,7 +258,6 @@ class @Widget
 		data_details 	= this.record.details
 		now 					= Date.parse new Date()
 
-
 		# set alert if out of thresholds
 
 		alert_level = this.alertLevelForValue data_value
@@ -245,20 +269,6 @@ class @Widget
 		else if alert_level == 'warning'
 			
 			service_warning = true
-		
-		# add current value to graph data
-		
-		this.graph_data.push [data_time, data_value]
-		this.details_data.push [data_time, data_details]
-
-
-		# delete old value from temp array
-		for data in this.graph_data
-			
-			if data[0] < now - (time_scale*1000)
-				this.graph_data.shift
-				this.details_data.shift
-				break
 				
 		# setup thresholds for graph
 		
@@ -333,7 +343,7 @@ class @Widget
 				min: this.data.min, 
 				max: this.data.max
 			,xaxis: 
-				min: now-(time_scale*1000)
+				min: now-(this.time_range*1000)
 				max: now
 		
 			# on plot hover
