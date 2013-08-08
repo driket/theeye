@@ -97,10 +97,10 @@ class WidgetsController < ApplicationController
   
   def process_samples
     @widget = Widget.find(params[:id])
-    #@widget.process_samples(1)
+    data = @widget.process_samples(1)
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @widget }
+      format.json { render json: data }
     end
   end
 end
