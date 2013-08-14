@@ -174,7 +174,9 @@ class @Widget
 			'details'			: '',
 		}
 
-		$.getJSON("/widgets/#{this.data.id}/process_samples")
+		days = $(".probes-report").attr('data-days')
+		this.time_range = days * 3600 * 24
+		$.getJSON("/widgets/#{this.data.id}/process_samples?days=#{days}")
 		.fail () =>
 			status = this.render_graph(false)
 			

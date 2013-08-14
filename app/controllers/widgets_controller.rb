@@ -97,9 +97,12 @@ class WidgetsController < ApplicationController
   
   def process_samples
     @widget = Widget.find(params[:id])
+    @days = params[:days].to_i || 1
+    logger.debug "params: #{params}"
+    logger.debug "days: #{@days}"
     #data = @widget.process_samples(1)
     data = {}
-    data['samples'] = @widget.samples.where("created_at > :days", {:days => 1.day.ago}).order('date ASC')
+    data['samples'] = @widget.samples.where("created_at > :days", {:days => @days.day.ago}).order('date ASC')
 
     respond_to do |format|
       format.html # index.html.erb

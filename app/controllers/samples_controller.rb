@@ -2,7 +2,7 @@ class SamplesController < ApplicationController
   # GET /samples
   # GET /samples.json
   def index
-    @number_of_days = 1
+    @number_of_days = params[:days].to_i || 1
     @probes = ::Probe.all
 
     respond_to do |format|
