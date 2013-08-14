@@ -179,17 +179,21 @@ class @Widget
 			status = this.render_graph(false)
 			
 		.done (json, textStatus, jqXHR) => 
-			mean_value = 8
 			
+			total_value = 0
+			for sample in json.samples
+				total_value += sample.value
+				this.graph_data.push [Date.parse(sample.date) , sample.value]
+				this.details_data.push [Date.parse(sample.date), sample.details]
+			
+			average_value = Math.round(total_value / json.samples.length * 100) / 100
+						
 			this.record 			= {
-				'value' 			: json.average,
+				'value' 			: average_value
 				'date'				: Date.parse new Date(),
 				'details'			: {},
 			}
-			for sample in json.samples
-				this.graph_data.push [Date.parse(sample.date) , sample.value]
-				this.details_data.push [Date.parse(sample.date), sample.details]
-		
+					
 			status = this.render_graph(true)
 
 	alertLevelForValue: (value) ->

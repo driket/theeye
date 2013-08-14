@@ -97,7 +97,10 @@ class WidgetsController < ApplicationController
   
   def process_samples
     @widget = Widget.find(params[:id])
-    data = @widget.process_samples(1)
+    #data = @widget.process_samples(1)
+    data = {}
+    data['samples'] = @widget.samples.where("created_at > :days", {:days => 1.day.ago}).order('date ASC')
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: data }
