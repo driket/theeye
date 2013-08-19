@@ -183,12 +183,15 @@ class @Widget
 		.done (json, textStatus, jqXHR) => 
 			
 			total_value = 0
+			valid_sample_count = 0
 			for sample in json.samples
-				total_value += sample.value
+				if sample.value != -1
+					total_value += sample.value
+					valid_sample_count++
 				this.graph_data.push [Date.parse(sample.date) , sample.value]
 				this.details_data.push [Date.parse(sample.date), sample.details]
 			
-			average_value = Math.round(total_value / json.samples.length * 100) / 100
+			average_value = Math.round(total_value / valid_sample_count * 100) / 100
 						
 			this.record 			= {
 				'value' 			: average_value
