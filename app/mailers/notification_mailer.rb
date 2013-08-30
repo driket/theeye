@@ -15,7 +15,8 @@ class NotificationMailer < ActionMailer::Base
 
     @notification = notification
     @status = status
+    @health = ::Probe.global_health
     
-    mail(:to => Settings.admin_mail, :subject => "Service #{status} on #{notification.widget.probe.title}")  
+    mail(:to => Settings.admin_mail, :subject => "[#{@health}%] Service #{status} on #{notification.widget.probe.title}")  
   end  
 end

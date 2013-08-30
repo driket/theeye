@@ -5,7 +5,8 @@ class ReportMailer < ActionMailer::Base
     
     @probes = ::Probe.all
     @days   = days
+    @health = ::Probe.global_health
     
-    mail(:to => Settings.admin_mail, :subject => "TheEye report")  
+    mail(:to => Settings.admin_mail, :subject => "[#{@health}%] TheEye report")  
   end  
 end
