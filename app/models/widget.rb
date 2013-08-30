@@ -56,6 +56,11 @@ class Widget < ActiveRecord::Base
     sample.save!
   end
   
+  def status
+    value = samples.last.value
+    service_status_for_value(value)
+  end
+  
   def service_status_for_value(value)
     
     return STATUS['ok'] if !thresholds
