@@ -57,6 +57,7 @@ class Widget < ActiveRecord::Base
   end
   
   def status
+    return -1 if !samples.last
     value = samples.last.value
     service_status_for_value(value)
   end
@@ -108,11 +109,18 @@ class Widget < ActiveRecord::Base
   
   def process_samples(days)
     data = {}
-    data['samples'] = samples.where("created_at > :week", {:week => days.day.ago}).order('date ASC')
-    data['average'] = data['samples'].average(:value).round(3)
-    data['max'] = data['samples'].maximum(:value)
-    data['graph'] = data['samples'].map { |s| s.value }.join(',')
-    data['encoded_graph'] = Widget.encode_samples(data['samples'], max)
+    begin
+      data['samples'] = samples.where("created_at > :week", {:week => days.day.ago}).order('date ASC')
+      data['average'] = data['samples'].average(:value).round(3)
+      data['max']     = data['samples'].maximum(:value)
+      data['graph']   = data['samples'].map { |s| s.value }.join(',')
+      data['encoded_graph'] = Widget.encode_samples(data['samples'], max)
+    rescue
+      data['samples'] = []
+      data['average'] = -1
+      data['max']     = 0
+      data['encoded_graph'] = Widget.encode_samples(data['samples'], max)
+    end
     return data
   end
   
