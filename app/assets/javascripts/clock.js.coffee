@@ -1,13 +1,15 @@
 class @Clock
 
-	constructor: (@element) ->
+	@interval : 0
+	
+	constructor: (@element, interval) ->
 		
 		# init by lauching timer and first display 
 		
+		@interval = interval * 1000 || 1000
 		this.display()
 		this.resume()
 		this.jquery_handle()
-		
 
 	# display clock with current time at element
 
@@ -39,7 +41,7 @@ class @Clock
 		@clock_interval = setInterval =>
 			this.display()
 			$(@element).trigger('tick');
-		, 1000
+		, @interval
 		$('#time-controls' + ' .pause').removeClass 'disabled'
 		$('#time-controls' + ' .play' ).addClass 		'disabled'
 
