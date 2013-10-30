@@ -37,6 +37,7 @@ class @Probe
 		
 		content = $('#probe-template').tmpl {'probe':this.data}
 		$(this.container).append content
+		$('body > .probe-header').remove()
 
 		this.edit_mode 				= false
 		this.add_widget_mode 	= false	
