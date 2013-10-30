@@ -174,14 +174,12 @@ class @Widget
 			'details'			: '',
 		}
 
-		days = $(".probes-report").attr('data-days')
+		days = $("ul.probes").first().attr('data-days')
 		this.time_range = days * 3600 * 24
 		$.getJSON("/widgets/#{this.data.id}/process_samples?days=#{days}")
 		.fail () =>
 			status = this.render_graph(false)
-			
 		.done (json, textStatus, jqXHR) => 
-			
 			total_value = 0
 			valid_sample_count = 0
 			for sample in json.samples
@@ -190,11 +188,11 @@ class @Widget
 					valid_sample_count++
 				this.graph_data.push [Date.parse(sample.date) , sample.value]
 				this.details_data.push [Date.parse(sample.date), sample.details]
-			
+				
 			average_value = Math.round(total_value / valid_sample_count * 100) / 100
 						
 			this.record 			= {
-				'value' 			: average_value
+				'value' 			: average_value,
 				'date'				: Date.parse new Date(),
 				'details'			: {},
 			}
