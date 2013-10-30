@@ -5,7 +5,7 @@
 $ ->
 	
 	# create and start clock
-	clock = new Clock '#clock'
+	clock = new Clock '#clock', 60
 			
 	# if it is live view
 	if $('body').hasClass 'probes'
@@ -16,7 +16,7 @@ $ ->
 
 		# create widgets from generated json data
 		for name, widget of $widgets
-			new Widget widget
+			new Widget widget, 'widget-graph', 3600, false
 				
 		# refresh widgets each time clock 'ticks'
 		$("#clock").bind tick: ->
@@ -32,4 +32,8 @@ $ ->
 
 		# create widgets from generated json data
 		for name, widget of $widgets
-			new Widget widget, 'widget-report-graph', 3600 * 24, false		
+			new Widget widget, 'widget-report-graph', 3600 * 24, false
+			
+		# refresh widgets each time clock 'ticks'
+		$("#clock").bind tick: ->
+			Widget.refresh()
