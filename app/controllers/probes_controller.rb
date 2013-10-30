@@ -3,6 +3,8 @@ class ProbesController < ApplicationController
   # GET /probes
   # GET /probes.json
   def index
+    @number_of_days = params[:days].to_i
+    @number_of_days = 1 if @number_of_days == 0
     @probes = Probe.all
 
     respond_to do |format|
