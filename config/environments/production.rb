@@ -29,7 +29,6 @@ Dashboard::Application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
-
   # See everything in the log (default is :info)
   # config.log_level = :debug
 
@@ -62,7 +61,7 @@ Dashboard::Application.configure do
   config.active_support.deprecation = :notify
 
   # force ssl
-  config.force_ssl = true
+  #config.force_ssl = true
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
