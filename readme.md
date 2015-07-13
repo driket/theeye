@@ -3,4 +3,4 @@
 
 Simple dashboard app to monitor almost everything remotely.
 
-- V2 : rewritten as microservices based architecture
+- V2 : rewritten as microservices with Docker
