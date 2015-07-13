@@ -1,0 +1,4 @@
+datasourcemanager:
+    build: datasource_manager
+    ports:
+      - "8002:80"
